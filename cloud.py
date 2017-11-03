@@ -24,7 +24,9 @@ def cloud():
     while True:
         client_socket, address = cloud_socket.accept()
         change_details = client_socket.recv(BUFFER)
+        print change_details
         client_ip, action, file_name = change_details.split(SEPARATOR)
+        create_client_folder(client_ip)
         client_folder = os.path.join(CLOUD_FOLDER, client_ip)
         if action == FILE_ADDED_ACTION:
             with open(os.path.join(client_folder, file_name), WRITING):
@@ -47,6 +49,20 @@ def create_cloud_folder():
     """
     if not os.path.exists(CLOUD_FOLDER):
         os.mkdir(CLOUD_FOLDER)
+
+
+def create_client_folder(client_ip):
+    """
+
+    The function checks if the client has a folder on the cloud.
+    If not it creates a new one.
+
+    Args:
+        client_ip (string): The ip of the client.
+
+    """
+    if not os.path.exists(os.path.join(CLOUD_FOLDER, client_ip)):
+        os.mkdir(os.path.join(CLOUD_FOLDER, client_ip))
 
 
 if __name__ == '__main__':
