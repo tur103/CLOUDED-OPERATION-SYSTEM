@@ -10,6 +10,7 @@ from constants import *
 import win32file
 from win32con import *
 import socket
+import time
 
 
 def automatically_cloud_synchronization():
@@ -43,13 +44,18 @@ def synchronize_the_changes(action, file_name):
     and synchronize it with the cloud.
 
     Args:
-        action (str): The action number of the change. file was added,
+        action (int): The action number of the change. file was added,
                       file was deleted or file was modified.
         file_name (string): The name of the file that was changed.
 
     """
-
-
+    socket = open_connection_with_the_cloud()
+    socket.send(SEPARATOR.join([str(action), file_name]))
+    if action == FILE_MODIFIED_ACTION:
+        with open(os.path.join(SYSTEM_FOLDER, file_name), READING) as modified_file:
+            time.sleep(0.3)
+            socket.send(str(modified_file.read()))
+    socket.close()
 
 
 def create_system_folder():
