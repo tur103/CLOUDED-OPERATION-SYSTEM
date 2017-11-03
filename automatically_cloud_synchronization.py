@@ -50,11 +50,11 @@ def synchronize_the_changes(action, file_name):
 
     """
     socket = open_connection_with_the_cloud()
-    socket.send(SEPARATOR.join([str(action), file_name]))
+    socket.send(SEPARATOR.join([MY_IP, str(action), file_name]))
     if action == FILE_MODIFIED_ACTION:
         with open(os.path.join(SYSTEM_FOLDER, file_name), READING) as modified_file:
             time.sleep(0.3)
-            socket.send(str(modified_file.read()))
+            socket.send(modified_file.read())
     socket.close()
 
 
@@ -80,7 +80,7 @@ def open_connection_with_the_cloud():
 
     """
     client_socket = socket.socket()
-    client_socket.connect((CLOUD_HOST, CLOUD_PORT))
+    client_socket.connect((CLOUD_IP, CLOUD_PORT))
     return client_socket
 
 

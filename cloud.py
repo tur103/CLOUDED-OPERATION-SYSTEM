@@ -1,0 +1,54 @@
+"""
+Author          :   Or Israeli
+FileName        :   cloud.py
+Date            :   3.11.17
+Version         :   1.0
+Description     :   The cloud of the operation system. The cloud save al the
+                    user's files and synchronize with the changes automatically.
+"""
+import socket
+from constants import *
+
+
+def cloud():
+    """
+
+    The cloud waits until a change request received.
+    according to the change the cloud updates the user's
+    folder and saves the changes that the user did.
+
+    """
+    cloud_socket = socket.socket()
+    cloud_socket.bind((CLOUD_HOST, CLOUD_PORT))
+    cloud_socket.listen(NUMBER_OF_CLIENTS)
+    while True:
+        client_socket, address = cloud_socket.accept()
+        change_details = client_socket.recv(BUFFER)
+        client_ip, action, file_name = change_details.split(SEPARATOR)
+        client_folder = os.path.join(CLOUD_FOLDER, client_ip)
+        if action == FILE_ADDED_ACTION:
+            with open(os.path.join(client_folder, file_name), WRITING):
+                pass
+        elif action == FILE_DELETED_ACTION:
+            os.remove(os.path.join(client_folder, file_name))
+        elif action == FILE_MODIFIED_ACTION:
+            file_data = client_socket.recv(FILE_BUFFER)
+            with open(os.path.join(client_folder, file_name), WRITING) as modified_file:
+                modified_file.write(file_data)
+        client_socket.close()
+
+
+def create_cloud_folder():
+    """
+
+    The function checks if the cloud folder is exists.
+    If not it creates a new one.
+
+    """
+    if not os.path.exists(CLOUD_FOLDER):
+        os.mkdir(CLOUD_FOLDER)
+
+
+if __name__ == '__main__':
+    create_cloud_folder()
+    cloud()
