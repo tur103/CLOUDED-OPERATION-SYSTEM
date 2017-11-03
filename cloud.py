@@ -24,7 +24,6 @@ def cloud():
     while True:
         client_socket, address = cloud_socket.accept()
         change_details = client_socket.recv(BUFFER)
-        print change_details
         client_ip, action, file_name = change_details.split(SEPARATOR)
         create_client_folder(client_ip)
         client_folder = os.path.join(CLOUD_FOLDER, client_ip)

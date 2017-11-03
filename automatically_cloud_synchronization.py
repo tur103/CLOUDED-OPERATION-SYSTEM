@@ -51,7 +51,7 @@ def synchronize_the_changes(action, file_name):
     """
     socket = open_connection_with_the_cloud()
     socket.send(SEPARATOR.join([MY_IP, str(action), file_name]))
-    if action == FILE_MODIFIED_ACTION:
+    if str(action) == FILE_MODIFIED_ACTION:
         with open(os.path.join(SYSTEM_FOLDER, file_name), READING) as modified_file:
             time.sleep(0.3)
             socket.send(modified_file.read())
