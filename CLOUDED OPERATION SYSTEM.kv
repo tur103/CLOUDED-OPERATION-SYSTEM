@@ -2,10 +2,8 @@ ShowcaseScreen:
 
     name: 'CLOUDED OPERATION SYSTEM'
     fullscreen: True
-
     BoxLayout:
         orientation: "vertical"
-
         BoxLayout:
             Label:
                 size_hint_x: 1
@@ -13,7 +11,7 @@ ShowcaseScreen:
                 size_hint_x: 1
                 canvas.before:
                     Rectangle:
-                        pos: self.center_x - 50, self.center_y - 50
+                        pos: self.center_x - 50, self.center_y - 35
                         source: root.get_picture()
                 valign: 'top'
                 text_size: cm(9), cm(5)

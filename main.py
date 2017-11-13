@@ -1,5 +1,3 @@
-
-from time import time
 from kivy.app import App
 from os.path import dirname, join
 from kivy.lang import Builder
@@ -8,6 +6,7 @@ from kivy.properties import NumericProperty, StringProperty, BooleanProperty,\
 from kivy.clock import Clock
 from kivy.animation import Animation
 from kivy.uix.screenmanager import Screen
+from date_and_time import *
 
 
 class ShowcaseScreen(Screen):
@@ -22,10 +21,17 @@ class ShowcaseScreen(Screen):
         print selection
 
     def get_picture(self):
-        return "sun.jpg"
+        status, part_of_day = DateAndTime.get_weather_status()
+        if part_of_day == DAY:
+            return WEATHER_DAY_STATUS[status]
+        else:
+            return WEATHER_NIGHT_STATUS[status]
 
     def get_date(self):
-
+        date = DateAndTime.get_date()
+        day = DateAndTime.get_day()
+        temperatures = DateAndTime.get_temperature()
+        return date + SPACES + day + DOWNLINES + SPACESS + temperatures + CELSIUS_SIGN
 
 
 class ShowcaseApp(App):
@@ -40,7 +46,6 @@ class ShowcaseApp(App):
 
     def build(self):
         self.title = 'CLOUDED OPERATION SYSTEM'
-        Clock.schedule_interval(self._update_clock, 1 / 60.)
         self.screens = {}
         self.available_screens = ['CLOUDED OPERATION SYSTEM']
         self.screen_names = self.available_screens
@@ -120,7 +125,6 @@ class ShowcaseApp(App):
         self.root.ids.sv.scroll_y = 1
 
     def showcase_floatlayout(self, layout):
-
         def add_button(*t):
             if not layout.get_parent_window():
                 return
@@ -208,10 +212,6 @@ Button:
             Clock.schedule_once(change_anchor, 1)
         Clock.schedule_once(change_anchor, 1)
 
-    def _update_clock(self, dt):
-        self.time = time()
-
 
 if __name__ == '__main__':
     ShowcaseApp().run()
-
