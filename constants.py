@@ -26,9 +26,13 @@ WEEK_DAYS_DICT = {6: "Sunday", 0: "Monday", 1: "Tuesday",
                   2: "Wednesday", 3: "Thursday",
                   4: "Friday", 5: "Saturday"}
 
-WEATHER_DAY_STATUS = {"Clear": "sun_day.jpg", "Rain": "rain_day.jpg", "Clouds": "cloud_day.jpg"}
-WEATHER_NIGHT_STATUS = {"Clear": "sun_night.jpg", "Rain": "rain_night.jpg", "Clouds": "cloud_night.jpg"}
+WEATHER_DAY_STATUS = {"Clear": "pictures/sun_day.jpg", "Rain": "pictures/rain.jpg",
+                      "Clouds": "pictures/cloud_day.jpg", "Default": "pictures/clouds.jpg"}
 
+WEATHER_NIGHT_STATUS = {"Clear": "pictures/sun_night.jpg", "Rain": "pictures/rain.jpg",
+                        "Clouds": "pictures/cloud_night.ico"}
+
+DEFAULT = "Default"
 SPACES = " "*21
 SPACESS = " "*28
 DOWNLINES = "\n"*5

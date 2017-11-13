@@ -22,10 +22,13 @@ class ShowcaseScreen(Screen):
 
     def get_picture(self):
         status, part_of_day = DateAndTime.get_weather_status()
-        if part_of_day == DAY:
-            return WEATHER_DAY_STATUS[status]
-        else:
-            return WEATHER_NIGHT_STATUS[status]
+        try:
+            if part_of_day == DAY:
+                return WEATHER_DAY_STATUS[status]
+            else:
+                return WEATHER_NIGHT_STATUS[status]
+        except KeyError:
+            return WEATHER_DAY_STATUS[DEFAULT]
 
     def get_date(self):
         date = DateAndTime.get_date()
