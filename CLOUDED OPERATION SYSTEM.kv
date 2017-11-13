@@ -1,0 +1,41 @@
+ShowcaseScreen:
+
+    name: 'CLOUDED OPERATION SYSTEM'
+    fullscreen: True
+
+    BoxLayout:
+        orientation: "vertical"
+
+        BoxLayout:
+            Label:
+                size_hint_x: 1
+            Label:
+                size_hint_x: 1
+                canvas.before:
+                    Rectangle:
+                        pos: self.center_x - 50, self.center_y - 50
+                        source: root.get_picture()
+                valign: 'top'
+                text_size: cm(9), cm(5)
+                font_size: 22
+                bold: True
+                text: root.get_date()
+        BoxLayout:
+            Label:
+                size_hint_x: 2
+            Button:
+                size_hint_x: 1
+            Button:
+                size_hint_x: 1
+        BoxLayout:
+            FileChooser:
+                size_hint_x: 2
+                size_hint_y: None
+                height: "14.5cm"
+                id: filechooser
+                on_selection: root.selection_updated(self.selection)
+                FileChooserIconLayout
+            Button:
+                size_hint_x: 1
+            Button:
+                size_hint_x: 1
