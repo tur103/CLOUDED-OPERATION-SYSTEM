@@ -18,7 +18,10 @@ class ShowcaseScreen(Screen):
         return super(ShowcaseScreen, self).add_widget(*args)
 
     def selection_updated(self, selection):
-        print selection
+        if selection:
+            file_name = selection[0]
+            if file_name.endswith(tuple(FILES_EXTENSIONS)):
+
 
     def get_picture(self):
         status, part_of_day = DateAndTime.get_weather_status()

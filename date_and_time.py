@@ -74,7 +74,7 @@ class DateAndTime(object):
         """
         weather = DateAndTime.check_weather()
         temperature = weather.get_temperature(CELSIUS)
-        current_temperature = str(temperature[CURRENT_TEMP])
+        current_temperature = str(int(temperature[CURRENT_TEMP]))
         return current_temperature
 
     @staticmethod

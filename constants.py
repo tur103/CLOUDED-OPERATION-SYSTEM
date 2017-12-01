@@ -34,7 +34,7 @@ WEATHER_NIGHT_STATUS = {"Clear": "pictures/sun_night.jpg", "Rain": "pictures/rai
 
 DEFAULT = "Default"
 SPACES = " "*21
-SPACESS = " "*28
+SPACESS = " "*30
 DOWNLINES = "\n"*5
 
 JSON_URL = 'http://freegeoip.net/json/'
@@ -50,3 +50,6 @@ MORNING = 6
 EVENING = 17
 DAY = "DAY"
 NIGHT = "NIGHT"
+
+WINDOWS_JOIN = "\\"
+FILES_EXTENSIONS = [".txt", ".mp4", "mp3", "avi", "mov", "wav", ".jpg", ".png"]
