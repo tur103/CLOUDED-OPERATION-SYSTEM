@@ -16,7 +16,7 @@ class TxtFile(Screen):
     def __init__(self):
         super(TxtFile, self).__init__()
         self.file_name = sys.argv[1]
-        self.data = None
+        self.data = ""
 
     def get_file_name(self):
         """
@@ -48,10 +48,14 @@ class TxtFile(Screen):
         self.file_name = new_file_name
 
     def change_file_data(self, file_data):
-        print file_data
-        with open(self.file_name, REGULAR_WRITING) as file_handle:
-            self.data = file_data
-            file_handle.write(self.data)
+        if self.file_name:
+            with open(self.file_name, REGULAR_WRITING) as file_handle:
+                self.data = file_data
+                file_handle.write(self.data)
+
+    def new_action(self):
+        self.file_name = ""
+        self.data = ""
 
 
 class TextEditorApp(App):
