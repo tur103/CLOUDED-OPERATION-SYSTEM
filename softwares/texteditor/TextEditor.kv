@@ -25,7 +25,9 @@ TxtFile:
                 size_hint_y: None
                 height: "1cm"
                 text: root.get_file_name()
+                on_text: root.change_file_name(self.text)
         BoxLayout:
             size_hint_y: 8
             TextInput:
                 text: root.get_text()
+                on_text: root.change_file_data(self.text)

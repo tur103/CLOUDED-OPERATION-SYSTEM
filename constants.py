@@ -53,3 +53,7 @@ NIGHT = "NIGHT"
 
 WINDOWS_JOIN = "\\"
 FILES_EXTENSIONS = [".txt", ".mp4", "mp3", "avi", "mov", "wav", ".jpg", ".png"]
+PYTHON = "python"
+SOFTWARE_DICT = {"txt": "softwares/texteditor/TextEditor.py"}
+TXTEXT = ".txt"
+REGULAR_WRITING = "w"

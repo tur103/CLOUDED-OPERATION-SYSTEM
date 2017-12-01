@@ -7,6 +7,7 @@ from kivy.clock import Clock
 from kivy.animation import Animation
 from kivy.uix.screenmanager import Screen
 from date_and_time import *
+from SoftwareDetection import *
 
 
 class ShowcaseScreen(Screen):
@@ -21,7 +22,7 @@ class ShowcaseScreen(Screen):
         if selection:
             file_name = selection[0]
             if file_name.endswith(tuple(FILES_EXTENSIONS)):
-
+                software = SoftwareDetection(file_name)
 
     def get_picture(self):
         status, part_of_day = DateAndTime.get_weather_status()
