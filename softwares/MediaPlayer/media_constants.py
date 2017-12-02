@@ -1,0 +1,15 @@
+READING = "rb"
+WRITING = "wb"
+AUDIO_LIBRARY = "audio-library-name p3openal_audio"
+TITLE = "MEDIA PLAYER 1.0 FROM < CLOUDED OPERATION SYSTEM > BY OR ISRAELI"
+PLAY_PAUSE = "P: Play/Pause"
+PLAY_PAUSE_PLACE = 0.06
+STOP = "S: Stop and Rewind"
+STOP_PLACE = 0.12
+SLOW_MOTION = "M: Slow Motion"
+SLOW_MOTION_PLACE = 0.18
+FAST_FORWARD = "F: Fast Forward"
+FAST_FORWARD_PLACE = 0.24
+NAME = "name"
+FAILED = "Failed to load video!"
+FULL_SCREEN = "My Fullscreen Card"

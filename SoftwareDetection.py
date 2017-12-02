@@ -9,6 +9,7 @@ Description     :   Class that receives the chosen file and sends it
 import subprocess
 from constants import *
 from threading import Thread
+import os
 
 
 class SoftwareDetection(Thread):
@@ -35,3 +36,12 @@ class SoftwareDetection(Thread):
 
         """
         subprocess.call(" ".join([PYTHON, SOFTWARE_DICT[self.format], self.file_name]))
+        self.media_destruction()
+
+    def media_destruction(self):
+        if SOFTWARE_DICT[self.format] == MEDIA_PLAYER_SOFTWARE:
+            current_folder = os.path.dirname(os.path.abspath(__file__))
+            files_list = os.listdir(current_folder)
+            for file in files_list:
+                if file.endswith(tuple(MEDIA_EXTS)):
+                    os.remove(os.path.join(current_folder, file))
