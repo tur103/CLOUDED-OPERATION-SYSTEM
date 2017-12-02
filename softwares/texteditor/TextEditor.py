@@ -3,6 +3,7 @@ from txt_constants import *
 import sys
 import os
 import re
+from datetime import datetime
 
 
 class TextEditor(App):
@@ -91,6 +92,14 @@ class TextEditor(App):
         self.Bind(EVT_MENU, self.on_delete, delete)
         find = edit_menu.Append(ID_FIND, 'Find', 'Find text')
         self.Bind(EVT_MENU, self.on_find, find)
+        replace = edit_menu.Append(ID_REPLACE, 'Replace', 'Replace text')
+        self.Bind(EVT_MENU, self.on_replace, replace)
+        replace_all = edit_menu.Append(ID_REPLACE_ALL, 'Replace All', 'Replace All text')
+        self.Bind(EVT_MENU, self.on_replace_all, replace_all)
+        select_all = edit_menu.Append(ID_SELECTALL, 'Select All', 'Select All text')
+        self.Bind(EVT_MENU, self.on_select_all, select_all)
+        time_and_date = edit_menu.Append(ID_OK, 'Time/Date', 'Display Time And Date')
+        self.Bind(EVT_MENU, self.on_time_and_date, time_and_date)
         menu_bar.Append(edit_menu, '&Edit')
         self.window.SetMenuBar(menu_bar)
 
@@ -172,6 +181,43 @@ class TextEditor(App):
                         current_line = find[2]
                         self.text_input.SetSelection(find[0] + current_line, find[1] + current_line)
                         break
+
+    def on_replace(self, event):
+        if self.text_input.HasSelection():
+            message_box = TextEntryDialog(self.window, REPLACE_MESSAGE, REPLACE_TITLE,
+                                          defaultValue=self.text_input.GetStringSelection())
+            button = message_box.ShowModal()
+            if button == ID_OK:
+                frm, to = self.text_input.GetSelection()
+                self.text_input.Remove(frm, to)
+                self.text_input.SetInsertionPoint(frm)
+                self.text_input.WriteText(message_box.GetValue())
+
+    def on_replace_all(self, event):
+        if self.text_input.HasSelection():
+            message_box = TextEntryDialog(self.window, REPLACE_ALL_MESSAGE, REPLACE_ALL_TITLE,
+                                          defaultValue=self.text_input.GetStringSelection())
+            button = message_box.ShowModal()
+            if button == ID_OK:
+                text = self.text_input.GetValue()
+                text = text.replace(self.text_input.GetStringSelection(), message_box.GetValue())
+                self.text_input.Clear()
+                self.text_input.SetValue(text)
+
+    def on_select_all(self, event):
+        self.text_input.SetSelection(-1, -1)
+
+    def on_time_and_date(self, event):
+        now = datetime.now()
+        year = str(now.year)
+        month = str(now.month)
+        day = str(now.day)
+        hour = str(now.hour)
+        minute = str(now.minute)
+        time = ":".join([hour, minute])
+        date = "/".join([day, month, year])
+        time_and_date = " ".join([time, date])
+        self.text_input.WriteText(time_and_date)
 
     def message_box(self):
         entered = True
