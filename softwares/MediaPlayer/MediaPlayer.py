@@ -51,6 +51,8 @@ class MediaPlayer(ShowBase):
         self.add_instructions(FAST_FORWARD_PLACE, FAST_FORWARD)
         self.add_instructions(GET_FORWARD_PLACE, GET_FORWARD)
         self.add_instructions(GET_BACK_PLACE, GET_BACK)
+        self.add_instructions(VOLUME_UP_PLACE, VOLUME_UP)
+        self.add_instructions(VOLUME_DOWN_PLACE, VOLUME_DOWN)
 
     def load_texture(self):
         # Load the texture. We could use loader.loadTexture for this,
@@ -111,9 +113,8 @@ class MediaPlayer(ShowBase):
 
     def volume_up(self):
         volume = self.sound.getVolume()
-        volume += 2
+        volume += 20
         self.sound.setVolume(volume)
-        print self.sound.getVolume()
 
     def volume_down(self):
         volume = self.sound.getVolume()
