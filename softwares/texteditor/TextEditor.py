@@ -162,11 +162,15 @@ class TextEditor(App):
                 text = self.text_input.GetValue()
                 findings = []
                 for match in re.finditer(text_to_search, text):
-                    findings.append((match.start(), match.end()))
+                    word_line = len(text[:match.start()].split("\n")) - 1
+                    findings.append((match.start(), match.end(), word_line))
                 cursor = self.text_input.GetInsertionPoint()
+                cursor_line = len(self.text_input.GetRange(0, self.text_input.GetInsertionPoint()).split("\n")) - 1
+                cursor -= cursor_line
                 for find in findings:
-                    if find[0] >= cursor:
-                        self.text_input.SetSelection(find[0], find[1])
+                    if find[1] >= cursor:
+                        current_line = find[2]
+                        self.text_input.SetSelection(find[0] + current_line, find[1] + current_line)
                         break
 
     def message_box(self):
