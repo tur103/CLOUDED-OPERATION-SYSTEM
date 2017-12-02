@@ -49,6 +49,8 @@ class MediaPlayer(ShowBase):
         self.add_instructions(STOP_PLACE, STOP)
         self.add_instructions(SLOW_MOTION_PLACE, SLOW_MOTION)
         self.add_instructions(FAST_FORWARD_PLACE, FAST_FORWARD)
+        self.add_instructions(GET_FORWARD_PLACE, GET_FORWARD)
+        self.add_instructions(GET_BACK_PLACE, GET_BACK)
 
     def load_texture(self):
         # Load the texture. We could use loader.loadTexture for this,
@@ -84,6 +86,41 @@ class MediaPlayer(ShowBase):
         self.accept('P', self.play_pause)
         self.accept('f', self.fast_forward)
         self.accept('F', self.fast_forward)
+        self.accept('arrow_right', self.get_forward)
+        self.accept('arrow_left', self.get_back)
+        self.accept('arrow_up', self.volume_up)
+        self.accept('arrow_down', self.volume_down)
+
+    def get_forward(self):
+        if self.sound.status() == AudioSound.PLAYING:
+            t = self.sound.getTime()
+            t += 3
+            self.sound.stop()
+            self.sound.setTime(t)
+            self.sound.play()
+
+    def get_back(self):
+        if self.sound.status() == AudioSound.PLAYING:
+            t = self.sound.getTime()
+            t -= 3
+            if t < 0:
+                t = 0
+            self.sound.stop()
+            self.sound.setTime(t)
+            self.sound.play()
+
+    def volume_up(self):
+        volume = self.sound.getVolume()
+        volume += 2
+        self.sound.setVolume(volume)
+        print self.sound.getVolume()
+
+    def volume_down(self):
+        volume = self.sound.getVolume()
+        volume -= 2
+        if volume < 1:
+            volume = 1
+        self.sound.setVolume(volume)
 
     def stop(self):
         self.sound.stop()

@@ -52,11 +52,11 @@ DAY = "DAY"
 NIGHT = "NIGHT"
 
 WINDOWS_JOIN = "\\"
-FILES_EXTENSIONS = [".txt", ".mp4", ".mp3", ".avi", ".mov", ".wav", ".jpg", ".png"]
-MEDIA_EXTS = [".mp4", ".mp3", ".avi", ".mov", ".wav"]
+FILES_EXTENSIONS = [".txt", ".mp4", ".avi", ".mov", ".wav", ".jpg", ".png"]
+MEDIA_EXTS = [".mp4", ".avi", ".mov", ".wav"]
 PYTHON = "python"
 SOFTWARE_DICT = {"txt": "softwares/TextEditor/TextEditor.py"}
-SOFTWARE_DICT.update(dict.fromkeys(["mp4", "mp3", "avi", "mov", "wav"], "softwares/MediaPlayer/MediaPlayer.py"))
+SOFTWARE_DICT.update(dict.fromkeys(["mp4", "avi", "mov", "wav"], "softwares/MediaPlayer/MediaPlayer.py"))
 MEDIA_PLAYER_SOFTWARE = "softwares/MediaPlayer/MediaPlayer.py"
 MEDIA_PLAYER_FOLDER = "softwares/MediaPlayer"
 TXTEXT = ".txt"
