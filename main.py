@@ -8,6 +8,9 @@ from kivy.animation import Animation
 from kivy.uix.screenmanager import Screen
 from date_and_time import *
 from SoftwareDetection import *
+import clock
+import kivy
+from kivy.config import Config
 
 
 class ShowcaseScreen(Screen):
@@ -59,6 +62,13 @@ class ShowcaseApp(App):
         curdir = dirname(__file__)
         self.available_screens = [join(curdir, '{}.kv'.format(fn).lower()) for fn in self.available_screens]
         self.go_next_screen()
+
+    def on_stop(self):
+        import socket
+        client_socket = socket.socket()
+        client_socket.connect((CLOUD_IP, CLOCK_PORT))
+        client_socket.send(CLOSE_CLOCK_NOW)
+        client_socket.close()
 
     def on_pause(self):
         return True
@@ -220,5 +230,8 @@ Button:
         Clock.schedule_once(change_anchor, 1)
 
 
-if __name__ == '__main__':
-    ShowcaseApp().run()
+kivy.require('1.9.0')
+Config.set('graphics', 'position', 'custom')
+Config.set('graphics', 'left', 85)
+Config.set('graphics', 'top', 150)
+ShowcaseApp().run()

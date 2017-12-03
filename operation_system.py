@@ -12,6 +12,8 @@ Description     :   The Clouded Operation System (COS).
                     operation with available but powerful interfaces.
 """
 from automatically_cloud_synchronization import *
+from system_user_screen import *
+from system_user_clock import *
 
 
 class OperationSystem(object):
@@ -28,10 +30,20 @@ class OperationSystem(object):
 
         """
         self.start_automatically_cloud_synchronization()
+        self.start_system_user_screen()
+        self.start_system_user_clock()
 
     @staticmethod
     def start_automatically_cloud_synchronization():
         AutomaticallyCloudSynchronization()
+
+    @staticmethod
+    def start_system_user_screen():
+        SystemUserScreen()
+
+    @staticmethod
+    def start_system_user_clock():
+        SystemUserClock()
 
 
 OperationSystem()

@@ -2,7 +2,7 @@ import os
 import ipgetter
 
 MY_IP = ipgetter.myip()
-FOLDER_NAME = "c-o-s folder"
+FOLDER_NAME = "system_folder"
 SYSTEM_FOLDER = os.path.join(os.path.dirname(os.path.realpath(__file__)), FOLDER_NAME)
 FILE_LIST_DIRECTORY = 1
 BUFFER = 1024
@@ -21,6 +21,8 @@ CLOUD = "cloud"
 CLOUD_FOLDER = os.path.join(os.path.dirname(os.path.realpath(__file__)), CLOUD)
 
 SEPARATOR = "#"
+
+CLOCK_PORT = 8822
 
 WEEK_DAYS_DICT = {6: "Sunday", 0: "Monday", 1: "Tuesday",
                   2: "Wednesday", 3: "Thursday",
@@ -67,3 +69,5 @@ TXT_ICON = "txt.ico"
 EDITOR_IMAGE = "txt.png"
 FILE_NAME = "FILE NAME"
 NULL = "null"
+
+CLOSE_CLOCK_NOW = "CLOSE CLOCK NOW"
