@@ -8,7 +8,6 @@ from kivy.animation import Animation
 from kivy.uix.screenmanager import Screen
 from date_and_time import *
 from SoftwareDetection import *
-import clock
 import kivy
 from kivy.config import Config
 
