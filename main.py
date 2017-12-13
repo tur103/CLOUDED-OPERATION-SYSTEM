@@ -10,6 +10,8 @@ from date_and_time import *
 from SoftwareDetection import *
 import kivy
 from kivy.config import Config
+from playsound import playsound
+import socket
 
 
 class ShowcaseScreen(Screen):
@@ -63,11 +65,18 @@ class ShowcaseApp(App):
         self.go_next_screen()
 
     def on_stop(self):
-        import socket
         client_socket = socket.socket()
         client_socket.connect((CLOUD_IP, CLOCK_PORT))
         client_socket.send(CLOSE_CLOCK_NOW)
         client_socket.close()
+        client_socket = socket.socket()
+        client_socket.connect((CLOUD_IP, SYNC_PORT))
+        client_socket.send(CLOSE_SYNC_NOW)
+        client_socket.close()
+        self.close_sound()
+
+    def close_sound(self):
+        playsound(CLOSE_SOUND)
 
     def on_pause(self):
         return True

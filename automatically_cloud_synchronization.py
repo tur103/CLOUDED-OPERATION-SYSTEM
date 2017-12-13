@@ -12,6 +12,7 @@ from win32con import *
 import socket
 import time
 import threading
+import thread
 
 
 class AutomaticallyCloudSynchronization(threading.Thread):
@@ -23,7 +24,17 @@ class AutomaticallyCloudSynchronization(threading.Thread):
         self.start()
 
     def run(self):
+        thread.start_new_thread(self.stop_synchronization, ())
         self.waiting_for_change()
+
+    def stop_synchronization(self):
+        server_socket = socket.socket()
+        server_socket.bind((CLOUD_HOST, SYNC_PORT))
+        server_socket.listen(NUMBER_OF_CLIENTS)
+        client_socket, addredd = server_socket.accept()
+        if client_socket.recv(BUFFER) == CLOSE_SYNC_NOW:
+            client_socket.close()
+            os._exit(0)
 
     def waiting_for_change(self):
         """

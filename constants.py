@@ -23,6 +23,7 @@ CLOUD_FOLDER = os.path.join(os.path.dirname(os.path.realpath(__file__)), CLOUD)
 SEPARATOR = "#"
 
 CLOCK_PORT = 8822
+SYNC_PORT = 8824
 
 WEEK_DAYS_DICT = {6: "Sunday", 0: "Monday", 1: "Tuesday",
                   2: "Wednesday", 3: "Thursday",
@@ -71,3 +72,6 @@ FILE_NAME = "FILE NAME"
 NULL = "null"
 
 CLOSE_CLOCK_NOW = "CLOSE CLOCK NOW"
+CLOSE_SYNC_NOW = "CLOSE SYNC NOW"
+
+CLOSE_SOUND = "sounds/close_sound.wav"

@@ -6,11 +6,11 @@ from math import cos, sin, pi
 from kivy.clock import Clock
 from kivy.lang import Builder
 import thread
-import os
 import datetime
 import kivy
 from kivy.config import Config
 from constants import *
+import socket
 
 
 kv = '''
@@ -103,7 +103,6 @@ class MyClockApp(App):
 
 
 def stop_clock():
-    import socket
     server_socket = socket.socket()
     server_socket.bind((CLOUD_HOST, CLOCK_PORT))
     server_socket.listen(NUMBER_OF_CLIENTS)
