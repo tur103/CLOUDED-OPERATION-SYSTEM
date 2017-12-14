@@ -9,4 +9,4 @@ class SystemUserScreen(threading.Thread):
         self.start()
 
     def run(self):
-        subprocess.call(" ".join([PYTHON, "main.py"]))
+        subprocess.call(" ".join([PYTHON, SCREEN_PROGRAM]))

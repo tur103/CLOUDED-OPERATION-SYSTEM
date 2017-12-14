@@ -3,10 +3,10 @@ import subprocess
 from constants import *
 
 
-class SystemUserClock(threading.Thread):
+class SystemUserNotes(threading.Thread):
     def __init__(self):
         threading.Thread.__init__(self)
         self.start()
 
     def run(self):
-        subprocess.call(" ".join([PYTHON, CLOCK_PROGRAM]))
+        subprocess.call(" ".join([PYTHON, NOTES_PROGRAM]))

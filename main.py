@@ -65,17 +65,34 @@ class ShowcaseApp(App):
         self.go_next_screen()
 
     def on_stop(self):
+        self.close_clock()
+        self.close_sync()
+        self.close_notes()
+        self.close_sound()
+
+    @staticmethod
+    def close_clock():
         client_socket = socket.socket()
         client_socket.connect((CLOUD_IP, CLOCK_PORT))
         client_socket.send(CLOSE_CLOCK_NOW)
         client_socket.close()
+
+    @staticmethod
+    def close_sync():
         client_socket = socket.socket()
         client_socket.connect((CLOUD_IP, SYNC_PORT))
         client_socket.send(CLOSE_SYNC_NOW)
         client_socket.close()
-        self.close_sound()
 
-    def close_sound(self):
+    @staticmethod
+    def close_notes():
+        client_socket = socket.socket()
+        client_socket.connect((CLOUD_IP, NOTES_PORT))
+        client_socket.send(CLOSE_NOTES_NOW)
+        client_socket.close()
+
+    @staticmethod
+    def close_sound():
         playsound(CLOSE_SOUND)
 
     def on_pause(self):

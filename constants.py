@@ -24,6 +24,7 @@ SEPARATOR = "#"
 
 CLOCK_PORT = 8822
 SYNC_PORT = 8824
+NOTES_PORT = 8826
 
 WEEK_DAYS_DICT = {6: "Sunday", 0: "Monday", 1: "Tuesday",
                   2: "Wednesday", 3: "Thursday",
@@ -73,5 +74,10 @@ NULL = "null"
 
 CLOSE_CLOCK_NOW = "CLOSE CLOCK NOW"
 CLOSE_SYNC_NOW = "CLOSE SYNC NOW"
+CLOSE_NOTES_NOW = "CLOSE NOTES NOW"
 
 CLOSE_SOUND = "sounds/close_sound.wav"
+
+SCREEN_PROGRAM = "main.py"
+CLOCK_PROGRAM = "clock.py"
+NOTES_PROGRAM = "notes.py"

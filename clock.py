@@ -119,6 +119,6 @@ if __name__ == "__main__":
     Config.set('graphics', 'borderless', '1')
     Config.set('graphics', 'position', 'custom')
     Config.set('graphics', 'left', 900)
-    Config.set('graphics', 'top', 150)
+    Config.set('graphics', 'top', 135)
     thread.start_new_thread(stop_clock, ())
     MyClockApp().run()
