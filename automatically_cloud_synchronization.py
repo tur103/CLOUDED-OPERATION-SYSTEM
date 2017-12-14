@@ -25,7 +25,33 @@ class AutomaticallyCloudSynchronization(threading.Thread):
 
     def run(self):
         thread.start_new_thread(self.stop_synchronization, ())
+        self.execute_verification()
         self.waiting_for_change()
+
+    def execute_verification(self):
+        client_socket = self.open_connection_with_the_cloud()
+        client_socket.send(SEPARATOR.join([MY_IP, VERIFICATION, NONE]))
+        directory_name = os.path.join(os.path.dirname(os.path.abspath(__file__)), FOLDER_NAME)
+        for exists_file in os.listdir(directory_name):
+            client_socket.send(exists_file)
+            with open(os.path.join(directory_name, exists_file), READING) as file_handler:
+                    data = file_handler.read()
+            if client_socket.recv(BUFFER) == EXISTS:
+                if exists_file.endswith(tuple(MEDIA_EXTS)) or exists_file.endswith(tuple(PHOTO_EXTS)):
+                    client_socket.send(str(len(data)))
+                    to_send = SEND
+                else:
+                    client_socket.send(str(data))
+                    time.sleep(0.3)
+                    to_send = NOT_SEND
+                if client_socket.recv(BUFFER) != EXISTS and to_send == SEND:
+                    client_socket.send(data)
+                    time.sleep(0.3)
+            else:
+                client_socket.send(data)
+                time.sleep(0.3)
+
+        client_socket.send(DONE_VERIFICATION)
 
     def stop_synchronization(self):
         server_socket = socket.socket()

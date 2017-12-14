@@ -40,10 +40,51 @@ class Cloud(object):
                 os.remove(os.path.join(client_folder, file_name))
             elif action == FILE_MODIFIED_ACTION:
                 file_data = client_socket.recv(FILE_BUFFER)
-                print file_data
                 with open(os.path.join(client_folder, file_name), WRITING) as modified_file:
                     modified_file.write(file_data)
+            elif action == VERIFICATION:
+                self.execute_verification(client_socket, client_folder)
             client_socket.close()
+
+    def execute_verification(self, client_socket, client_folder):
+        files_list = os.listdir(client_folder)
+        done = True
+        while done:
+            file_name = client_socket.recv(BUFFER)
+            if file_name == DONE_VERIFICATION:
+                done = False
+            elif file_name in files_list:
+                files_list.remove(file_name)
+                client_socket.send(EXISTS)
+                received = client_socket.recv(FILE_BUFFER)
+                with open(os.path.join(client_folder, file_name), READING) as file_handler:
+                    data = file_handler.read()
+                if file_name.endswith(tuple(MEDIA_EXTS)) or file_name.endswith(tuple(PHOTO_EXTS)):
+                    if received == str(len(data)):
+                        client_socket.send(EXISTS)
+                    else:
+                        client_socket.send(NOT_EXISTS)
+                        received = client_socket.recv(FILE_BUFFER)
+                        self.create_new_file(os.path.join(client_folder, file_name), received)
+                else:
+                    if received == data:
+                        client_socket.send(EXISTS)
+                    else:
+                        client_socket.send(NOT_EXISTS)
+                        self.create_new_file(os.path.join(client_folder, file_name), received)
+            else:
+                client_socket.send(NOT_EXISTS)
+                received = client_socket.recv(FILE_BUFFER)
+                self.create_new_file(os.path.join(client_folder, file_name), received)
+
+        for removed_file in files_list:
+            os.remove(os.path.join(client_folder, removed_file))
+
+    @staticmethod
+    def create_new_file(path, data):
+        file_handler = open(path, WRITING)
+        file_handler.write(data)
+        file_handler.close()
 
     @staticmethod
     def create_cloud_folder():

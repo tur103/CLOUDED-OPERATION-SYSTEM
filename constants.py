@@ -11,7 +11,7 @@ FILE_DELETED_ACTION = "2"
 FILE_MODIFIED_ACTION = "3"
 READING = "rb"
 WRITING = "wb"
-FILE_BUFFER = 300000
+FILE_BUFFER = 3000000
 
 CLOUD_HOST = "0.0.0.0"
 CLOUD_IP = "127.0.0.1"
@@ -58,6 +58,7 @@ NIGHT = "NIGHT"
 WINDOWS_JOIN = "\\"
 FILES_EXTENSIONS = [".txt", ".mp4", ".avi", ".mov", ".wav", ".jpg", ".png"]
 MEDIA_EXTS = [".mp4", ".avi", ".mov", ".wav"]
+PHOTO_EXTS = [".jpg", ".png"]
 PYTHON = "python"
 SOFTWARE_DICT = {"txt": "softwares/TextEditor/TextEditor.py"}
 SOFTWARE_DICT.update(dict.fromkeys(["mp4", "avi", "mov", "wav"], "softwares/MediaPlayer/MediaPlayer.py"))
@@ -81,3 +82,11 @@ CLOSE_SOUND = "sounds/close_sound.wav"
 SCREEN_PROGRAM = "main.py"
 CLOCK_PROGRAM = "clock.py"
 NOTES_PROGRAM = "notes.py"
+
+VERIFICATION = "VERIFICATION"
+NONE = "NONE"
+EXISTS = "EXISTS"
+NOT_EXISTS = "NOT EXISTS"
+SEND = "SEND"
+NOT_SEND = "NOT SEND"
+DONE_VERIFICATION = "DONE VERIFICATION"
