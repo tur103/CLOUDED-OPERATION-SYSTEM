@@ -512,7 +512,7 @@ class TextEditor(App):
             button = message_box.ShowModal()
             if button == ID_OK:
                 file_name = message_box.GetValue() + TXT_EXT
-                folder = "\\".join(os.path.abspath(__file__).split("\\")[:-2] + [SYSTEM_FOLDER, file_name])
+                folder = "\\".join(os.path.abspath(__file__).split("\\")[:-3] + [SYSTEM_FOLDER, file_name])
                 try:
                     file_handle = open(folder, REGULAR_WRITING)
                     file_handle.close()
