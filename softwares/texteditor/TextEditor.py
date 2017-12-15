@@ -16,6 +16,12 @@ class TextEditor(App):
         self.panel = Panel(self.window)
         self.horizontal_box = BoxSizer(VERTICAL)
         self.text_input = self.add_text_input()
+        text_input_font = self.text_input.GetFont()
+        self.text_font_dict = {"size": text_input_font.GetPointSize(),
+                               "family": text_input_font.GetFamily(),
+                               "style": text_input_font.GetStyle(),
+                               "weight": text_input_font.GetWeight(),
+                               "underline": text_input_font.GetUnderlined()}
         self.create_menu_bar()
         self.Bind(EVT_TEXT, self.on_text_enter, source=self.text_input)
         self.font = Font(15, DEFAULT, NORMAL, BOLD)
@@ -214,8 +220,91 @@ class TextEditor(App):
         white_background = background_color.Append(ID_ANY, 'White', 'White Background')
         self.Bind(EVT_MENU, self.on_white_background, white_background)
         style_menu.AppendMenu(ID_ANY, "&Background &Color", background_color)
+        font = Menu()
+        swiss_font = font.Append(ID_ANY, 'Swiss', 'Swiss Font')
+        self.Bind(EVT_MENU, self.on_swiss_font, swiss_font)
+        decorative_font = font.Append(ID_ANY, 'Decorative', 'Decorative Font')
+        self.Bind(EVT_MENU, self.on_decorative_font, decorative_font)
+        modern_font = font.Append(ID_ANY, 'Modern', 'Modern Font')
+        self.Bind(EVT_MENU, self.on_modern_font, modern_font)
+        roman_font = font.Append(ID_ANY, 'Roman', 'Roman Font')
+        self.Bind(EVT_MENU, self.on_roman_font, roman_font)
+        script_font = font.Append(ID_ANY, 'Script', 'Script Font')
+        self.Bind(EVT_MENU, self.on_script_font, script_font)
+        style_menu.AppendMenu(ID_ANY, "&Font", font)
+        size = Menu()
+        point8 = size.Append(ID_ANY, '8', '8 Size')
+        self.Bind(EVT_MENU, self.on_point8, point8)
+        point10 = size.Append(ID_ANY, '10', '10 Size')
+        self.Bind(EVT_MENU, self.on_point10, point10)
+        point12 = size.Append(ID_ANY, '12', '12 Size')
+        self.Bind(EVT_MENU, self.on_point12, point12)
+        point14 = size.Append(ID_ANY, '14', '14 Size')
+        self.Bind(EVT_MENU, self.on_point14, point14)
+        point16 = size.Append(ID_ANY, '16', '16 Size')
+        self.Bind(EVT_MENU, self.on_point16, point16)
+        point18 = size.Append(ID_ANY, '18', '18 Size')
+        self.Bind(EVT_MENU, self.on_point18, point18)
+        point20 = size.Append(ID_ANY, '20', '20 Size')
+        self.Bind(EVT_MENU, self.on_point20, point20)
+        point22 = size.Append(ID_ANY, '22', '22 Size')
+        self.Bind(EVT_MENU, self.on_point22, point22)
+        point24 = size.Append(ID_ANY, '24', '24 Size')
+        self.Bind(EVT_MENU, self.on_point24, point24)
+        point26 = size.Append(ID_ANY, '26', '26 Size')
+        self.Bind(EVT_MENU, self.on_point26, point26)
+        point28 = size.Append(ID_ANY, '28', '28 Size')
+        self.Bind(EVT_MENU, self.on_point28, point28)
+        point36 = size.Append(ID_ANY, '36', '6 Size')
+        self.Bind(EVT_MENU, self.on_point36, point36)
+        point48 = size.Append(ID_ANY, '48', '48 Size')
+        self.Bind(EVT_MENU, self.on_point48, point48)
+        point72 = size.Append(ID_ANY, '72', '72 Size')
+        self.Bind(EVT_MENU, self.on_point72, point72)
+        style_menu.AppendMenu(ID_ANY, "&Size", size)
+        design = Menu()
+        self.bold = design.Append(ID_BOLD, 'Bold', 'Bold Text', kind=ITEM_CHECK)
+        self.Bind(EVT_MENU, self.on_bold, self.bold)
+        self.italic = design.Append(ID_ITALIC, 'Italic', 'Italic Text', kind=ITEM_CHECK)
+        self.Bind(EVT_MENU, self.on_italic, self.italic)
+        self.underline = design.Append(ID_UNDERLINE, 'Under Line', 'Under Line Text', kind=ITEM_CHECK)
+        self.Bind(EVT_MENU, self.on_underline, self.underline)
+        style_menu.AppendMenu(ID_ANY, "&design", design)
         menu_bar.Append(style_menu, '&Style')
         self.window.SetMenuBar(menu_bar)
+
+    def on_font(self):
+        new_font = Font(self.text_font_dict["size"], self.text_font_dict["family"],
+                        self.text_font_dict["style"], self.text_font_dict["weight"],
+                        self.text_font_dict["underline"])
+        self.text_input.SetStyle(-1, -1, wx.TextAttr(NullColour, NullColour, new_font))
+
+    def on_point(self):
+        new_font = Font(self.text_font_dict["size"], self.text_font_dict["family"],
+                        self.text_font_dict["style"], self.text_font_dict["weight"],
+                        self.text_font_dict["underline"])
+        self.text_input.SetStyle(-1, -1, wx.TextAttr(NullColour, NullColour, new_font))
+
+    def on_bold(self, event):
+        self.text_font_dict["weight"] = BOLD if self.bold.IsChecked() else NORMAL
+        new_font = Font(self.text_font_dict["size"], self.text_font_dict["family"],
+                        self.text_font_dict["style"], self.text_font_dict["weight"],
+                        self.text_font_dict["underline"])
+        self.text_input.SetStyle(-1, -1, wx.TextAttr(NullColour, NullColour, new_font))
+
+    def on_italic(self, event):
+        self.text_font_dict["style"] = ITALIC if self.italic.IsChecked() else NORMAL
+        new_font = Font(self.text_font_dict["size"], self.text_font_dict["family"],
+                        self.text_font_dict["style"], self.text_font_dict["weight"],
+                        self.text_font_dict["underline"])
+        self.text_input.SetStyle(-1, -1, wx.TextAttr(NullColour, NullColour, new_font))
+
+    def on_underline(self, event):
+        self.text_font_dict["underline"] = True if self.italic.IsChecked() else False
+        new_font = Font(self.text_font_dict["size"], self.text_font_dict["family"],
+                        self.text_font_dict["style"], self.text_font_dict["weight"],
+                        self.text_font_dict["underline"])
+        self.text_input.SetStyle(-1, -1, wx.TextAttr(NullColour, NullColour, new_font))
 
     def on_foreground(self, color):
         if self.text_input.HasSelection():
@@ -388,6 +477,82 @@ class TextEditor(App):
 
     def on_white_background(self, event):
         self.on_background(WHITE)
+
+    def on_swiss_font(self, event):
+        self.text_font_dict["family"] = FONTFAMILY_SWISS
+        self.on_font()
+
+    def on_decorative_font(self, event):
+        self.text_font_dict["family"] = FONTFAMILY_DECORATIVE
+        self.on_font()
+
+    def on_modern_font(self, event):
+        self.text_font_dict["family"] = FONTFAMILY_MODERN
+        self.on_font()
+
+    def on_roman_font(self, event):
+        self.text_font_dict["family"] = FONTFAMILY_ROMAN
+        self.on_font()
+
+    def on_script_font(self, event):
+        self.text_font_dict["family"] = FONTFAMILY_SCRIPT
+        self.on_font()
+
+    def on_point8(self, event):
+        self.text_font_dict["size"] = 8
+        self.on_point()
+
+    def on_point10(self, event):
+        self.text_font_dict["size"] = 10
+        self.on_point()
+
+    def on_point12(self, event):
+        self.text_font_dict["size"] = 12
+        self.on_point()
+
+    def on_point14(self, event):
+        self.text_font_dict["size"] = 14
+        self.on_point()
+
+    def on_point16(self, event):
+        self.text_font_dict["size"] = 16
+        self.on_point()
+
+    def on_point18(self, event):
+        self.text_font_dict["size"] = 18
+        self.on_point()
+
+    def on_point20(self, event):
+        self.text_font_dict["size"] = 20
+        self.on_point()
+
+    def on_point22(self, event):
+        self.text_font_dict["size"] = 22
+        self.on_point()
+
+    def on_point24(self, event):
+        self.text_font_dict["size"] = 24
+        self.on_point()
+
+    def on_point26(self, event):
+        self.text_font_dict["size"] = 26
+        self.on_point()
+
+    def on_point28(self, event):
+        self.text_font_dict["size"] = 28
+        self.on_point()
+
+    def on_point36(self, event):
+        self.text_font_dict["size"] = 36
+        self.on_point()
+
+    def on_point48(self, event):
+        self.text_font_dict["size"] = 48
+        self.on_point()
+
+    def on_point72(self, event):
+        self.text_font_dict["size"] = 72
+        self.on_point()
 
     def on_quit(self, event):
         self.window.Close()
