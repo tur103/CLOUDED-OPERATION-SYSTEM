@@ -52,7 +52,7 @@ class TextEditor(App):
 
     def add_text_input(self):
         return TextCtrl(self.panel, pos=(0, 0), size=(1000, 680),
-                        value=self.data, style=TE_MULTILINE | SUNKEN_BORDER)
+                        value=self.data, style=TE_MULTILINE | SUNKEN_BORDER | TE_RICH)
 
     def add_title(self, title, pos):
         """
@@ -101,7 +101,151 @@ class TextEditor(App):
         time_and_date = edit_menu.Append(ID_OK, 'Time/Date', 'Display Time And Date')
         self.Bind(EVT_MENU, self.on_time_and_date, time_and_date)
         menu_bar.Append(edit_menu, '&Edit')
+        style_menu = Menu()
+        foreground_color = Menu()
+        black = foreground_color.Append(ID_SELECT_COLOR, 'Black', 'Black Text')
+        self.Bind(EVT_MENU, self.on_black_foreground, black)
+        blue = foreground_color.Append(ID_ANY, 'Blue', 'Blue Text')
+        self.Bind(EVT_MENU, self.on_blue_foreground, blue)
+        green = foreground_color.Append(ID_ANY, 'Green', 'Green Text')
+        self.Bind(EVT_MENU, self.on_green_foreground, green)
+        cyan = foreground_color.Append(ID_ANY, 'Cyan', 'Cyan Text')
+        self.Bind(EVT_MENU, self.on_cyan_foreground, cyan)
+        navy = foreground_color.Append(ID_ANY, 'Navy', 'Navy Text')
+        self.Bind(EVT_MENU, self.on_navy_foreground, navy)
+        dark_grey = foreground_color.Append(ID_ANY, 'Dark Grey', 'Dark Grey Text')
+        self.Bind(EVT_MENU, self.on_dark_grey_foreground, dark_grey)
+        indian_red = foreground_color.Append(ID_ANY, 'Indian Red', 'Indian Red Text')
+        self.Bind(EVT_MENU, self.on_indian_red_foreground, indian_red)
+        violet = foreground_color.Append(ID_ANY, 'Violet', 'Violet Text')
+        self.Bind(EVT_MENU, self.on_violet_foreground, violet)
+        grey = foreground_color.Append(ID_ANY, 'Grey', 'Grey Text')
+        self.Bind(EVT_MENU, self.on_grey_foreground, grey)
+        dark_slate_blue = foreground_color.Append(ID_ANY, 'Dark Slate Blue', 'Dark Slate Blue Text')
+        self.Bind(EVT_MENU, self.on_dark_slate_blue_foreground, dark_slate_blue)
+        firebrick = foreground_color.Append(ID_ANY, 'FireBrick', 'FireBrick Text')
+        self.Bind(EVT_MENU, self.on_firebrick_foreground, firebrick)
+        maroon = foreground_color.Append(ID_ANY, 'Maroon', 'Maroon Text')
+        self.Bind(EVT_MENU, self.on_maroon_foreground, maroon)
+        sienna = foreground_color.Append(ID_ANY, 'Sienna', 'Sienna Text')
+        self.Bind(EVT_MENU, self.on_sienna_foreground, sienna)
+        dark_orchid = foreground_color.Append(ID_ANY, 'Dark Orchid', 'Dark Orchid Text')
+        self.Bind(EVT_MENU, self.on_dark_orchid_foreground, dark_orchid)
+        khaki = foreground_color.Append(ID_ANY, 'Khaki', 'Khaki Text')
+        self.Bind(EVT_MENU, self.on_khaki_foreground, khaki)
+        brown = foreground_color.Append(ID_ANY, 'Brown', 'Brown Text')
+        self.Bind(EVT_MENU, self.on_brown_foreground, brown)
+        purple = foreground_color.Append(ID_ANY, 'Purple', 'Purple Text')
+        self.Bind(EVT_MENU, self.on_purple_foreground, purple)
+        orange = foreground_color.Append(ID_ANY, 'Orange', 'Orange Text')
+        self.Bind(EVT_MENU, self.on_orange_foreground, orange)
+        violet_red = foreground_color.Append(ID_ANY, 'Violet Red', 'Violet Red Text')
+        self.Bind(EVT_MENU, self.on_violet_red_foreground, violet_red)
+        gold = foreground_color.Append(ID_ANY, 'Gold', 'Gold Text')
+        self.Bind(EVT_MENU, self.on_gold_foreground, gold)
+        red = foreground_color.Append(ID_ANY, 'Red', 'Red Text')
+        self.Bind(EVT_MENU, self.on_red_foreground, red)
+        orange_red = foreground_color.Append(ID_ANY, 'Orange Red', 'Orange Red Text')
+        self.Bind(EVT_MENU, self.on_orange_red_foreground, orange_red)
+        light_magenta = foreground_color.Append(ID_ANY, 'Light Magenta', 'Light Magenta Text')
+        self.Bind(EVT_MENU, self.on_light_magenta_foreground, light_magenta)
+        coral = foreground_color.Append(ID_ANY, 'Coral', 'Coral Text')
+        self.Bind(EVT_MENU, self.on_coral_foreground, coral)
+        pink = foreground_color.Append(ID_ANY, 'Pink', 'Pink Text')
+        self.Bind(EVT_MENU, self.on_pink_foreground, pink)
+        yellow = foreground_color.Append(ID_ANY, 'Yellow', 'Yellow Text')
+        self.Bind(EVT_MENU, self.on_yellow_foreground, yellow)
+        white = foreground_color.Append(ID_ANY, 'White', 'White Text')
+        self.Bind(EVT_MENU, self.on_white_foreground, white)
+        style_menu.AppendMenu(ID_ANY, "&Foreground &Color", foreground_color)
+        menu_bar.Append(style_menu, '&Style')
         self.window.SetMenuBar(menu_bar)
+
+    def on_foreground(self, color):
+        if self.text_input.HasSelection():
+            begin, end = self.text_input.GetSelection()
+            self.text_input.SetStyle(begin, end, wx.TextAttr(NamedColour(color)))
+
+    def on_black_foreground(self, event):
+        self.on_foreground(BLACK)
+
+    def on_blue_foreground(self, event):
+        self.on_foreground(BLUE)
+
+    def on_green_foreground(self, event):
+        self.on_foreground(GREEN)
+
+    def on_cyan_foreground(self, event):
+        self.on_foreground(CYAN)
+
+    def on_navy_foreground(self, event):
+        self.on_foreground(NAVY)
+
+    def on_dark_grey_foreground(self, event):
+        self.on_foreground(DARK_GREY)
+
+    def on_indian_red_foreground(self, event):
+        self.on_foreground(INDIAN_RED)
+
+    def on_violet_foreground(self, event):
+        self.on_foreground(VIOLET)
+
+    def on_grey_foreground(self, event):
+        self.on_foreground(GREY)
+
+    def on_dark_slate_blue_foreground(self, event):
+        self.on_foreground(DARK_SLATE_BLUE)
+
+    def on_firebrick_foreground(self, event):
+        self.on_foreground(FIREBRICK)
+
+    def on_maroon_foreground(self, event):
+        self.on_foreground(MAROON)
+
+    def on_sienna_foreground(self, event):
+        self.on_foreground(SIENNA)
+
+    def on_dark_orchid_foreground(self, event):
+        self.on_foreground(DARK_ORCHID)
+
+    def on_khaki_foreground(self, event):
+        self.on_foreground(KHAKI)
+
+    def on_brown_foreground(self, event):
+        self.on_foreground(BROWN)
+
+    def on_purple_foreground(self, event):
+        self.on_foreground(PURPLE)
+
+    def on_orange_foreground(self, event):
+        self.on_foreground(ORANGE)
+
+    def on_violet_red_foreground(self, event):
+        self.on_foreground(VIOLET_RED)
+
+    def on_gold_foreground(self, event):
+        self.on_foreground(GOLD)
+
+    def on_red_foreground(self, event):
+        self.on_foreground(RED)
+
+    def on_orange_red_foreground(self, event):
+        self.on_foreground(ORANGE_RED)
+
+    def on_light_magenta_foreground(self, event):
+        self.on_foreground(LIGHT_MAGENTA)
+
+    def on_coral_foreground(self, event):
+        self.on_foreground(CORAL)
+
+    def on_pink_foreground(self, event):
+        self.on_foreground(PINK)
+
+    def on_yellow_foreground(self, event):
+        self.on_foreground(YELLOW)
+
+    def on_white_foreground(self, event):
+        self.on_foreground(WHITE)
 
     def on_quit(self, event):
         self.window.Close()
