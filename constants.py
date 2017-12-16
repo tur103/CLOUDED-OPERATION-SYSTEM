@@ -60,9 +60,11 @@ FILES_EXTENSIONS = [".txt", ".mp4", ".avi", ".mov", ".wav", ".jpg", ".png"]
 MEDIA_EXTS = [".mp4", ".avi", ".mov", ".wav"]
 PHOTO_EXTS = [".jpg", ".png"]
 PYTHON = "python"
-SOFTWARE_DICT = {"txt": "softwares/TextEditor/TextEditor.py"}
-SOFTWARE_DICT.update(dict.fromkeys(["mp4", "avi", "mov", "wav"], "softwares/MediaPlayer/MediaPlayer.py"))
-MEDIA_PLAYER_SOFTWARE = "softwares/MediaPlayer/MediaPlayer.py"
+SUB_DIR = {"txt": "TextEditor"}
+SUB_DIR.update(dict.fromkeys(["mp4", "avi", "mov", "wav"], "MediaPlayer"))
+SOFTWARE_DICT = {"txt": "TextEditor.py"}
+SOFTWARE_DICT.update(dict.fromkeys(["mp4", "avi", "mov", "wav"], "MediaPlayer.py"))
+MEDIA_PLAYER_SOFTWARE = "MediaPlayer.py"
 MEDIA_PLAYER_FOLDER = "softwares/MediaPlayer"
 TXTEXT = ".txt"
 REGULAR_WRITING = "w"

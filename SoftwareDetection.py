@@ -35,10 +35,15 @@ class SoftwareDetection(Thread):
         the file according to it's format and sends the command.
 
         """
-        subprocess.call(" ".join([PYTHON, SOFTWARE_DICT[self.format], self.file_name]))
+        os.chdir("softwares")
+        os.chdir(SUB_DIR[self.format])
+        os.system(" ".join([PYTHON, SOFTWARE_DICT[self.format], '"' + self.file_name + '"']))
         self.media_destruction()
 
     def media_destruction(self):
+        directory = os.getcwd()
+        back_directory = "\\".join(directory.split("\\")[:-2])
+        os.chdir(back_directory)
         if SOFTWARE_DICT[self.format] == MEDIA_PLAYER_SOFTWARE:
             current_folder = os.path.dirname(os.path.abspath(__file__))
             files_list = os.listdir(current_folder)
