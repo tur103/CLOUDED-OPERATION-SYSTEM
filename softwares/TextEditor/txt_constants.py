@@ -56,5 +56,7 @@ PASTE_IMAGE = "data/paste.png"
 DELETE_IMAGE = "data/delete.png"
 FIND_IMAGE = "data/find.ico"
 REPLACE_IMAGE = "data/replace.png"
-REPLACE_ALL_IMAGE = "data/replaceall1.png"
+REPLACE_ALL_IMAGE = "data/replaceall.png"
+SELECT_ALL_IMAGE = "data/selectall.png"
+TIME_AND_DATE_IMAGE = "data/timeanddate.png"
 

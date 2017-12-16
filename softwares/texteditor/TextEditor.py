@@ -138,10 +138,14 @@ class TextEditor(App):
         edit_menu.AppendItem(self.replace_all)
         self.replace_all.Enable(False)
         self.Bind(EVT_MENU, self.on_replace_all, id=13)
-        select_all = edit_menu.Append(ID_SELECTALL, 'Select All', 'Select All text')
-        self.Bind(EVT_MENU, self.on_select_all, select_all)
-        time_and_date = edit_menu.Append(ID_OK, 'Time/Date', 'Display Time And Date')
-        self.Bind(EVT_MENU, self.on_time_and_date, time_and_date)
+        self.select_all = MenuItem(edit_menu, 14, '&Select &All\tCtrl+A')
+        self.select_all.SetBitmap(Bitmap(SELECT_ALL_IMAGE))
+        edit_menu.AppendItem(self.select_all)
+        self.Bind(EVT_MENU, self.on_select_all, id=14)
+        self.time_and_date = MenuItem(edit_menu, 15, '&Time &And &Date\tCtrl+T')
+        self.time_and_date.SetBitmap(Bitmap(TIME_AND_DATE_IMAGE))
+        edit_menu.AppendItem(self.time_and_date)
+        self.Bind(EVT_MENU, self.on_time_and_date, id=15)
         menu_bar.Append(edit_menu, '&Edit')
         style_menu = Menu()
         foreground_color = Menu()
@@ -343,6 +347,10 @@ class TextEditor(App):
         replace_all_tool = self.toolbar.AddLabelTool(ID_REPLACE_ALL, "Replace All", Bitmap(REPLACE_ALL_IMAGE))
         self.toolbar.EnableTool(ID_REPLACE_ALL, False)
         self.Bind(wx.EVT_TOOL, self.on_replace_all, replace_all_tool)
+        select_all_tool = self.toolbar.AddLabelTool(ID_SELECTALL, "Select All", Bitmap(SELECT_ALL_IMAGE))
+        self.Bind(wx.EVT_TOOL, self.on_select_all, select_all_tool)
+        time_and_date_tool = self.toolbar.AddLabelTool(ID_OK, "Time And Date", Bitmap(TIME_AND_DATE_IMAGE))
+        self.Bind(wx.EVT_TOOL, self.on_time_and_date, time_and_date_tool)
         self.toolbar.Realize()
 
     def on_font(self):
@@ -807,6 +815,9 @@ class TextEditor(App):
             self.replace.Enable(True)
             self.toolbar.EnableTool(ID_REPLACE_ALL, True)
             self.replace_all.Enable(True)
+            if self.is_selected_all():
+                self.toolbar.EnableTool(ID_SELECTALL, False)
+                self.select_all.Enable(False)
         else:
             self.toolbar.EnableTool(ID_CUT, False)
             self.cut.Enable(False)
@@ -818,6 +829,13 @@ class TextEditor(App):
             self.replace.Enable(False)
             self.toolbar.EnableTool(ID_REPLACE_ALL, False)
             self.replace_all.Enable(False)
+            self.toolbar.EnableTool(ID_SELECTALL, True)
+            self.select_all.Enable(True)
+
+    def is_selected_all(self):
+        all_text = self.text_input.GetValue()
+        selected_text = self.text_input.GetStringSelection()
+        return True if all_text == selected_text else False
 
 
 app = TextEditor()
