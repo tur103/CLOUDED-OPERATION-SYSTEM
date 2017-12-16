@@ -115,6 +115,10 @@ class TextEditor(App):
         edit_menu.AppendItem(self.copy)
         self.copy.Enable(False)
         self.Bind(EVT_MENU, self.on_copy, id=8)
+        self.duplicate = MenuItem(edit_menu, 16, '&Duplicate\tCtrl+D')
+        self.duplicate.SetBitmap(Bitmap(DUPLICATE_IMAGE))
+        edit_menu.AppendItem(self.duplicate)
+        self.Bind(EVT_MENU, self.on_duplicate, id=16)
         self.paste = MenuItem(edit_menu, 9, '&Paste\tCtrl+V')
         self.paste.SetBitmap(Bitmap(PASTE_IMAGE))
         edit_menu.AppendItem(self.paste)
@@ -303,12 +307,18 @@ class TextEditor(App):
         self.Bind(EVT_MENU, self.on_point72, point72)
         style_menu.AppendMenu(ID_ANY, "&Size", size)
         design = Menu()
-        self.bold = design.Append(ID_BOLD, 'Bold', 'Bold Text', kind=ITEM_CHECK)
-        self.Bind(EVT_MENU, self.on_bold, self.bold)
-        self.italic = design.Append(ID_ITALIC, 'Italic', 'Italic Text', kind=ITEM_CHECK)
-        self.Bind(EVT_MENU, self.on_italic, self.italic)
-        self.underline = design.Append(ID_UNDERLINE, 'Under Line', 'Under Line Text', kind=ITEM_CHECK)
-        self.Bind(EVT_MENU, self.on_underline, self.underline)
+        self.bold = MenuItem(design, 17, '&Bold\tCtrl+B', kind=ITEM_CHECK)
+        self.bold.SetBitmap(Bitmap(BOLD_ICON))
+        design.AppendItem(self.bold)
+        self.Bind(EVT_MENU, self.on_bold, id=17)
+        self.italic = MenuItem(design, 18, '&Italic\tCtrl+I', kind=ITEM_CHECK)
+        self.italic.SetBitmap(Bitmap(ITALIC_ICON))
+        design.AppendItem(self.italic)
+        self.Bind(EVT_MENU, self.on_italic, id=18)
+        self.underline = MenuItem(design, 19, '&Underline\tCtrl+U', kind=ITEM_CHECK)
+        self.underline.SetBitmap(Bitmap(UNDERLINE_ICON))
+        design.AppendItem(self.underline)
+        self.Bind(EVT_MENU, self.on_underline, id=19)
         style_menu.AppendMenu(ID_ANY, "&design", design)
         menu_bar.Append(style_menu, '&Style')
         self.window.SetMenuBar(menu_bar)
@@ -334,6 +344,8 @@ class TextEditor(App):
         copy_tool = self.toolbar.AddLabelTool(ID_COPY, "Copy", Bitmap(COPY_IMAGE))
         self.toolbar.EnableTool(ID_COPY, False)
         self.Bind(wx.EVT_TOOL, self.on_copy, copy_tool)
+        duplicate_tool = self.toolbar.AddLabelTool(ID_DUPLICATE, "Duplicate", Bitmap(DUPLICATE_IMAGE))
+        self.Bind(wx.EVT_TOOL, self.on_duplicate, duplicate_tool)
         paste_tool = self.toolbar.AddLabelTool(ID_PASTE, "Paste", Bitmap(PASTE_IMAGE))
         self.Bind(wx.EVT_TOOL, self.on_paste, paste_tool)
         delete_tool = self.toolbar.AddLabelTool(ID_DELETE, "Delete", Bitmap(DELETE_IMAGE))
@@ -351,6 +363,12 @@ class TextEditor(App):
         self.Bind(wx.EVT_TOOL, self.on_select_all, select_all_tool)
         time_and_date_tool = self.toolbar.AddLabelTool(ID_OK, "Time And Date", Bitmap(TIME_AND_DATE_IMAGE))
         self.Bind(wx.EVT_TOOL, self.on_time_and_date, time_and_date_tool)
+        bold_tool = self.toolbar.AddLabelTool(ID_BOLD, "Bold", Bitmap(BOLD_IMAGE))
+        self.Bind(wx.EVT_TOOL, self.on_bold_icon, bold_tool)
+        italic_tool = self.toolbar.AddLabelTool(ID_ITALIC, "Italic", Bitmap(ITALIC_IMAGE))
+        self.Bind(wx.EVT_TOOL, self.on_italic_icon, italic_tool)
+        underline_tool = self.toolbar.AddLabelTool(ID_UNDERLINE, "Underline", Bitmap(UNDERLINE_IMAGE))
+        self.Bind(wx.EVT_TOOL, self.on_underline_icon, underline_tool)
         self.toolbar.Realize()
 
     def on_font(self):
@@ -365,6 +383,13 @@ class TextEditor(App):
                         self.text_font_dict["underline"])
         self.text_input.SetStyle(-1, -1, wx.TextAttr(NullColour, NullColour, new_font))
 
+    def on_bold_icon(self, event):
+        if self.bold.IsChecked():
+            self.bold.Check(False)
+        else:
+            self.bold.Check(True)
+        self.on_bold(None)
+
     def on_bold(self, event):
         self.text_font_dict["weight"] = BOLD if self.bold.IsChecked() else NORMAL
         new_font = Font(self.text_font_dict["size"], self.text_font_dict["family"],
@@ -372,12 +397,26 @@ class TextEditor(App):
                         self.text_font_dict["underline"])
         self.text_input.SetStyle(-1, -1, wx.TextAttr(NullColour, NullColour, new_font))
 
+    def on_italic_icon(self, event):
+        if self.italic.IsChecked():
+            self.italic.Check(False)
+        else:
+            self.italic.Check(True)
+        self.on_italic(None)
+
     def on_italic(self, event):
         self.text_font_dict["style"] = ITALIC if self.italic.IsChecked() else NORMAL
         new_font = Font(self.text_font_dict["size"], self.text_font_dict["family"],
                         self.text_font_dict["style"], self.text_font_dict["weight"],
                         self.text_font_dict["underline"])
         self.text_input.SetStyle(-1, -1, wx.TextAttr(NullColour, NullColour, new_font))
+
+    def on_underline_icon(self, event):
+        if self.underline.IsChecked():
+            self.underline.Check(False)
+        else:
+            self.underline.Check(True)
+        self.on_underline(None)
 
     def on_underline(self, event):
         self.text_font_dict["underline"] = True if self.underline.IsChecked() else False
@@ -694,6 +733,23 @@ class TextEditor(App):
         if text:
             text.Copy()
             self.on_highlight_text(None)
+
+    def on_duplicate(self, event):
+        if self.text_input.HasSelection():
+            text = self.text_input.GetStringSelection()
+            frm, to = self.text_input.GetSelection()
+            self.text_input.SetInsertionPoint(to)
+            self.text_input.WriteText(text)
+        else:
+            all_text = self.text_input.GetValue()
+            cursor = self.text_input.GetInsertionPoint()
+            cursor_line = self.text_input.PositionToXY(cursor)[1]
+            text_line = self.text_input.GetLineText(cursor_line)
+            lines_of_text = all_text.split("\n")
+            lines_of_text.insert(cursor_line + 1, text_line)
+            all_text = "\n".join(lines_of_text)
+            self.text_input.Clear()
+            self.text_input.SetValue(all_text)
 
     def on_paste(self, event):
         self.text_input.Paste()
