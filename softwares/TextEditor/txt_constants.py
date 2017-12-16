@@ -52,3 +52,8 @@ UNDO_IMAGE = "data/undo.png"
 REDO_IMAGE = "data/redo.png"
 CUT_IMAGE = "data/cut.png"
 COPY_IMAGE = "data/copy.png"
+PASTE_IMAGE = "data/paste.png"
+DELETE_IMAGE = "data/delete.png"
+FIND_IMAGE = "data/find.ico"
+REPLACE_IMAGE = "data/replace.png"
+

@@ -115,14 +115,24 @@ class TextEditor(App):
         edit_menu.AppendItem(self.copy)
         self.copy.Enable(False)
         self.Bind(EVT_MENU, self.on_copy, id=8)
-        paste = edit_menu.Append(ID_PASTE, 'Paste', 'Paste text')
-        self.Bind(EVT_MENU, self.on_paste, paste)
-        delete = edit_menu.Append(ID_DELETE, 'Delete', 'Delete text')
-        self.Bind(EVT_MENU, self.on_delete, delete)
-        find = edit_menu.Append(ID_FIND, 'Find', 'Find text')
-        self.Bind(EVT_MENU, self.on_find, find)
-        replace = edit_menu.Append(ID_REPLACE, 'Replace', 'Replace text')
-        self.Bind(EVT_MENU, self.on_replace, replace)
+        self.paste = MenuItem(edit_menu, 9, '&Paste\tCtrl+V')
+        self.paste.SetBitmap(Bitmap(PASTE_IMAGE))
+        edit_menu.AppendItem(self.paste)
+        self.Bind(EVT_MENU, self.on_paste, id=9)
+        self.delete = MenuItem(edit_menu, 10, '&Delete\tDELETE')
+        self.delete.SetBitmap(Bitmap(DELETE_IMAGE))
+        edit_menu.AppendItem(self.delete)
+        self.delete.Enable(False)
+        self.Bind(EVT_MENU, self.on_delete, id=10)
+        self.find = MenuItem(edit_menu, 11, '&Find\tCtrl+F')
+        self.find.SetBitmap(Bitmap(FIND_IMAGE))
+        edit_menu.AppendItem(self.find)
+        self.Bind(EVT_MENU, self.on_find, id=11)
+        self.replace = MenuItem(edit_menu, 12, '&Replace\tCtrl+R')
+        self.replace.SetBitmap(Bitmap(REPLACE_IMAGE))
+        edit_menu.AppendItem(self.replace)
+        self.replace.Enable(False)
+        self.Bind(EVT_MENU, self.on_replace, id=12)
         replace_all = edit_menu.Append(ID_REPLACE_ALL, 'Replace All', 'Replace All text')
         self.Bind(EVT_MENU, self.on_replace_all, replace_all)
         select_all = edit_menu.Append(ID_SELECTALL, 'Select All', 'Select All text')
@@ -317,6 +327,16 @@ class TextEditor(App):
         copy_tool = self.toolbar.AddLabelTool(ID_COPY, "Copy", Bitmap(COPY_IMAGE))
         self.toolbar.EnableTool(ID_COPY, False)
         self.Bind(wx.EVT_TOOL, self.on_copy, copy_tool)
+        paste_tool = self.toolbar.AddLabelTool(ID_PASTE, "Paste", Bitmap(PASTE_IMAGE))
+        self.Bind(wx.EVT_TOOL, self.on_paste, paste_tool)
+        delete_tool = self.toolbar.AddLabelTool(ID_DELETE, "Delete", Bitmap(DELETE_IMAGE))
+        self.toolbar.EnableTool(ID_DELETE, False)
+        self.Bind(wx.EVT_TOOL, self.on_delete, delete_tool)
+        find_tool = self.toolbar.AddLabelTool(ID_FIND, "Find", Bitmap(FIND_IMAGE))
+        self.Bind(wx.EVT_TOOL, self.on_find, find_tool)
+        replace_tool = self.toolbar.AddLabelTool(ID_REPLACE, "Replace", Bitmap(REPLACE_IMAGE))
+        self.toolbar.EnableTool(ID_REPLACE, False)
+        self.Bind(wx.EVT_TOOL, self.on_replace, replace_tool)
         self.toolbar.Realize()
 
     def on_font(self):
@@ -605,6 +625,7 @@ class TextEditor(App):
 
     def on_new(self, event):
         self.message_box()
+        self.on_highlight_text(None)
 
     def on_open(self, event):
         dialog = FileDialog(self.window, "File Browser", "", "",
@@ -617,6 +638,7 @@ class TextEditor(App):
             self.text_input.SetValue(file_handle.read())
             file_handle.close()
             self.window.SetTitle(TXT_TITLE + self.file_name)
+        self.on_highlight_text(None)
 
     def on_save_as(self, event):
         entered = True
@@ -637,29 +659,36 @@ class TextEditor(App):
                     pass
             else:
                 entered = False
+        self.on_highlight_text(None)
 
     def on_undo(self, event):
         self.text_input.Undo()
+        self.on_highlight_text(None)
 
     def on_redo(self, event):
         self.text_input.Redo()
+        self.on_highlight_text(None)
 
     def on_cut(self, event):
         text = self.text_input.FindFocus()
         if text:
             text.Cut()
+            self.on_highlight_text(None)
 
     def on_copy(self, event):
         text = self.text_input.FindFocus()
         if text:
             text.Copy()
+            self.on_highlight_text(None)
 
     def on_paste(self, event):
         self.text_input.Paste()
+        self.on_highlight_text(None)
 
     def on_delete(self, event):
         frm, to = self.text_input.GetSelection()
         self.text_input.Remove(frm, to)
+        self.on_highlight_text(None)
 
     def on_find(self, event):
         message_box = TextEntryDialog(self.window, FIND_MESSAGE, FIND_TITLE,
@@ -681,6 +710,7 @@ class TextEditor(App):
                         current_line = find[2]
                         self.text_input.SetSelection(find[0] + current_line, find[1] + current_line)
                         break
+        self.on_highlight_text(None)
 
     def on_replace(self, event):
         if self.text_input.HasSelection():
@@ -692,6 +722,7 @@ class TextEditor(App):
                 self.text_input.Remove(frm, to)
                 self.text_input.SetInsertionPoint(frm)
                 self.text_input.WriteText(message_box.GetValue())
+        self.on_highlight_text(None)
 
     def on_replace_all(self, event):
         if self.text_input.HasSelection():
@@ -768,15 +799,21 @@ class TextEditor(App):
         if self.text_input.CanCut():
             self.toolbar.EnableTool(ID_CUT, True)
             self.cut.Enable(True)
+            self.toolbar.EnableTool(ID_COPY, True)
+            self.copy.Enable(True)
+            self.toolbar.EnableTool(ID_DELETE, True)
+            self.delete.Enable(True)
+            self.toolbar.EnableTool(ID_REPLACE, True)
+            self.replace.Enable(True)
         else:
             self.toolbar.EnableTool(ID_CUT, False)
             self.cut.Enable(False)
-        if self.text_input.CanCopy():
-            self.toolbar.EnableTool(ID_COPY, True)
-            self.copy.Enable(True)
-        else:
             self.toolbar.EnableTool(ID_COPY, False)
             self.copy.Enable(False)
+            self.toolbar.EnableTool(ID_DELETE, False)
+            self.delete.Enable(False)
+            self.toolbar.EnableTool(ID_REPLACE, False)
+            self.replace.Enable(False)
 
 
 app = TextEditor()
