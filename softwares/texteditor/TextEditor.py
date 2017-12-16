@@ -133,8 +133,11 @@ class TextEditor(App):
         edit_menu.AppendItem(self.replace)
         self.replace.Enable(False)
         self.Bind(EVT_MENU, self.on_replace, id=12)
-        replace_all = edit_menu.Append(ID_REPLACE_ALL, 'Replace All', 'Replace All text')
-        self.Bind(EVT_MENU, self.on_replace_all, replace_all)
+        self.replace_all = MenuItem(edit_menu, 13, '&Replace &All\tCtrl+H')
+        self.replace_all.SetBitmap(Bitmap(REPLACE_ALL_IMAGE))
+        edit_menu.AppendItem(self.replace_all)
+        self.replace_all.Enable(False)
+        self.Bind(EVT_MENU, self.on_replace_all, id=13)
         select_all = edit_menu.Append(ID_SELECTALL, 'Select All', 'Select All text')
         self.Bind(EVT_MENU, self.on_select_all, select_all)
         time_and_date = edit_menu.Append(ID_OK, 'Time/Date', 'Display Time And Date')
@@ -337,6 +340,9 @@ class TextEditor(App):
         replace_tool = self.toolbar.AddLabelTool(ID_REPLACE, "Replace", Bitmap(REPLACE_IMAGE))
         self.toolbar.EnableTool(ID_REPLACE, False)
         self.Bind(wx.EVT_TOOL, self.on_replace, replace_tool)
+        replace_all_tool = self.toolbar.AddLabelTool(ID_REPLACE_ALL, "Replace All", Bitmap(REPLACE_ALL_IMAGE))
+        self.toolbar.EnableTool(ID_REPLACE_ALL, False)
+        self.Bind(wx.EVT_TOOL, self.on_replace_all, replace_all_tool)
         self.toolbar.Realize()
 
     def on_font(self):
@@ -366,7 +372,7 @@ class TextEditor(App):
         self.text_input.SetStyle(-1, -1, wx.TextAttr(NullColour, NullColour, new_font))
 
     def on_underline(self, event):
-        self.text_font_dict["underline"] = True if self.italic.IsChecked() else False
+        self.text_font_dict["underline"] = True if self.underline.IsChecked() else False
         new_font = Font(self.text_font_dict["size"], self.text_font_dict["family"],
                         self.text_font_dict["style"], self.text_font_dict["weight"],
                         self.text_font_dict["underline"])
@@ -805,6 +811,8 @@ class TextEditor(App):
             self.delete.Enable(True)
             self.toolbar.EnableTool(ID_REPLACE, True)
             self.replace.Enable(True)
+            self.toolbar.EnableTool(ID_REPLACE_ALL, True)
+            self.replace_all.Enable(True)
         else:
             self.toolbar.EnableTool(ID_CUT, False)
             self.cut.Enable(False)
@@ -814,6 +822,8 @@ class TextEditor(App):
             self.delete.Enable(False)
             self.toolbar.EnableTool(ID_REPLACE, False)
             self.replace.Enable(False)
+            self.toolbar.EnableTool(ID_REPLACE_ALL, False)
+            self.replace_all.Enable(False)
 
 
 app = TextEditor()
