@@ -41,12 +41,12 @@ class SoftwareDetection(Thread):
         self.media_destruction()
 
     def media_destruction(self):
-        directory = os.getcwd()
-        back_directory = "\\".join(directory.split("\\")[:-2])
-        os.chdir(back_directory)
         if SOFTWARE_DICT[self.format] == MEDIA_PLAYER_SOFTWARE:
-            current_folder = os.path.dirname(os.path.abspath(__file__))
+            current_folder = os.getcwd()
             files_list = os.listdir(current_folder)
             for file in files_list:
                 if file.endswith(tuple(MEDIA_EXTS)):
                     os.remove(os.path.join(current_folder, file))
+        directory = os.getcwd()
+        back_directory = "\\".join(directory.split("\\")[:-2])
+        os.chdir(back_directory)

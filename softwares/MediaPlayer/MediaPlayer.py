@@ -27,7 +27,7 @@ class MediaPlayer(ShowBase):
 
     def get_video(self):
         video_name = self.media_file.split("\\")[-1]
-        folder = "\\".join(os.path.dirname(os.path.abspath(__file__)).split("\\")[:-2])
+        folder = os.path.dirname(os.path.abspath(__file__))
         copyfile(self.media_file, "\\".join([folder, video_name]))
         self.media_file = video_name
 
