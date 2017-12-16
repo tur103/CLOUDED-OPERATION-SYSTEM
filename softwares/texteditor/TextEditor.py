@@ -24,6 +24,7 @@ class TextEditor(App):
                                "underline": text_input_font.GetUnderlined()}
         self.create_menu_bar()
         self.Bind(EVT_TEXT, self.on_text_enter, source=self.text_input)
+        self.Bind(EVT_LEFT_UP, self.on_highlight_text, source=self.text_input)
         self.font = Font(15, DEFAULT, NORMAL, BOLD)
         self.add_title(CREDIT, (100, 700))
         self.window.Show(True)
@@ -76,22 +77,44 @@ class TextEditor(App):
     def create_menu_bar(self):
         menu_bar = MenuBar()
         file_menu = Menu()
-        new = file_menu.Append(ID_NEW, 'New', 'New file')
-        self.Bind(EVT_MENU, self.on_new, new)
-        open = file_menu.Append(ID_OPEN, 'Open', 'Open file')
-        self.Bind(EVT_MENU, self.on_open, open)
-        save_as = file_menu.Append(ID_SAVEAS, 'Save As', 'Save the file')
+        new = MenuItem(file_menu, 1, '&New\tCtrl+N')
+        new.SetBitmap(Bitmap(NEW_IMAGE))
+        file_menu.AppendItem(new)
+        self.Bind(EVT_MENU, self.on_new, id=1)
+        open = MenuItem(file_menu, 2, '&Open\tCtrl+O')
+        open.SetBitmap(Bitmap(OPEN_IMAGE))
+        file_menu.AppendItem(open)
+        self.Bind(EVT_MENU, self.on_open, id=2)
+        save_as = MenuItem(file_menu, 3, '&Save &As\tCtrl+S')
+        save_as.SetBitmap(Bitmap(SAVE_AS_IMAGE))
+        file_menu.AppendItem(save_as)
         self.Bind(EVT_MENU, self.on_save_as, save_as)
-        exit = file_menu.Append(ID_EXIT, 'Quit', 'Quit application')
-        self.Bind(EVT_MENU, self.on_quit, exit)
+        exit = MenuItem(file_menu, 4, '&Quit\tCtrl+Q')
+        exit.SetBitmap(Bitmap(QUIT_IMAGE))
+        file_menu.AppendItem(exit)
+        self.Bind(EVT_MENU, self.on_quit, id=4)
         menu_bar.Append(file_menu, '&File')
         edit_menu = Menu()
-        undo = edit_menu.Append(ID_UNDO, 'Undo', 'Undo text')
-        self.Bind(EVT_MENU, self.on_undo, undo)
-        cut = edit_menu.Append(ID_CUT, 'Cut', 'Cut text')
-        self.Bind(EVT_MENU, self.on_cut, cut)
-        copy = edit_menu.Append(ID_COPY, 'Copy', 'Copy text')
-        self.Bind(EVT_MENU, self.on_copy, copy)
+        self.undo = MenuItem(edit_menu, 5, '&Undo\tCtrl+Z')
+        self.undo.SetBitmap(Bitmap(UNDO_IMAGE))
+        edit_menu.AppendItem(self.undo)
+        self.undo.Enable(False)
+        self.Bind(EVT_MENU, self.on_undo, id=5)
+        self.redo = MenuItem(edit_menu, 6, '&Redo\tCtrl+Y')
+        self.redo.SetBitmap(Bitmap(REDO_IMAGE))
+        edit_menu.AppendItem(self.redo)
+        self.redo.Enable(False)
+        self.Bind(EVT_MENU, self.on_redo, id=6)
+        self.cut = MenuItem(edit_menu, 7, '&Cut\tCtrl+X')
+        self.cut.SetBitmap(Bitmap(CUT_IMAGE))
+        edit_menu.AppendItem(self.cut)
+        self.cut.Enable(False)
+        self.Bind(EVT_MENU, self.on_cut, id=7)
+        self.copy = MenuItem(edit_menu, 8, '&Copy\tCtrl+C')
+        self.copy.SetBitmap(Bitmap(COPY_IMAGE))
+        edit_menu.AppendItem(self.copy)
+        self.copy.Enable(False)
+        self.Bind(EVT_MENU, self.on_copy, id=8)
         paste = edit_menu.Append(ID_PASTE, 'Paste', 'Paste text')
         self.Bind(EVT_MENU, self.on_paste, paste)
         delete = edit_menu.Append(ID_DELETE, 'Delete', 'Delete text')
@@ -272,6 +295,29 @@ class TextEditor(App):
         style_menu.AppendMenu(ID_ANY, "&design", design)
         menu_bar.Append(style_menu, '&Style')
         self.window.SetMenuBar(menu_bar)
+        self.toolbar = self.window.CreateToolBar()
+        new_tool = self.toolbar.AddLabelTool(ID_NEW, "New", Bitmap(NEW_IMAGE))
+        self.Bind(wx.EVT_TOOL, self.on_new, new_tool)
+        open_tool = self.toolbar.AddLabelTool(ID_OPEN, "Open", Bitmap(OPEN_IMAGE))
+        self.Bind(wx.EVT_TOOL, self.on_open, open_tool)
+        save_as_tool = self.toolbar.AddLabelTool(ID_SAVEAS, "Save As", Bitmap(SAVE_AS_IMAGE))
+        self.Bind(wx.EVT_TOOL, self.on_save_as, save_as_tool)
+        quit_tool = self.toolbar.AddLabelTool(ID_EXIT, "Quit", Bitmap(QUIT_IMAGE))
+        self.Bind(wx.EVT_TOOL, self.on_quit, quit_tool)
+        self.toolbar.AddSeparator()
+        undo_tool = self.toolbar.AddLabelTool(ID_UNDO, "Undo", Bitmap(UNDO_IMAGE))
+        self.toolbar.EnableTool(ID_UNDO, False)
+        self.Bind(wx.EVT_TOOL, self.on_undo, undo_tool)
+        redo_tool = self.toolbar.AddLabelTool(ID_REDO, "Redo", Bitmap(REDO_IMAGE))
+        self.toolbar.EnableTool(ID_REDO, False)
+        self.Bind(wx.EVT_TOOL, self.on_redo, redo_tool)
+        cut_tool = self.toolbar.AddLabelTool(ID_CUT, "Cut", Bitmap(CUT_IMAGE))
+        self.toolbar.EnableTool(ID_CUT, False)
+        self.Bind(wx.EVT_TOOL, self.on_cut, cut_tool)
+        copy_tool = self.toolbar.AddLabelTool(ID_COPY, "Copy", Bitmap(COPY_IMAGE))
+        self.toolbar.EnableTool(ID_COPY, False)
+        self.Bind(wx.EVT_TOOL, self.on_copy, copy_tool)
+        self.toolbar.Realize()
 
     def on_font(self):
         new_font = Font(self.text_font_dict["size"], self.text_font_dict["family"],
@@ -595,6 +641,9 @@ class TextEditor(App):
     def on_undo(self, event):
         self.text_input.Undo()
 
+    def on_redo(self, event):
+        self.text_input.Redo()
+
     def on_cut(self, event):
         text = self.text_input.FindFocus()
         if text:
@@ -695,6 +744,39 @@ class TextEditor(App):
         file_handle = open(self.file_name, REGULAR_WRITING)
         self.data = data
         file_handle.write(self.data)
+        file_handle.close()
+        if self.text_input.CanUndo():
+            self.toolbar.EnableTool(ID_UNDO, True)
+            self.undo.Enable(True)
+        else:
+            self.toolbar.EnableTool(ID_UNDO, False)
+            self.undo.Enable(False)
+        if self.text_input.CanRedo():
+            self.toolbar.EnableTool(ID_REDO, True)
+            self.redo.Enable(True)
+        else:
+            self.toolbar.EnableTool(ID_REDO, False)
+            self.redo.Enable(False)
+        if self.text_input.CanCut():
+            self.toolbar.EnableTool(ID_CUT, True)
+            self.cut.Enable(True)
+        else:
+            self.toolbar.EnableTool(ID_CUT, False)
+            self.cut.Enable(False)
+
+    def on_highlight_text(self, event):
+        if self.text_input.CanCut():
+            self.toolbar.EnableTool(ID_CUT, True)
+            self.cut.Enable(True)
+        else:
+            self.toolbar.EnableTool(ID_CUT, False)
+            self.cut.Enable(False)
+        if self.text_input.CanCopy():
+            self.toolbar.EnableTool(ID_COPY, True)
+            self.copy.Enable(True)
+        else:
+            self.toolbar.EnableTool(ID_COPY, False)
+            self.copy.Enable(False)
 
 
 app = TextEditor()
