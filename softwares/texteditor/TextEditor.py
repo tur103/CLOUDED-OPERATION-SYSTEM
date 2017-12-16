@@ -706,15 +706,11 @@ class TextEditor(App):
                 text = self.text_input.GetValue()
                 findings = []
                 for match in re.finditer(text_to_search, text):
-                    word_line = len(text[:match.start()].split("\n")) - 1
-                    findings.append((match.start(), match.end(), word_line))
+                    findings.append((match.start(), match.end()))
                 cursor = self.text_input.GetInsertionPoint()
-                cursor_line = len(self.text_input.GetRange(0, self.text_input.GetInsertionPoint()).split("\n")) - 1
-                cursor -= cursor_line
                 for find in findings:
                     if find[1] >= cursor:
-                        current_line = find[2]
-                        self.text_input.SetSelection(find[0] + current_line, find[1] + current_line)
+                        self.text_input.SetSelection(find[0], find[1])
                         break
         self.on_highlight_text(None)
 
@@ -740,9 +736,11 @@ class TextEditor(App):
                 text = text.replace(self.text_input.GetStringSelection(), message_box.GetValue())
                 self.text_input.Clear()
                 self.text_input.SetValue(text)
+        self.on_highlight_text(None)
 
     def on_select_all(self, event):
         self.text_input.SetSelection(-1, -1)
+        self.on_highlight_text(None)
 
     def on_time_and_date(self, event):
         now = datetime.now()
@@ -755,6 +753,7 @@ class TextEditor(App):
         date = "/".join([day, month, year])
         time_and_date = " ".join([time, date])
         self.text_input.WriteText(time_and_date)
+        self.on_highlight_text(None)
 
     def message_box(self):
         entered = True
@@ -794,12 +793,7 @@ class TextEditor(App):
         else:
             self.toolbar.EnableTool(ID_REDO, False)
             self.redo.Enable(False)
-        if self.text_input.CanCut():
-            self.toolbar.EnableTool(ID_CUT, True)
-            self.cut.Enable(True)
-        else:
-            self.toolbar.EnableTool(ID_CUT, False)
-            self.cut.Enable(False)
+        self.on_highlight_text(None)
 
     def on_highlight_text(self, event):
         if self.text_input.CanCut():
