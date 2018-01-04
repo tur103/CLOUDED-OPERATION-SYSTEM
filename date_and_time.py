@@ -113,4 +113,8 @@ class DateAndTime(object):
         location = json.loads(json_string)
         country = location[COUNTRY_CODE]
         city = location[CITY_CODE]
+        if not city:
+            city = CITY
+        if not country:
+            country = COUNTRY
         return ", ".join([city, country])

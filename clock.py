@@ -120,5 +120,7 @@ if __name__ == "__main__":
     Config.set('graphics', 'position', 'custom')
     Config.set('graphics', 'left', 900)
     Config.set('graphics', 'top', 135)
+    Config.set('graphics', 'show_cursor', 0)
+    Config.set('kivy', 'window_icon', 'pictures/clock.png')
     thread.start_new_thread(stop_clock, ())
     MyClockApp().run()

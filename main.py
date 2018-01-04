@@ -57,6 +57,7 @@ class ShowcaseApp(App):
 
     def build(self):
         self.title = 'CLOUDED OPERATION SYSTEM'
+        self.icon = 'pictures/COS.png'
         self.screens = {}
         self.available_screens = ['CLOUDED OPERATION SYSTEM']
         self.screen_names = self.available_screens
@@ -259,4 +260,5 @@ kivy.require('1.9.0')
 Config.set('graphics', 'position', 'custom')
 Config.set('graphics', 'left', 85)
 Config.set('graphics', 'top', 150)
+Config.set('kivy', 'window_icon', 'pictures/COS.ico')
 ShowcaseApp().run()
