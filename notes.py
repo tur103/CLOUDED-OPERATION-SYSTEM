@@ -43,7 +43,7 @@ class MutableTextInput(FloatLayout):
     def view(self):
         self.clear_widgets()
         if not self.text:
-            self.w_label.text = "Double tap/click to edit"
+            self.w_label.text = "Double click to edit"
         self.add_widget(self.w_label)
 
     def check_focus_and_view(self, textinput):
@@ -62,7 +62,6 @@ class NoteView(Screen):
 class NoteListItem(BoxLayout):
 
     def __init__(self, **kwargs):
-        print(kwargs)
         del kwargs['index']
         super(NoteListItem, self).__init__(**kwargs)
     note_content = StringProperty()

@@ -60,10 +60,13 @@
                     size: self.size
 
             Button:
-                text: '<'
                 size_hint_x: None
                 width: self.height
                 on_release: app.go_notes()
+                Image:
+                    source: 'pictures\left_arrow.png'
+                    size: self.parent.size
+                    pos: self.parent.pos
 
             MutableLabelTextInput:
                 text: root.note_title
@@ -72,11 +75,13 @@
                 on_text: root.note_title = self.text
 
             Button:
-                text: 'X'
                 size_hint_x: None
                 width: self.height
                 on_release: app.del_note(root.note_index)
-
+                Image:
+                    source: 'pictures\garbage.png'
+                    size: self.parent.size
+                    pos: self.parent.pos
 
         MutableRstDocumentTextInput:
             text: root.note_content
@@ -102,10 +107,13 @@
             text: root.note_title
 
         Button:
-            text: '>'
             size_hint_x: None
             width: self.height
             on_release: app.edit_note(root.note_index)
+            Image:
+                source: 'pictures\left_image.png'
+                size: self.parent.size
+                pos: self.parent.pos
 
 <Notes>:
 
@@ -138,10 +146,13 @@
                 font_size: '16sp'
 
             Button:
-                text: '+'
                 size_hint_x: None
                 width: self.height
                 on_release: app.add_note()
+                Image:
+                    source: 'pictures\plus.png'
+                    size: self.parent.size
+                    pos: self.parent.pos
 
         ListView:
             adapter: ListAdapter(data=root.data, cls=Factory.NoteListItem, args_converter=root.args_converter)
