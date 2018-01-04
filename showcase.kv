@@ -53,6 +53,7 @@ BoxLayout:
                 with_previous: (False if sm.current_screen.name == 'button' else True) if sm.current_screen else False
                 title: ('' if not app.current_title else ' {}'.format(app.current_title))
                 on_release: app.go_hierarchy_previous()
+                app_icon: 'pictures/previous_page.png'
 
             ActionSpinner:
                 id: spnr
