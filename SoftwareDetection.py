@@ -35,8 +35,7 @@ class SoftwareDetection(Thread):
         the file according to it's format and sends the command.
 
         """
-        os.chdir("softwares")
-        os.chdir(SUB_DIR[self.format])
+        os.chdir(os.path.join(os.path.dirname(os.path.abspath(__file__)), SOFTWARES_FOLDER + SUB_DIR[self.format]))
         os.system(" ".join([PYTHON, SOFTWARE_DICT[self.format], '"' + self.file_name + '"']))
         self.media_destruction()
 
@@ -47,6 +46,3 @@ class SoftwareDetection(Thread):
             for file in files_list:
                 if file.endswith(tuple(MEDIA_EXTS)):
                     os.remove(os.path.join(current_folder, file))
-        directory = os.getcwd()
-        back_directory = "\\".join(directory.split("\\")[:-2])
-        os.chdir(back_directory)

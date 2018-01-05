@@ -58,6 +58,7 @@ DAY = "DAY"
 NIGHT = "NIGHT"
 
 WINDOWS_JOIN = "\\"
+SOFTWARES_FOLDER = "softwares/"
 FILES_EXTENSIONS = [".txt", ".mp4", ".avi", ".mov", ".wav", ".jpg", ".png"]
 MEDIA_EXTS = [".mp4", ".avi", ".mov", ".wav"]
 PHOTO_EXTS = [".jpg", ".png"]

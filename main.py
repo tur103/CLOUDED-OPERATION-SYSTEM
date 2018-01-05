@@ -44,6 +44,9 @@ class ShowcaseScreen(Screen):
         temperatures = DateAndTime.get_temperature()
         return date + SPACES + day + DOWNLINES + SPACESS + temperatures + CELSIUS_SIGN
 
+    def get_folder(self):
+        return os.path.join(os.path.dirname(os.path.abspath(__file__)), FOLDER_NAME).lower()
+
 
 class ShowcaseApp(App):
 
