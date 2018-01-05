@@ -1,0 +1,196 @@
+CalendarScreen:
+
+    title: title
+    location: location
+    description: description
+    time_zone: time_zone
+    start_year: start_year
+    start_month: start_month
+    start_day: start_day
+    start_hour: start_hour
+    start_minute: start_minute
+    start_second: start_second
+    end_year: end_year
+    end_month: end_month
+    end_day: end_day
+    end_hour: end_hour
+    end_minute: end_minute
+    end_second: end_second
+    recurrence: recurrence
+    reminder_method: reminder_method
+    reminder_time: reminder_time
+    box: box
+
+    name: 'CALENDAR'
+    fullscreen: True
+    BoxLayout:
+        orientation: 'horizontal'
+        BoxLayout:
+            id: box
+            size_hint_x: 1
+            orientation: 'vertical'
+            BoxLayout:
+                size_hint_y: 1
+                orientation: 'horizontal'
+                Label:
+                    size_hint_x: 1
+                    text: "Title"
+                TextInput:
+                    id: title
+                    size_hint_x: 1
+                    multiline: False
+                    focus: True
+            BoxLayout:
+                size_hint_y: 1
+                orientation: 'horizontal'
+                Label:
+                    size_hint_x: 1
+                    text: "Location"
+                TextInput:
+                    id: location
+                    size_hint_x: 1
+                    multiline: False
+            BoxLayout:
+                size_hint_y: 1
+                orientation: 'horizontal'
+                Label:
+                    size_hint_x: 1
+                    text: "Description"
+                TextInput:
+                    id: description
+                    size_hint_x: 1
+                    multiline: False
+            BoxLayout:
+                size_hint_y: 1
+                orientation: 'horizontal'
+                Label:
+                    size_hint_x: 1
+                    text: "Time Zone"
+                TextInput:
+                    id: time_zone
+                    size_hint_x: 1
+                    multiline: False
+                    text: root.get_time_zone()
+                    disabled: True
+            BoxLayout:
+                size_hint_y: 1
+                orientation: 'horizontal'
+                Label:
+                    size_hint_x: 3
+                    text: "Start Date"
+                Spinner:
+                    id: start_year
+                    size_hint_x: 1
+                    text: 'Year'
+                    values: ('2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030', '2031', '2032', '2033', '2034', '2035', '2036', '2037')
+                Spinner:
+                    id: start_month
+                    size_hint_x: 1
+                    text: 'Month'
+                    values: ('01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12')
+                Spinner:
+                    size_hint_x: 1
+                    id: start_day
+                    text: 'Day'
+                    values: ('01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31')
+            BoxLayout:
+                size_hint_y: 1
+                orientation: 'horizontal'
+                Label:
+                    size_hint_x: 3
+                    text: "Start Time"
+                Spinner:
+                    size_hint_x: 1
+                    id: start_hour
+                    text: 'Hours'
+                    values: ('00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23')
+                Spinner:
+                    size_hint_x: 1
+                    id: start_minute
+                    text: 'Minutes'
+                    values: ('00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52', '53', '54', '55', '56', '57', '58', '59')
+                Spinner:
+                    size_hint_x: 1
+                    id: start_second
+                    text: 'Seconds'
+                    values: ('00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52', '53', '54', '55', '56', '57', '58', '59')
+            BoxLayout:
+                size_hint_y: 1
+                orientation: 'horizontal'
+                Label:
+                    size_hint_x: 3
+                    text: "End Date"
+                Spinner:
+                    id: end_year
+                    size_hint_x: 1
+                    text: 'Year'
+                    values: ('2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030', '2031', '2032', '2033', '2034', '2035', '2036', '2037')
+                Spinner:
+                    id: end_month
+                    size_hint_x: 1
+                    text: 'Month'
+                    values: ('01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12')
+                Spinner:
+                    size_hint_x: 1
+                    id: end_day
+                    text: 'Day'
+                    values: ('01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31')
+            BoxLayout:
+                size_hint_y: 1
+                orientation: 'horizontal'
+                Label:
+                    size_hint_x: 3
+                    text: "End Time"
+                Spinner:
+                    size_hint_x: 1
+                    id: end_hour
+                    text: 'Hours'
+                    values: ('00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23')
+                Spinner:
+                    size_hint_x: 1
+                    id: end_minute
+                    text: 'Minutes'
+                    values: ('00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52', '53', '54', '55', '56', '57', '58', '59')
+                Spinner:
+                    size_hint_x: 1
+                    id: end_second
+                    text: 'Seconds'
+                    values: ('00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52', '53', '54', '55', '56', '57', '58', '59')
+            BoxLayout:
+                size_hint_y: 1
+                orientation: 'horizontal'
+                Label:
+                    size_hint_x: 1
+                    text: "Recurrence"
+                Spinner:
+                    size_hint_x: 1
+                    id: recurrence
+                    text: 'None'
+                    values: ('None', 'DAILY', 'WEEKLY', 'MONTHLY', 'YEARLY')
+            BoxLayout:
+                size_hint_y: 1
+                orientation: 'horizontal'
+                Label:
+                    size_hint_x: 2
+                    text: "Reminder"
+                Spinner:
+                    size_hint_x: 1
+                    id: reminder_method
+                    text: 'Method'
+                    values: ('None', 'email', 'popup')
+                Spinner:
+                    size_hint_x: 1
+                    id: reminder_time
+                    text: 'Before'
+                    values: ('None', '10 minutes', '30 minutes', '1 hours', '2 hours', '1 days', '2 days', '1 weeks', '2 weeks')
+            Button:
+                size_hint_y: 2
+                on_release: root.new_event()
+                background_color: 0, 0, 0, 0
+                Image:
+                    source: 'pictures\calendar.ico'
+                    size: self.parent.size
+                    pos: self.parent.pos
+
+        BoxLayout:
+            size_hint_x: 1

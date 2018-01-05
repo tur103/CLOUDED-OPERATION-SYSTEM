@@ -63,6 +63,7 @@
                 size_hint_x: None
                 width: self.height
                 on_release: app.go_notes()
+                background_color: 0, 0, 0, 0
                 Image:
                     source: 'pictures\left_arrow.png'
                     size: self.parent.size
@@ -78,6 +79,7 @@
                 size_hint_x: None
                 width: self.height
                 on_release: app.del_note(root.note_index)
+                background_color: 0, 0, 0, 0
                 Image:
                     source: 'pictures\garbage.png'
                     size: self.parent.size
@@ -110,6 +112,7 @@
             size_hint_x: None
             width: self.height
             on_release: app.edit_note(root.note_index)
+            background_color: 0, 0, 0, 0
             Image:
                 source: 'pictures\left_image.png'
                 size: self.parent.size
@@ -149,6 +152,7 @@
                 size_hint_x: None
                 width: self.height
                 on_release: app.add_note()
+                background_color: 0, 0, 0, 0
                 Image:
                     source: 'pictures\plus.png'
                     size: self.parent.size

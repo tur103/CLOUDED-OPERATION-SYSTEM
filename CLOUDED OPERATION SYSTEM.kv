@@ -23,6 +23,12 @@ ShowcaseScreen:
                 size_hint_x: 2
             Button:
                 size_hint_x: 1
+                on_release: app.go_screen(1)
+                background_color: 0, 0, 0, 0
+                Image:
+                    source: 'pictures\calendar.ico'
+                    size: self.parent.size
+                    pos: self.parent.pos
             Button:
                 size_hint_x: 1
         BoxLayout:
