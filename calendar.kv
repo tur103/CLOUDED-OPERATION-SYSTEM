@@ -1,3 +1,6 @@
+#:import lv kivy.uix.listview
+#:import la kivy.adapters.listadapter
+
 CalendarScreen:
 
     title: title
@@ -35,6 +38,8 @@ CalendarScreen:
                 Label:
                     size_hint_x: 1
                     text: "Title"
+                    font_size: 24
+                    bold: True
                 TextInput:
                     id: title
                     size_hint_x: 1
@@ -46,6 +51,8 @@ CalendarScreen:
                 Label:
                     size_hint_x: 1
                     text: "Location"
+                    font_size: 24
+                    bold: True
                 TextInput:
                     id: location
                     size_hint_x: 1
@@ -56,6 +63,8 @@ CalendarScreen:
                 Label:
                     size_hint_x: 1
                     text: "Description"
+                    font_size: 24
+                    bold: True
                 TextInput:
                     id: description
                     size_hint_x: 1
@@ -66,6 +75,8 @@ CalendarScreen:
                 Label:
                     size_hint_x: 1
                     text: "Time Zone"
+                    font_size: 24
+                    bold: True
                 TextInput:
                     id: time_zone
                     size_hint_x: 1
@@ -78,6 +89,8 @@ CalendarScreen:
                 Label:
                     size_hint_x: 3
                     text: "Start Date"
+                    font_size: 24
+                    bold: True
                 Spinner:
                     id: start_year
                     size_hint_x: 1
@@ -99,6 +112,8 @@ CalendarScreen:
                 Label:
                     size_hint_x: 3
                     text: "Start Time"
+                    font_size: 24
+                    bold: True
                 Spinner:
                     size_hint_x: 1
                     id: start_hour
@@ -120,6 +135,8 @@ CalendarScreen:
                 Label:
                     size_hint_x: 3
                     text: "End Date"
+                    font_size: 24
+                    bold: True
                 Spinner:
                     id: end_year
                     size_hint_x: 1
@@ -141,6 +158,8 @@ CalendarScreen:
                 Label:
                     size_hint_x: 3
                     text: "End Time"
+                    font_size: 24
+                    bold: True
                 Spinner:
                     size_hint_x: 1
                     id: end_hour
@@ -162,6 +181,8 @@ CalendarScreen:
                 Label:
                     size_hint_x: 1
                     text: "Recurrence"
+                    font_size: 24
+                    bold: True
                 Spinner:
                     size_hint_x: 1
                     id: recurrence
@@ -173,6 +194,8 @@ CalendarScreen:
                 Label:
                     size_hint_x: 2
                     text: "Reminder"
+                    font_size: 24
+                    bold: True
                 Spinner:
                     size_hint_x: 1
                     id: reminder_method
@@ -188,9 +211,25 @@ CalendarScreen:
                 on_release: root.new_event()
                 background_color: 0, 0, 0, 0
                 Image:
-                    source: 'pictures\calendar.ico'
+                    source: 'pictures\event.ico'
                     size: self.parent.size
                     pos: self.parent.pos
 
         BoxLayout:
+            size_hint_x: 0.2
+
+        BoxLayout:
             size_hint_x: 1
+            orientation: 'vertical'
+            Label:
+                size_hint_y: 1
+                Image:
+                    source: 'pictures\up_events.png'
+                    size: self.parent.size
+                    pos: self.parent.pos
+            ListView:
+                size_hint_y: 5
+                adapter:
+                    la.ListAdapter(
+                    data=root.show_upcoming_events(),
+                    cls=lv.ListItemButton)

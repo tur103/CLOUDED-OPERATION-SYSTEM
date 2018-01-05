@@ -205,6 +205,27 @@ class CalendarScreen(Screen):
         self.reminder_method.text = "Method"
         self.reminder_time.text = "Before"
 
+    def show_upcoming_events(self):
+        """Shows basic usage of the Google Calendar API.
+
+        Creates a Google Calendar API service object and outputs a list of the next
+        10 events on the user's calendar.
+        """
+        credentials = self.get_credentials()
+        http = credentials.authorize(httplib2.Http())
+        service = discovery.build('calendar', 'v3', http=http)
+
+        now = datetime.datetime.utcnow().isoformat() + 'Z'  # 'Z' indicates UTC time
+        eventsResult = service.events().list(
+            calendarId='primary', timeMin=now, maxResults=10, singleEvents=True,
+            orderBy='startTime').execute()
+        events = eventsResult.get('items', [])
+
+        list_of_events = []
+        for event in events:
+            list_of_events.append(event['summary'] + "  " + event['start'].get('dateTime', event['start'].get('date')))
+        return list_of_events
+
 
 class ShowcaseApp(App):
 
