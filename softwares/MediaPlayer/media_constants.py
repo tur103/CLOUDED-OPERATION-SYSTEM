@@ -1,3 +1,6 @@
+MEDIA_TITLE = "MEDIA PLAYER -> "
+MEDIA_ICON = "media.ico"
+
 READING = "rb"
 WRITING = "wb"
 AUDIO_LIBRARY = "audio-library-name p3openal_audio"

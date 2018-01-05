@@ -6,6 +6,8 @@ from shutil import copyfile
 import os
 from media_constants import *
 
+from pandac.PandaModules import WindowProperties
+
 
 class MediaPlayer(ShowBase):
     def __init__(self, media_file):
@@ -16,6 +18,10 @@ class MediaPlayer(ShowBase):
         # Initialize the ShowBase class from which we inherit, which will
         # create a window and set up everything we need for rendering into it.
         ShowBase.__init__(self)
+        props = WindowProperties()
+        props.setTitle(MEDIA_TITLE + media_file)
+        props.setIconFilename(MEDIA_ICON)
+        self.win.requestProperties(props)
         self.display_text()
         self.tex = None
         self.load_texture()
