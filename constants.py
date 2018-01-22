@@ -3,6 +3,7 @@ import ipgetter
 
 MY_IP = ipgetter.myip()
 FOLDER_NAME = "system_folder"
+MAIN_FOLDER = os.path.dirname(os.path.realpath(__file__))
 SYSTEM_FOLDER = os.path.join(os.path.dirname(os.path.realpath(__file__)), FOLDER_NAME)
 FILE_LIST_DIRECTORY = 1
 BUFFER = 1024
@@ -84,9 +85,10 @@ CLOSE_NOTES_NOW = "CLOSE NOTES NOW"
 
 CLOSE_SOUND = "sounds/close_sound.wav"
 
-SCREEN_PROGRAM = "main.py"
+SCREEN_PROGRAM = "CloudedOperationSystem.py"
 CLOCK_PROGRAM = "clock.py"
 NOTES_PROGRAM = "notes.py"
+CALCULATOR_PROGRAM = "softwares/calculator/calculator.py"
 
 VERIFICATION = "VERIFICATION"
 NONE = "NONE"

@@ -20,7 +20,7 @@ HomeScreen:
                 text: root.get_date()
         BoxLayout:
             Label:
-                size_hint_x: 2
+                size_hint_x: 3
             Button:
                 size_hint_x: 1
                 on_release: app.go_screen(1)
@@ -31,16 +31,26 @@ HomeScreen:
                     pos: self.parent.pos
             Button:
                 size_hint_x: 1
+                on_release: root.open_calculator()
+                background_color: 0, 0, 0, 0
+                Image:
+                    source: 'softwares/calculator\calculator.png'
+                    size: self.parent.size
+                    pos: self.parent.pos
+            Button:
+                size_hint_x: 1
         BoxLayout:
             FileChooser:
                 rootpath: 'c:/'
                 path: root.get_folder()
-                size_hint_x: 2
+                size_hint_x: 3
                 size_hint_y: None
                 height: "14.5cm"
                 id: filechooser
                 on_selection: root.selection_updated(self.selection)
                 FileChooserIconLayout
+            Button:
+                size_hint_x: 1
             Button:
                 size_hint_x: 1
             Button:

@@ -9,7 +9,7 @@ import math
 class CalculatorApp(App):
     def build(self):
         self.title = 'Calculator'
-        self.icon = 'pictures/COS.png'
+        self.icon = 'calculator.png'
 
 
 class CalculatorScreen(Screen):
@@ -109,5 +109,5 @@ class CalculatorScreen(Screen):
 kivy.require('1.9.0')
 Config.set('graphics', 'width', '280')
 Config.set('graphics', 'height', '380')
-Config.set('kivy', 'window_icon', 'pictures/COS.ico')
+Config.set('kivy', 'window_icon', 'calculator.png')
 CalculatorApp().run()
