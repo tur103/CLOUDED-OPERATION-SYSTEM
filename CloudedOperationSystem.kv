@@ -19,7 +19,7 @@
 <ActionDropdown>:
     on_size: self.width = '220dp'
 
-<ShowcaseScreen>:
+<HomeScreen>:
     ScrollView:
         do_scroll_x: False
         do_scroll_y: False if root.fullscreen else (content.height > root.height - dp(16))
@@ -51,7 +51,7 @@ BoxLayout:
             id: av
             ActionPrevious:
                 with_previous: (False if sm.current_screen.name == 'button' else True) if sm.current_screen else False
-                title: ('' if not app.current_title else ' {}'.format(app.current_title))
+                title: 'CLOUDED OPERATION SYSTEM'
                 on_release: app.go_hierarchy_previous()
                 app_icon: 'pictures/previous_page.png'
 
