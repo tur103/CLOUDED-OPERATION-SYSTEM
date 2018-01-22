@@ -1,0 +1,399 @@
+CalculatorScreen:
+
+    upper_string: upper_string
+    lower_string: lower_string
+
+    name: 'Calculator'
+    fullscreen: True
+
+    BoxLayout:
+        orientation: "vertical"
+
+        Label:
+            size_hint_y: 2
+            canvas.before:
+                Color:
+                    rgb: .25, .69, .65
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            text: 'Calc.'
+            color: 0, 0, 0, 1
+            font_size: 22
+            bold: True
+
+        Label:
+            id: upper_string
+            size_hint_y: 0.5
+            canvas.before:
+                Color:
+                    rgb: 1, 1, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            text: ""
+            color: 0, 0, 0, 1
+            font_size: 14
+            text_size: self.size
+            halign: "right"
+
+        Label:
+            id: lower_string
+            size_hint_y: 1
+            canvas.before:
+                Color:
+                    rgb: 1, 1, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            text: "0"
+            color: 0, 0, 0, 1
+            font_size: 22
+            text_size: self.size
+            halign: "right"
+
+        BoxLayout:
+            size_hint_y: 1
+            orientation: "horizontal"
+
+            Button:
+                size_hint_x: 1
+                canvas.before:
+                    Color:
+                        rgb: .439, .737, .686
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                background_color: 0, 0, 0, 0
+                text: "<-"
+                color: 0, 0, 0, 1
+                font_size: 20
+                on_release: root.back_clicked()
+
+            Button:
+                size_hint_x: 1
+                canvas.before:
+                    Color:
+                        rgb: .439, .737, .686
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                background_color: 0, 0, 0, 0
+                text: "C"
+                color: 0, 0, 0, 1
+                font_size: 20
+                on_release: root.clear_all_clicked()
+
+            Button:
+                size_hint_x: 1
+                canvas.before:
+                    Color:
+                        rgb: .439, .737, .686
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                background_color: 0, 0, 0, 0
+                text: "CE"
+                color: 0, 0, 0, 1
+                font_size: 20
+                on_release: root.clear_clicked()
+
+            Button:
+                size_hint_x: 1
+                canvas.before:
+                    Color:
+                        rgb: .03, .5, .42
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                background_color: 0, 0, 0, 0
+                text: "+/-"
+                color: 0, 0, 0, 1
+                font_size: 20
+                on_release: root.negative_clicked()
+
+        BoxLayout:
+            size_hint_y: 1
+            orientation: "horizontal"
+
+            Button:
+                size_hint_x: 1
+                canvas.before:
+                    Color:
+                        rgb: .439, .737, .686
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                background_color: 0, 0, 0, 0
+                text: "√"
+                color: 0, 0, 0, 1
+                font_size: 20
+                on_release: root.square_clicked()
+
+            Button:
+                size_hint_x: 1
+                canvas.before:
+                    Color:
+                        rgb: .439, .737, .686
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                background_color: 0, 0, 0, 0
+                text: "1/x"
+                color: 0, 0, 0, 1
+                font_size: 20
+                on_release: root.one_divided_by_clicked()
+
+            Button:
+                size_hint_x: 1
+                canvas.before:
+                    Color:
+                        rgb: .439, .737, .686
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                background_color: 0, 0, 0, 0
+                text: "%"
+                color: 0, 0, 0, 1
+                font_size: 20
+                on_release: root.percent_clicked()
+
+            Button:
+                size_hint_x: 1
+                canvas.before:
+                    Color:
+                        rgb: .03, .5, .42
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                background_color: 0, 0, 0, 0
+                text: "÷"
+                color: 0, 0, 0, 1
+                font_size: 20
+                on_release: root.arithmetic_clicked("/")
+
+        BoxLayout:
+            size_hint_y: 1
+            orientation: "horizontal"
+
+            Button:
+                size_hint_x: 1
+                canvas.before:
+                    Color:
+                        rgb: .25, .69, .65
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                background_color: 0, 0, 0, 0
+                text: "7"
+                color: 0, 0, 0, 1
+                font_size: 20
+                on_release: root.digit_clicked("7")
+
+            Button:
+                size_hint_x: 1
+                canvas.before:
+                    Color:
+                        rgb: .25, .69, .65
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                background_color: 0, 0, 0, 0
+                text: "8"
+                color: 0, 0, 0, 1
+                font_size: 20
+                on_release: root.digit_clicked("8")
+
+            Button:
+                size_hint_x: 1
+                canvas.before:
+                    Color:
+                        rgb: .25, .69, .65
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                background_color: 0, 0, 0, 0
+                text: "9"
+                color: 0, 0, 0, 1
+                font_size: 20
+                on_release: root.digit_clicked("9")
+
+            Button:
+                size_hint_x: 1
+                canvas.before:
+                    Color:
+                        rgb: .03, .5, .42
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                background_color: 0, 0, 0, 0
+                text: "x"
+                color: 0, 0, 0, 1
+                font_size: 20
+                on_release: root.arithmetic_clicked("*")
+
+        BoxLayout:
+            size_hint_y: 1
+            orientation: "horizontal"
+
+            Button:
+                size_hint_x: 1
+                canvas.before:
+                    Color:
+                        rgb: .25, .69, .65
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                background_color: 0, 0, 0, 0
+                text: "4"
+                color: 0, 0, 0, 1
+                font_size: 20
+                on_release: root.digit_clicked("4")
+
+            Button:
+                size_hint_x: 1
+                canvas.before:
+                    Color:
+                        rgb: .25, .69, .65
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                background_color: 0, 0, 0, 0
+                text: "5"
+                color: 0, 0, 0, 1
+                font_size: 20
+                on_release: root.digit_clicked("5")
+
+            Button:
+                size_hint_x: 1
+                canvas.before:
+                    Color:
+                        rgb: .25, .69, .65
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                background_color: 0, 0, 0, 0
+                text: "6"
+                color: 0, 0, 0, 1
+                font_size: 20
+                on_release: root.digit_clicked("6")
+
+            Button:
+                size_hint_x: 1
+                canvas.before:
+                    Color:
+                        rgb: .03, .5, .42
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                background_color: 0, 0, 0, 0
+                text: "-"
+                color: 0, 0, 0, 1
+                font_size: 20
+                on_release: root.arithmetic_clicked("-")
+
+        BoxLayout:
+            size_hint_y: 1
+            orientation: "horizontal"
+
+            Button:
+                size_hint_x: 1
+                canvas.before:
+                    Color:
+                        rgb: .25, .69, .65
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                background_color: 0, 0, 0, 0
+                text: "1"
+                color: 0, 0, 0, 1
+                font_size: 20
+                on_release: root.digit_clicked("1")
+
+            Button:
+                size_hint_x: 1
+                canvas.before:
+                    Color:
+                        rgb: .25, .69, .65
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                background_color: 0, 0, 0, 0
+                text: "2"
+                color: 0, 0, 0, 1
+                font_size: 20
+                on_release: root.digit_clicked("2")
+
+            Button:
+                size_hint_x: 1
+                canvas.before:
+                    Color:
+                        rgb: .25, .69, .65
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                background_color: 0, 0, 0, 0
+                text: "3"
+                color: 0, 0, 0, 1
+                font_size: 20
+                on_release: root.digit_clicked("3")
+
+            Button:
+                size_hint_x: 1
+                canvas.before:
+                    Color:
+                        rgb: .03, .5, .42
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                background_color: 0, 0, 0, 0
+                text: "+"
+                color: 0, 0, 0, 1
+                font_size: 20
+                on_release: root.arithmetic_clicked("+")
+
+        BoxLayout:
+            size_hint_y: 1
+            orientation: "horizontal"
+
+            Button:
+                size_hint_x: 2
+                canvas.before:
+                    Color:
+                        rgb: .25, .69, .65
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                background_color: 0, 0, 0, 0
+                text: "0"
+                color: 0, 0, 0, 1
+                font_size: 20
+                on_release: root.digit_clicked("0")
+
+            Button:
+                size_hint_x: 1
+                canvas.before:
+                    Color:
+                        rgb: .25, .69, .65
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                background_color: 0, 0, 0, 0
+                text: "."
+                color: 0, 0, 0, 1
+                font_size: 20
+                on_release: root.digit_clicked(".")
+
+            Button:
+                size_hint_x: 1
+                canvas.before:
+                    Color:
+                        rgb: .03, .5, .42
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                background_color: 0, 0, 0, 0
+                text: "="
+                color: 0, 0, 0, 1
+                font_size: 20
+                on_release: root.equal_clicked()
