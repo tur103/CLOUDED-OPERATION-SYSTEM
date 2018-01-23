@@ -26,6 +26,8 @@ class SoftwareDetection(Thread):
 
         """
         self.format = self.file_name.split("\\")[-1].split(".")[-1]
+        if self.format == NULL:
+            self.format = "txt"
         self.execute_software()
 
     def execute_software(self):

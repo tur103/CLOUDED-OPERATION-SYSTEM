@@ -15,9 +15,12 @@ class HomeScreen(Screen):
 
     def selection_updated(self, selection):
         if selection:
-            file_name = selection[0]
-            if file_name.endswith(tuple(FILES_EXTENSIONS)):
-                software = SoftwareDetection(file_name)
+            if selection == NULL:
+                SoftwareDetection(selection)
+            else:
+                file_name = selection[0]
+                if file_name.endswith(tuple(FILES_EXTENSIONS)):
+                    SoftwareDetection(file_name)
 
     def get_picture(self):
         status, part_of_day = DateAndTime.get_weather_status()

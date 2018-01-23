@@ -39,6 +39,12 @@ HomeScreen:
                     pos: self.parent.pos
             Button:
                 size_hint_x: 1
+                on_release: root.selection_updated("null")
+                background_color: 0, 0, 0, 0
+                Image:
+                    source: 'softwares/TextEditor/data/txt.ico'
+                    size: self.parent.size
+                    pos: self.parent.pos
         BoxLayout:
             FileChooser:
                 rootpath: 'c:/'
