@@ -678,6 +678,8 @@ class TextEditor(App):
 
     def on_new(self, event):
         self.message_box()
+        if not self.file_name:
+            sys.exit()
         self.on_highlight_text(None)
 
     def on_open(self, event):
