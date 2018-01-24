@@ -66,8 +66,10 @@ PHOTO_EXTS = [".jpg", ".png"]
 PYTHON = "python"
 SUB_DIR = {"txt": "TextEditor"}
 SUB_DIR.update(dict.fromkeys(["mp4", "avi", "mov", "wav"], "MediaPlayer"))
+SUB_DIR.update(dict.fromkeys(["jpg", "png"], "PhotoViewer"))
 SOFTWARE_DICT = {"txt": "TextEditor.py"}
 SOFTWARE_DICT.update(dict.fromkeys(["mp4", "avi", "mov", "wav"], "MediaPlayer.py"))
+SOFTWARE_DICT.update(dict.fromkeys(["jpg", "png"], "PhotoViewer.py"))
 MEDIA_PLAYER_SOFTWARE = "MediaPlayer.py"
 MEDIA_PLAYER_FOLDER = "softwares/MediaPlayer"
 TXTEXT = ".txt"
