@@ -26,6 +26,7 @@ class PhotoViewer(object):
         self.list_of_photos = self.get_all_photos()
         self.is_gray = False
         self.is_face = False
+        self.rotation = 0
         self.display_image()
 
     def resize_image(self):
@@ -79,9 +80,14 @@ class PhotoViewer(object):
                 self.is_gray = False
                 self.is_face = False
                 self.previous_image()
+            elif key == RIGHT:
+                self.rotate_right()
+            elif key == LEFT:
+                self.rotate_left()
             if self.slide_show and key == EXIT:
                 self.is_gray = False
                 self.is_face = False
+                self.rotation = 0
                 self.replace_image()
 
     def replace_image(self):
@@ -100,6 +106,24 @@ class PhotoViewer(object):
         index = list_length - 1 if index < 0 else index
         self.file_name = self.list_of_photos[index]
         self.image = self.get_image()
+
+    def rotate_right(self):
+        self.rotation += 1
+        self.rotation = 0 if self.rotation > 3 else self.rotation
+        self.image = self.get_image()
+        for rotaions in range(self.rotation):
+            rows, cols, type = self.image.shape
+            rotation = cv2.getRotationMatrix2D((cols / 2, rows / 2), 270, 1)
+            self.image = cv2.warpAffine(self.image, rotation, (cols, rows))
+
+    def rotate_left(self):
+        self.rotation -= 1
+        self.rotation = 3 if self.rotation < 0 else self.rotation
+        self.image = self.get_image()
+        for rotaions in range(4 - self.rotation):
+            rows, cols, type = self.image.shape
+            rotation = cv2.getRotationMatrix2D((cols / 2, rows / 2), 90, 1)
+            self.image = cv2.warpAffine(self.image, rotation, (cols, rows))
 
     def find_faces(self):
         if self.is_face:
