@@ -15,6 +15,9 @@ class PhotoViewer(object):
         F: Display/Hide face recognition.
         N: Go to Next image.
         P: Go to Previous image.
+        R: Rotate the image to the Right.
+        L: Rotate the image to the Left.
+        S: Save the image.
 
     """
 
@@ -70,6 +73,7 @@ class PhotoViewer(object):
                 self.slide_show = True if not self.slide_show else False
             elif key == GRAY:
                 self.set_image_colorful() if self.is_gray else self.set_image_gray()
+                self.rotation = 0
             elif key == FACE:
                 self.find_faces()
             elif key == NEXT:
@@ -81,9 +85,17 @@ class PhotoViewer(object):
                 self.is_face = False
                 self.previous_image()
             elif key == RIGHT:
+                self.rotation += 1
                 self.rotate_right()
+                self.is_gray = False
+                self.is_face = False
             elif key == LEFT:
+                self.rotation -= 1
                 self.rotate_left()
+                self.is_gray = False
+                self.is_face = False
+            elif key == SAVE:
+                self.save_image()
             if self.slide_show and key == EXIT:
                 self.is_gray = False
                 self.is_face = False
@@ -108,7 +120,6 @@ class PhotoViewer(object):
         self.image = self.get_image()
 
     def rotate_right(self):
-        self.rotation += 1
         self.rotation = 0 if self.rotation > 3 else self.rotation
         self.image = self.get_image()
         for rotaions in range(self.rotation):
@@ -117,17 +128,25 @@ class PhotoViewer(object):
             self.image = cv2.warpAffine(self.image, rotation, (cols, rows))
 
     def rotate_left(self):
-        self.rotation -= 1
         self.rotation = 3 if self.rotation < 0 else self.rotation
         self.image = self.get_image()
-        for rotaions in range(4 - self.rotation):
+        for rotations in range(4 - self.rotation):
             rows, cols, type = self.image.shape
             rotation = cv2.getRotationMatrix2D((cols / 2, rows / 2), 90, 1)
             self.image = cv2.warpAffine(self.image, rotation, (cols, rows))
 
+    def save_image(self):
+        self.image = self.get_image()
+        if self.is_gray:
+            self.set_image_gray()
+        elif self.rotation > 0:
+            self.rotate_right()
+        cv2.imwrite(self.file_name, self.image)
+
     def find_faces(self):
         if self.is_face:
             self.image = self.get_image()
+            self.rotation = 0
             self.is_face = False
             if self.is_gray:
                 self.set_image_gray()

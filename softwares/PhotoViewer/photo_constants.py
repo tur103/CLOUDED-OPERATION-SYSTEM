@@ -15,5 +15,6 @@ NEXT = 110
 PREVIOUS = 112
 RIGHT = 114
 LEFT = 108
+SAVE = 115
 
 FACE_CASCADE = cv2.CascadeClassifier(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'haarcascades/haarcascade_frontalface_default.xml'))
