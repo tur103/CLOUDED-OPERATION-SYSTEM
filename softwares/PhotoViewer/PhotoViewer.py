@@ -3,6 +3,7 @@ import sys
 from photo_constants import *
 import glob
 import os
+import numpy as np
 
 
 class PhotoViewer(object):
@@ -18,6 +19,8 @@ class PhotoViewer(object):
         R: Rotate the image to the Right.
         L: Rotate the image to the Left.
         S: Save the image.
+        Z: Zoom In/Out.
+        B: Blur/UnBlur the image
 
     """
 
@@ -30,6 +33,8 @@ class PhotoViewer(object):
         self.is_gray = False
         self.is_face = False
         self.rotation = 0
+        self.zoom = False
+        self.blur = False
         self.display_image()
 
     def resize_image(self):
@@ -66,7 +71,6 @@ class PhotoViewer(object):
             self.add_credits()
             cv2.imshow(PHOTO_TITLE, self.image)
             key = cv2.waitKey(delay)
-            print key
             if key == EXIT and not self.slide_show:
                 break
             elif key == SPACE:
@@ -74,32 +78,50 @@ class PhotoViewer(object):
             elif key == GRAY:
                 self.set_image_colorful() if self.is_gray else self.set_image_gray()
                 self.rotation = 0
+                self.zoom = False
+                self.blur = False
             elif key == FACE:
                 self.find_faces()
             elif key == NEXT:
                 self.is_gray = False
                 self.is_face = False
+                self.rotation = 0
+                self.zoom = False
+                self.blur = False
                 self.next_image()
             elif key == PREVIOUS:
                 self.is_gray = False
                 self.is_face = False
+                self.rotation = 0
+                self.zoom = False
+                self.blur = False
                 self.previous_image()
             elif key == RIGHT:
                 self.rotation += 1
                 self.rotate_right()
                 self.is_gray = False
                 self.is_face = False
+                self.zoom = False
+                self.blur = False
             elif key == LEFT:
                 self.rotation -= 1
                 self.rotate_left()
                 self.is_gray = False
                 self.is_face = False
+                self.zoom = False
+                self.blur = False
             elif key == SAVE:
                 self.save_image()
+            elif key == ZOOM:
+                self.zoom_out() if self.zoom else self.zoom_in()
+            elif key == BLUR:
+                self.unblur_image() if self.blur else self.blur_image()
             if self.slide_show and key == EXIT:
                 self.is_gray = False
                 self.is_face = False
                 self.rotation = 0
+                self.zoom = False
+                self.blur = False
                 self.replace_image()
 
     def replace_image(self):
@@ -135,18 +157,51 @@ class PhotoViewer(object):
             rotation = cv2.getRotationMatrix2D((cols / 2, rows / 2), 90, 1)
             self.image = cv2.warpAffine(self.image, rotation, (cols, rows))
 
+    def zoom_in(self):
+        self.zoom = True
+        zoom_point_of_view = np.float32(ZOOM_SCALING)
+        regular_point_of_view = np.float32(REGULAR_SCALING)
+        zooming = cv2.getPerspectiveTransform(zoom_point_of_view, regular_point_of_view)
+        self.image = cv2.warpPerspective(self.image, zooming, IMAGE_SIZE)
+
+    def zoom_out(self):
+        self.zoom = False
+        self.image = self.get_image()
+        self.is_gray = False
+        self.is_face = False
+        self.rotation = 0
+        self.blur = False
+
+    def blur_image(self):
+        self.blur = True
+        self.image = cv2.blur(self.image, BLUR_TYPE)
+
+    def unblur_image(self):
+        self.blur = False
+        self.image = self.get_image()
+        self.is_gray = False
+        self.is_face = False
+        self.rotation = 0
+        self.zoom = False
+
     def save_image(self):
         self.image = self.get_image()
         if self.is_gray:
             self.set_image_gray()
         elif self.rotation > 0:
             self.rotate_right()
+        if self.zoom:
+            self.zoom_in()
+        if self.blur:
+            self.blur_image()
         cv2.imwrite(self.file_name, self.image)
 
     def find_faces(self):
         if self.is_face:
             self.image = self.get_image()
             self.rotation = 0
+            self.zoom = False
+            self.blur = False
             self.is_face = False
             if self.is_gray:
                 self.set_image_gray()

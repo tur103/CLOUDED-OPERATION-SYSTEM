@@ -16,5 +16,11 @@ PREVIOUS = 112
 RIGHT = 114
 LEFT = 108
 SAVE = 115
+ZOOM = 122
+BLUR = 98
+
+ZOOM_SCALING = [[250, 200], [450, 200], [250, 400], [450, 400]]
+REGULAR_SCALING = [[0, 0], [700, 0], [0, 600], [700, 600]]
+BLUR_TYPE = (5, 5)
 
 FACE_CASCADE = cv2.CascadeClassifier(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'haarcascades/haarcascade_frontalface_default.xml'))
