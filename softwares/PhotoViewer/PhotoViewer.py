@@ -32,6 +32,8 @@ class PhotoViewer(object):
         self.list_of_photos = self.get_all_photos()
         self.is_gray = False
         self.is_face = False
+        self.is_eyes = False
+        self.is_smile = False
         self.rotation = 0
         self.zoom = False
         self.blur = False
@@ -56,6 +58,12 @@ class PhotoViewer(object):
         if self.is_face:
             self.is_face = False
             self.find_faces()
+        if self.is_eyes:
+            self.is_eyes = False
+            self.find_eyes()
+        if self.is_smile:
+            self.is_smile = False
+            self.find_smiles()
 
     def add_credits(self):
         cv2.putText(self.image, CREDITS1, (40, 560), self.font, 0.6, (0, 0, 255), 2, cv2.LINE_AA)
@@ -71,6 +79,7 @@ class PhotoViewer(object):
             self.add_credits()
             cv2.imshow(PHOTO_TITLE, self.image)
             key = cv2.waitKey(delay)
+            print key
             if key == EXIT and not self.slide_show:
                 break
             elif key == SPACE:
@@ -82,9 +91,15 @@ class PhotoViewer(object):
                 self.blur = False
             elif key == FACE:
                 self.find_faces()
+            elif key == EYES:
+                self.find_eyes()
+            elif key == SMILE:
+                self.find_smiles()
             elif key == NEXT:
                 self.is_gray = False
                 self.is_face = False
+                self.is_eyes = False
+                self.is_smile = False
                 self.rotation = 0
                 self.zoom = False
                 self.blur = False
@@ -92,6 +107,8 @@ class PhotoViewer(object):
             elif key == PREVIOUS:
                 self.is_gray = False
                 self.is_face = False
+                self.is_eyes = False
+                self.is_smile = False
                 self.rotation = 0
                 self.zoom = False
                 self.blur = False
@@ -111,6 +128,8 @@ class PhotoViewer(object):
             if self.slide_show and key == EXIT:
                 self.is_gray = False
                 self.is_face = False
+                self.is_eyes = False
+                self.is_smile = False
                 self.rotation = 0
                 self.zoom = False
                 self.blur = False
@@ -141,12 +160,18 @@ class PhotoViewer(object):
         if self.is_face:
             self.is_face = False
             self.find_faces()
+        if self.is_eyes:
+            self.is_eyes = False
+            self.find_eyes()
+        if self.is_smile:
+            self.is_smile = False
+            self.find_smiles()
         if self.zoom:
             self.zoom_in()
         if self.blur:
             self.blur_image()
         for rotaions in range(self.rotation):
-            if self.is_gray:
+            if self.is_gray and not self.is_face:
                 rows, cols = self.image.shape
             else:
                 rows, cols, type = self.image.shape
@@ -161,12 +186,18 @@ class PhotoViewer(object):
         if self.is_face:
             self.is_face = False
             self.find_faces()
+        if self.is_eyes:
+            self.is_eyes = False
+            self.find_eyes()
+        if self.is_smile:
+            self.is_smile = False
+            self.find_smiles()
         if self.zoom:
             self.zoom_in()
         if self.blur:
             self.blur_image()
         for rotations in range(4 - self.rotation):
-            if self.is_gray:
+            if self.is_gray and not self.is_face:
                 rows, cols = self.image.shape
             else:
                 rows, cols, type = self.image.shape
@@ -183,10 +214,7 @@ class PhotoViewer(object):
     def zoom_out(self):
         self.zoom = False
         self.image = self.get_image()
-        self.is_gray = False
-        self.is_face = False
-        self.rotation = 0
-        self.blur = False
+        self.rotate_right()
 
     def blur_image(self):
         self.blur = True
@@ -195,12 +223,12 @@ class PhotoViewer(object):
     def unblur_image(self):
         self.blur = False
         self.image = self.get_image()
-        self.is_gray = False
-        self.is_face = False
-        self.rotation = 0
-        self.zoom = False
+        self.rotate_right()
 
     def save_image(self):
+        self.is_face = False
+        self.is_eyes = False
+        self.is_smile = False
         self.image = self.get_image()
         if self.is_gray:
             self.set_image_gray()
@@ -215,12 +243,8 @@ class PhotoViewer(object):
     def find_faces(self):
         if self.is_face:
             self.image = self.get_image()
-            self.rotation = 0
-            self.zoom = False
-            self.blur = False
             self.is_face = False
-            if self.is_gray:
-                self.set_image_gray()
+            self.rotate_right()
         else:
             if self.is_gray:
                 self.set_image_colorful()
@@ -230,6 +254,47 @@ class PhotoViewer(object):
             for (x, y, w, h) in faces:
                 cv2.rectangle(self.image, (x, y), (x+w, y+h), (255, 0, 0), 2)
             self.is_face = True
+
+    def find_eyes(self):
+        if self.is_eyes:
+            self.image = self.get_image()
+            self.is_eyes = False
+            self.rotate_right()
+        else:
+            if self.is_gray:
+                self.set_image_colorful()
+                self.is_gray = True
+            gray = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
+            faces = FACE_CASCADE.detectMultiScale(gray, 1.3, 5)
+            for (x, y, w, h) in faces:
+                roi_gray = gray[y:y+h, x:x+w]
+                roi_color = self.image[y:y+h, x:x+w]
+                eyes = EYES_CASCADE.detectMultiScale(roi_gray)
+                for (ex, ey, ew, eh) in eyes:
+                    cv2.rectangle(roi_color, (ex, ey), (ex+ew, ey+eh), (0, 255, 0), 2)
+            self.is_eyes = True
+
+    def find_smiles(self):
+        if self.is_smile:
+            self.image = self.get_image()
+            self.is_smile = False
+            self.rotate_right()
+        else:
+            if self.is_gray:
+                self.set_image_colorful()
+                self.is_gray = True
+            gray = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
+            faces = FACE_CASCADE.detectMultiScale(gray, 1.3, 5)
+            for (x, y, w, h) in faces:
+                roi_gray = gray[y:y+h, x:x+w]
+                roi_color = self.image[y:y+h, x:x+w]
+                smile = SMILE_CASCADE.detectMultiScale(roi_gray)
+                try:
+                    ex, ey, ew, eh = smile[0]
+                    cv2.rectangle(roi_color, (ex, ey), (ex+ew, ey+eh), (0, 0, 255), 2)
+                except IndexError:
+                    pass
+            self.is_smile = True
 
 
 PhotoViewer()
