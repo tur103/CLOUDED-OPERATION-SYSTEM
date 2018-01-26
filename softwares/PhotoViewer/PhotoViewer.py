@@ -99,17 +99,9 @@ class PhotoViewer(object):
             elif key == RIGHT:
                 self.rotation += 1
                 self.rotate_right()
-                self.is_gray = False
-                self.is_face = False
-                self.zoom = False
-                self.blur = False
             elif key == LEFT:
                 self.rotation -= 1
                 self.rotate_left()
-                self.is_gray = False
-                self.is_face = False
-                self.zoom = False
-                self.blur = False
             elif key == SAVE:
                 self.save_image()
             elif key == ZOOM:
@@ -144,16 +136,40 @@ class PhotoViewer(object):
     def rotate_right(self):
         self.rotation = 0 if self.rotation > 3 else self.rotation
         self.image = self.get_image()
+        if self.is_gray:
+            self.set_image_gray()
+        if self.is_face:
+            self.is_face = False
+            self.find_faces()
+        if self.zoom:
+            self.zoom_in()
+        if self.blur:
+            self.blur_image()
         for rotaions in range(self.rotation):
-            rows, cols, type = self.image.shape
+            if self.is_gray:
+                rows, cols = self.image.shape
+            else:
+                rows, cols, type = self.image.shape
             rotation = cv2.getRotationMatrix2D((cols / 2, rows / 2), 270, 1)
             self.image = cv2.warpAffine(self.image, rotation, (cols, rows))
 
     def rotate_left(self):
         self.rotation = 3 if self.rotation < 0 else self.rotation
         self.image = self.get_image()
+        if self.is_gray:
+            self.set_image_gray()
+        if self.is_face:
+            self.is_face = False
+            self.find_faces()
+        if self.zoom:
+            self.zoom_in()
+        if self.blur:
+            self.blur_image()
         for rotations in range(4 - self.rotation):
-            rows, cols, type = self.image.shape
+            if self.is_gray:
+                rows, cols = self.image.shape
+            else:
+                rows, cols, type = self.image.shape
             rotation = cv2.getRotationMatrix2D((cols / 2, rows / 2), 90, 1)
             self.image = cv2.warpAffine(self.image, rotation, (cols, rows))
 
