@@ -9,6 +9,8 @@ import ctypes
 import httplib2
 from kivy.uix.screenmanager import Screen
 from constants import *
+from kivy.uix.popup import Popup
+from kivy.uix.label import Label
 
 
 try:
@@ -64,35 +66,40 @@ class CalendarScreen(Screen):
 
     def new_event(self):
         credentials = self.get_credentials()
-        http = credentials.authorize(httplib2.Http())
-        service = discovery.build('calendar', 'v3', http=http)
-        title, location, description, time_zone, start_date_time, end_date_time,\
-        recurrence, reminder_method, reminder_time = self.get_event_details()
-        event = {
-          'summary': title,
-          'location': location,
-          'description': description,
-          'start': {
-            'dateTime': start_date_time,
-            'timeZone': time_zone,
-          },
-          'end': {
-            'dateTime': end_date_time,
-            'timeZone': time_zone,
-          },
-          'recurrence': [
-              recurrence
-          ],
-          'reminders': {
-            'useDefault': False,
-            'overrides': [
-              {'method': reminder_method, 'minutes': reminder_time},
-            ],
-          },
-        }
+        if credentials:
+            http = credentials.authorize(httplib2.Http())
+            service = discovery.build('calendar', 'v3', http=http)
+            title, location, description, time_zone, start_date_time, end_date_time,\
+            recurrence, reminder_method, reminder_time = self.get_event_details()
+            event = {
+              'summary': title,
+              'location': location,
+              'description': description,
+              'start': {
+                'dateTime': start_date_time,
+                'timeZone': time_zone,
+              },
+              'end': {
+                'dateTime': end_date_time,
+                'timeZone': time_zone,
+              },
+              'recurrence': [
+                  recurrence
+              ],
+              'reminders': {
+                'useDefault': False,
+                'overrides': [
+                  {'method': reminder_method, 'minutes': reminder_time},
+                ],
+              },
+            }
 
-        service.events().insert(calendarId='primary', body=event).execute()
-        self.clear_interface()
+            service.events().insert(calendarId='primary', body=event).execute()
+            self.clear_interface()
+            self.events.adapter.data = self.show_upcoming_events()
+        else:
+            popup = Popup(title='Not Authorized', content=Label(text='You Have Not Authorized For Your Google Account Yet'))
+            popup.open()
 
     def get_event_details(self):
         title = self.title.text
@@ -107,12 +114,12 @@ class CalendarScreen(Screen):
         start_second = self.start_second.text if self.start_second.text != SECONDS else "00"
         start_date_time = "-".join([start_year, start_month, start_day]) + TIME_SEPARATOR + \
                           ":".join([start_hour, start_minute, start_second])
-        end_year = self.end_year.text if self.end_year.text != YEAR else "2018"
-        end_month = self.end_month.text if self.end_month.text != MONTH else "01"
-        end_day = self.end_day.text if self.end_day.text != DAYY else "01"
-        end_hour = self.end_hour.text if self.end_hour.text != HOURS else "00"
-        end_minute = self.end_minute.text if self.end_minute.text != MINUTES else "00"
-        end_second = self.end_second.text if self.end_second.text != SECONDS else "00"
+        end_year = self.end_year.text if self.end_year.text != YEAR else start_year
+        end_month = self.end_month.text if self.end_month.text != MONTH else start_month
+        end_day = self.end_day.text if self.end_day.text != DAYY else start_day
+        end_hour = self.end_hour.text if self.end_hour.text != HOURS else start_hour
+        end_minute = self.end_minute.text if self.end_minute.text != MINUTES else start_minute
+        end_second = self.end_second.text if self.end_second.text != SECONDS else start_second
         end_date_time = "-".join([end_year, end_month, end_day]) + TIME_SEPARATOR + \
                         ":".join([end_hour, end_minute, end_second])
         recurrence = 'RRULE:FREQ=' + self.recurrence.text if self.recurrence.text != NONEE else None
@@ -165,16 +172,19 @@ class CalendarScreen(Screen):
         10 events on the user's calendar.
         """
         credentials = self.get_credentials()
-        http = credentials.authorize(httplib2.Http())
-        service = discovery.build('calendar', 'v3', http=http)
+        if credentials:
+            http = credentials.authorize(httplib2.Http())
+            service = discovery.build('calendar', 'v3', http=http)
 
-        now = datetime.datetime.utcnow().isoformat() + 'Z'  # 'Z' indicates UTC time
-        eventsResult = service.events().list(
-            calendarId='primary', timeMin=now, maxResults=10, singleEvents=True,
-            orderBy='startTime').execute()
-        events = eventsResult.get('items', [])
+            now = datetime.datetime.utcnow().isoformat() + 'Z'  # 'Z' indicates UTC time
+            eventsResult = service.events().list(
+                calendarId='primary', timeMin=now, maxResults=10, singleEvents=True,
+                orderBy='startTime').execute()
+            events = eventsResult.get('items', [])
 
-        list_of_events = []
-        for event in events:
-            list_of_events.append(event['summary'] + "  " + event['start'].get('dateTime', event['start'].get('date')))
-        return list_of_events
+            list_of_events = []
+            for event in events:
+                list_of_events.append(event['summary'] + "  " + event['start'].get('dateTime', event['start'].get('date')))
+            return list_of_events
+        else:
+            return []

@@ -11,6 +11,7 @@ from playsound import playsound
 import socket
 from home import *
 from calendarr import *
+from windows import *
 
 
 class CloudedOperationSystemApp(App):
@@ -27,7 +28,7 @@ class CloudedOperationSystemApp(App):
         self.title = 'CLOUDED OPERATION SYSTEM'
         self.icon = 'pictures/COS.png'
         self.screens = {}
-        self.available_screens = ['HOME', 'CALENDAR']
+        self.available_screens = ['HOME', 'CALENDAR', 'WINDOWS']
         self.screen_names = self.available_screens
         curdir = dirname(__file__)
         self.available_screens = [join(curdir, '{}.kv'.format(fn).lower()) for fn in self.available_screens]

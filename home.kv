@@ -61,3 +61,9 @@ HomeScreen:
                 size_hint_x: 1
             Button:
                 size_hint_x: 1
+                on_release: app.go_screen(2)
+                background_color: 0, 0, 0, 0
+                Image:
+                    source: 'pictures\windows.ico'
+                    size: self.parent.size
+                    pos: self.parent.pos

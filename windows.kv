@@ -1,0 +1,90 @@
+WindowsScreen:
+
+    background: background
+
+    name: 'WINDOWS'
+    fullscreen: True
+    BoxLayout:
+        orientation: 'vertical'
+
+        Label:
+            size_hint_y: 0.5
+
+        BoxLayout:
+            size_hint_y: 1
+            orientation: 'horizontal'
+
+            Label:
+                size_hint_x: 0.2
+
+            BoxLayout:
+                size_hint_x: 1
+                orientation: 'vertical'
+                Label:
+                    size_hint_y: 1
+                    valign: 'middle'
+                    text_size: cm(5), cm(3)
+                    font_size: 20
+                    bold: True
+                    color: 1, 0, 0, 1
+                    text: 'Set a New Password'
+                Button:
+                    id: background
+                    size_hint_y: 1
+                    background_color: 0, 1, 0, 0.5
+                    on_release: root.open_explorer()
+                    text: 'Pick an Image'
+                Label:
+                    size_hint_y: 0.5
+                Button:
+                    size_hint_y: 1
+                    on_release: root.change_background_image()
+                    background_color: 1, 1, 1, 1
+                    text: 'Change Background'
+            BoxLayout:
+                size_hint_x: 1
+
+            BoxLayout:
+                size_hint_x: 1
+
+            BoxLayout:
+                size_hint_x: 1
+
+        Label:
+            size_hint_y: 1
+
+        BoxLayout:
+            size_hint_y: 1
+            orientation: 'horizontal'
+
+            Label:
+                size_hint_x: 0.2
+
+            BoxLayout:
+                size_hint_x: 1
+                orientation: 'vertical'
+                Label:
+                    size_hint_y: 1
+                    valign: 'middle'
+                    text_size: cm(5), cm(3)
+                    font_size: 20
+                    bold: True
+                    color: 1, 0, 0, 1
+                    text: 'Set a New Password'
+                Button:
+                    size_hint_y: 1
+                    background_color: 0, 1, 0, 0.5
+                    on_release: app.go_screen(1)
+                    text: 'Pick an Image'
+
+            BoxLayout:
+                size_hint_x: 1
+
+            BoxLayout:
+                size_hint_x: 1
+
+            BoxLayout:
+                size_hint_x: 1
+
+        Label:
+            size_hint_y: 0.5

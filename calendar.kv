@@ -23,6 +23,7 @@ CalendarScreen:
     reminder_method: reminder_method
     reminder_time: reminder_time
     box: box
+    events:events
 
     name: 'CALENDAR'
     fullscreen: True
@@ -228,6 +229,7 @@ CalendarScreen:
                     size: self.parent.size
                     pos: self.parent.pos
             ListView:
+                id: events
                 size_hint_y: 5
                 adapter:
                     la.ListAdapter(
