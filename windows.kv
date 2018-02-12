@@ -1,6 +1,8 @@
 WindowsScreen:
 
     background: background
+    username: username
+    password: password
 
     name: 'WINDOWS'
     fullscreen: True
@@ -27,7 +29,7 @@ WindowsScreen:
                     font_size: 20
                     bold: True
                     color: 1, 0, 0, 1
-                    text: 'Set a New Password'
+                    text: 'Change Background'
                 Button:
                     id: background
                     size_hint_y: 1
@@ -41,14 +43,89 @@ WindowsScreen:
                     on_release: root.change_background_image()
                     background_color: 1, 1, 1, 1
                     text: 'Change Background'
-            BoxLayout:
-                size_hint_x: 1
+
+            Label:
+                size_hint_x: 0.2
 
             BoxLayout:
                 size_hint_x: 1
+                orientation: 'vertical'
+                Label:
+                    size_hint_y: 1
+                    valign: 'middle'
+                    text_size: cm(5), cm(3)
+                    font_size: 20
+                    bold: True
+                    color: 1, 0, 0, 1
+                    text: 'Get User Name'
+                Label:
+                    id: username
+                    size_hint_y: 1
+                    background_color: 0, 0, 0, 0
+                    canvas.before:
+                        Color:
+                            rgba: 0, 0.5, 0, 0.5
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+                    text: ''
+                Label:
+                    size_hint_y: 0.5
+                Button:
+                    size_hint_y: 1
+                    on_release: root.get_user_name()
+                    background_color: 1, 1, 1, 1
+                    text: 'Get User Name'
+
+            Label:
+                size_hint_x: 0.2
 
             BoxLayout:
                 size_hint_x: 1
+                orientation: 'vertical'
+                Label:
+                    size_hint_y: 1
+                    valign: 'middle'
+                    text_size: cm(5), cm(3)
+                    font_size: 20
+                    bold: True
+                    color: 1, 0, 0, 1
+                    text: 'Change Password'
+                TextInput:
+                    id: password
+                    size_hint_y: 1
+                    multiline: False
+                Label:
+                    size_hint_y: 0.5
+                Button:
+                    size_hint_y: 1
+                    on_release: root.change_password()
+                    background_color: 1, 1, 1, 1
+                    text: 'Change Password'
+
+            Label:
+                size_hint_x: 0.2
+
+            BoxLayout:
+                orientation: 'vertical'
+                Label:
+                    size_hint_y: 1
+                    valign: 'middle'
+                    text_size: cm(5), cm(3)
+                    font_size: 20
+                    bold: True
+                    color: 1, 0, 0, 1
+                    text: 'Remove Password'
+                Label:
+                    size_hint_y: 1.5
+                Button:
+                    size_hint_y: 1
+                    on_release: root.remove_password()
+                    background_color: 1, 1, 1, 1
+                    text: 'Remove Password'
+
+            Label:
+                size_hint_x: 0.2
 
         Label:
             size_hint_y: 1
