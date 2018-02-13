@@ -3,6 +3,12 @@ WindowsScreen:
     background: background
     username: username
     password: password
+    copy: copy
+    paste: paste
+    file: file
+    folder: folder
+    original: original
+    destination: destination
 
     name: 'WINDOWS'
     fullscreen: True
@@ -25,6 +31,7 @@ WindowsScreen:
                 Label:
                     size_hint_y: 1
                     valign: 'middle'
+                    halign: 'center'
                     text_size: cm(5), cm(3)
                     font_size: 20
                     bold: True
@@ -53,6 +60,7 @@ WindowsScreen:
                 Label:
                     size_hint_y: 1
                     valign: 'middle'
+                    halign: 'center'
                     text_size: cm(5), cm(3)
                     font_size: 20
                     bold: True
@@ -86,6 +94,7 @@ WindowsScreen:
                 Label:
                     size_hint_y: 1
                     valign: 'middle'
+                    halign: 'center'
                     text_size: cm(5), cm(3)
                     font_size: 20
                     bold: True
@@ -111,6 +120,7 @@ WindowsScreen:
                 Label:
                     size_hint_y: 1
                     valign: 'middle'
+                    halign: 'center'
                     text_size: cm(5), cm(3)
                     font_size: 20
                     bold: True
@@ -143,25 +153,139 @@ WindowsScreen:
                 Label:
                     size_hint_y: 1
                     valign: 'middle'
+                    halign: 'center'
                     text_size: cm(5), cm(3)
                     font_size: 20
                     bold: True
                     color: 1, 0, 0, 1
-                    text: 'Set a New Password'
+                    text: 'Copy To Clipboard'
+                TextInput:
+                    id: copy
+                    size_hint_y: 1
+                    multiline: False
+                Label:
+                    size_hint_y: 0.5
                 Button:
                     size_hint_y: 1
+                    background_color: 1, 1, 1, 1
+                    on_release: root.copy_to_clipboard()
+                    text: 'Copy To Clipboard'
+
+            Label:
+                size_hint_x: 0.2
+
+            BoxLayout:
+                size_hint_x: 1
+                orientation: 'vertical'
+                Label:
+                    size_hint_y: 1
+                    valign: 'middle'
+                    halign: 'center'
+                    text_size: cm(5), cm(3)
+                    font_size: 20
+                    bold: True
+                    color: 1, 0, 0, 1
+                    text: 'Paste Last Copy'
+                Label:
+                    id: paste
+                    size_hint_y: 1
+                    background_color: 0, 0, 0, 0
+                    canvas.before:
+                        Color:
+                            rgba: 0, 0.5, 0, 0.5
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+                    text: ''
+                Label:
+                    size_hint_y: 0.5
+                Button:
+                    size_hint_y: 1
+                    background_color: 1, 1, 1, 1
+                    on_release: root.paste_from_clipboard()
+                    text: 'Paste From Clipboard'
+
+            Label:
+                size_hint_x: 0.2
+
+            BoxLayout:
+                size_hint_x: 1
+                orientation: 'vertical'
+                Label:
+                    size_hint_y: 1
+                    valign: 'middle'
+                    halign: 'center'
+                    text_size: cm(5), cm(3)
+                    font_size: 20
+                    bold: True
+                    color: 1, 0, 0, 1
+                    text: 'Hidden File/Folder'
+                Button:
+                    id: file
+                    size_hint_y: 1
                     background_color: 0, 1, 0, 0.5
-                    on_release: app.go_screen(1)
-                    text: 'Pick an Image'
+                    on_release: root.pick_file()
+                    text: 'Pick a File'
+
+                Label:
+                    size_hint_y: 0.5
+
+                Button:
+                    id: folder
+                    size_hint_y: 1
+                    background_color: 0, 1, 0, 0.5
+                    on_release: root.pick_folder()
+                    text: 'Pick a Folder'
+
+                Label:
+                    size_hint_y: 0.5
+
+                Button:
+                    size_hint_y: 1
+                    background_color: 1, 1, 1, 1
+                    on_release: root.make_file_hidden()
+                    text: 'Hidden File/Folder'
+
+            Label:
+                size_hint_x: 0.2
 
             BoxLayout:
                 size_hint_x: 1
+                orientation: 'vertical'
+                Label:
+                    size_hint_y: 1
+                    valign: 'middle'
+                    halign: 'center'
+                    text_size: cm(5), cm(3)
+                    font_size: 20
+                    bold: True
+                    color: 1, 0, 0, 1
+                    text: 'Create Shortcut'
+                Button:
+                    id: original
+                    size_hint_y: 1
+                    background_color: 0, 1, 0, 0.5
+                    on_release: root.original_file()
+                    text: 'Original File'
 
-            BoxLayout:
-                size_hint_x: 1
+                Label:
+                    size_hint_y: 0.5
 
-            BoxLayout:
-                size_hint_x: 1
+                Button:
+                    id: destination
+                    size_hint_y: 1
+                    background_color: 0, 1, 0, 0.5
+                    on_release: root.destination_folder()
+                    text: 'Destination Folder'
+
+                Label:
+                    size_hint_y: 0.5
+
+                Button:
+                    size_hint_y: 1
+                    background_color: 1, 1, 1, 1
+                    on_release: root.create_shortcut()
+                    text: 'Create Shortcut'
 
         Label:
             size_hint_y: 0.5
