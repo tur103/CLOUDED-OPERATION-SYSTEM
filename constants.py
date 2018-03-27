@@ -1,10 +1,12 @@
 import os
 import ipgetter
 
+
 MY_IP = ipgetter.myip()
 FOLDER_NAME = "system_folder"
 MAIN_FOLDER = os.path.dirname(os.path.realpath(__file__))
 CHANGE_PASSWORD_FILE = MAIN_FOLDER + "/change_windows_password.py "
+DATABASE_PATH = MAIN_FOLDER + "/database.db"
 SYSTEM_FOLDER = os.path.join(os.path.dirname(os.path.realpath(__file__)), FOLDER_NAME)
 FILE_LIST_DIRECTORY = 1
 BUFFER = 1024

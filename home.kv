@@ -1,5 +1,11 @@
 HomeScreen:
 
+    first: first
+    second: second
+    third: third
+    fourth: fourth
+    fifth: fifth
+
     name: 'HOME'
     fullscreen: True
     BoxLayout:
@@ -55,8 +61,69 @@ HomeScreen:
                 id: filechooser
                 on_selection: root.selection_updated(self.selection)
                 FileChooserIconLayout
-            Button:
+            BoxLayout:
+
                 size_hint_x: 1
+                orientation: "vertical"
+
+                Label:
+                    size_hint_y: 1
+                    canvas.before:
+                        Color:
+                            rgba: 0, 1, 0, 0.5
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+                    bold: True
+                    color: 0, 0, 0, 1
+                    font_size: 18
+                    text: "Last Edited"
+                Button:
+                    id: first
+                    size_hint_y: 1
+                    background_color: 0, 1, 0, 0.9
+                    bold: True
+                    color: 0, 0, 0, 1
+                    font_size: 18
+                    text: root.get_last_edited(1)
+                    on_press: root.execute_file(1)
+                Button:
+                    id: second
+                    size_hint_y: 1
+                    background_color: 0, 1, 0, 0.9
+                    bold: True
+                    color: 0, 0, 0, 1
+                    font_size: 18
+                    text: root.get_last_edited(2)
+                    on_press: root.execute_file(2)
+                Button:
+                    id: third
+                    size_hint_y: 1
+                    background_color: 0, 1, 0, 0.9
+                    bold: True
+                    color: 0, 0, 0, 1
+                    font_size: 18
+                    text: root.get_last_edited(3)
+                    on_press: root.execute_file(3)
+                Button:
+                    id: fourth
+                    size_hint_y: 1
+                    background_color: 0, 1, 0, 0.9
+                    bold: True
+                    color: 0, 0, 0, 1
+                    font_size: 18
+                    text: root.get_last_edited(4)
+                    on_press: root.execute_file(4)
+                Button:
+                    id: fifth
+                    size_hint_y: 1
+                    background_color: 0, 1, 0, 0.9
+                    bold: True
+                    color: 0, 0, 0, 1
+                    font_size: 18
+                    text: root.get_last_edited(5)
+                    on_press: root.execute_file(5)
+
             Button:
                 size_hint_x: 1
             Button:

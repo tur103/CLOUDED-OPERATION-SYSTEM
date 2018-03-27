@@ -6,10 +6,8 @@ Version         :   1.0
 Description     :   Class that receives the chosen file and sends it
                     to the correct software by it's format.
 """
-import subprocess
-from constants import *
 from threading import Thread
-import os
+from database import *
 
 
 class SoftwareDetection(Thread):
@@ -26,6 +24,10 @@ class SoftwareDetection(Thread):
 
         """
         self.format = self.file_name.split("\\")[-1].split(".")[-1]
+        if self.format == "txt":
+            database = Database()
+            database.update_last_edited_database(self.file_name)
+            database.close_database()
         if self.format == NULL:
             self.format = "txt"
         self.execute_software()

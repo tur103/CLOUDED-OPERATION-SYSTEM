@@ -22,6 +22,12 @@ WindowsScreen:
             size_hint_y: 1
             orientation: 'horizontal'
 
+            canvas.before:
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+                    source: 'pictures/wood.jpg'
+
             Label:
                 size_hint_x: 0.2
 
@@ -50,6 +56,8 @@ WindowsScreen:
                     on_release: root.change_background_image()
                     background_color: 1, 1, 1, 1
                     text: 'Change Background'
+                Label:
+                    size_hint_y: 0.2
 
             Label:
                 size_hint_x: 0.2
@@ -84,6 +92,8 @@ WindowsScreen:
                     on_release: root.get_user_name()
                     background_color: 1, 1, 1, 1
                     text: 'Get User Name'
+                Label:
+                    size_hint_y: 0.2
 
             Label:
                 size_hint_x: 0.2
@@ -111,6 +121,8 @@ WindowsScreen:
                     on_release: root.change_password()
                     background_color: 1, 1, 1, 1
                     text: 'Change Password'
+                Label:
+                    size_hint_y: 0.2
 
             Label:
                 size_hint_x: 0.2
@@ -133,6 +145,8 @@ WindowsScreen:
                     on_release: root.remove_password()
                     background_color: 1, 1, 1, 1
                     text: 'Remove Password'
+                Label:
+                    size_hint_y: 0.2
 
             Label:
                 size_hint_x: 0.2
@@ -143,6 +157,12 @@ WindowsScreen:
         BoxLayout:
             size_hint_y: 1
             orientation: 'horizontal'
+
+            canvas.before:
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+                    source: 'pictures/wood.jpg'
 
             Label:
                 size_hint_x: 0.2
@@ -170,6 +190,8 @@ WindowsScreen:
                     background_color: 1, 1, 1, 1
                     on_release: root.copy_to_clipboard()
                     text: 'Copy To Clipboard'
+                Label:
+                    size_hint_y: 0.2
 
             Label:
                 size_hint_x: 0.2
@@ -204,6 +226,8 @@ WindowsScreen:
                     background_color: 1, 1, 1, 1
                     on_release: root.paste_from_clipboard()
                     text: 'Paste From Clipboard'
+                Label:
+                    size_hint_y: 0.2
 
             Label:
                 size_hint_x: 0.2
@@ -245,6 +269,8 @@ WindowsScreen:
                     background_color: 1, 1, 1, 1
                     on_release: root.make_file_hidden()
                     text: 'Hidden File/Folder'
+                Label:
+                    size_hint_y: 0.2
 
             Label:
                 size_hint_x: 0.2
@@ -286,6 +312,11 @@ WindowsScreen:
                     background_color: 1, 1, 1, 1
                     on_release: root.create_shortcut()
                     text: 'Create Shortcut'
+                Label:
+                    size_hint_y: 0.2
+
+            Label:
+                size_hint_x: 0.2
 
         Label:
             size_hint_y: 0.5

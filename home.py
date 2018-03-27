@@ -3,6 +3,8 @@ from SoftwareDetection import *
 from kivy.uix.screenmanager import Screen
 from kivy.properties import BooleanProperty
 from system_user_calculator import *
+from database import *
+import time
 
 
 class HomeScreen(Screen):
@@ -21,6 +23,9 @@ class HomeScreen(Screen):
                 file_name = selection[0]
                 if file_name.endswith(tuple(FILES_EXTENSIONS)):
                     SoftwareDetection(file_name)
+                    if file_name.endswith(TXTEXT):
+                        time.sleep(0.3)
+                        self.refresh_last_edited()
 
     def get_picture(self):
         status, part_of_day = DateAndTime.get_weather_status()
@@ -43,3 +48,18 @@ class HomeScreen(Screen):
 
     def open_calculator(self):
         SystemUserCalculator()
+
+    def get_last_edited(self, place):
+        database = Database()
+        return database.get_last_edited_table(True)[place - 1]
+
+    def refresh_last_edited(self):
+        self.first.text = self.get_last_edited(1)
+        self.second.text = self.get_last_edited(2)
+        self.third.text = self.get_last_edited(3)
+        self.fourth.text = self.get_last_edited(4)
+        self.fifth.text = self.get_last_edited(5)
+
+    def execute_file(self, place):
+        database = Database()
+        self.selection_updated([database.get_last_edited_table()[place - 1]])
