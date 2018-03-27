@@ -26,6 +26,9 @@ class HomeScreen(Screen):
                     if file_name.endswith(TXTEXT):
                         time.sleep(0.3)
                         self.refresh_last_edited()
+                    elif file_name.endswith(tuple(MEDIA_EXTS)):
+                        time.sleep(0.3)
+                        self.refresh_fav_videos()
 
     def get_picture(self):
         status, part_of_day = DateAndTime.get_weather_status()
@@ -60,7 +63,27 @@ class HomeScreen(Screen):
         self.fourth.text = self.get_last_edited(4)
         self.fifth.text = self.get_last_edited(5)
 
-    def execute_file(self, place):
+    def execute_txt_file(self, place):
         database = Database()
         self.selection_updated([database.get_last_edited_table()[place - 1]])
+        database.close_database()
+
+    def get_fav_videos(self, place):
+        database = Database()
+        videos_list = database.get_fav_videos_list()
+        if len(videos_list) >= place:
+            return (videos_list[place - 1][0]).split("\\")[-1]
+        else:
+            return ""
+
+    def refresh_fav_videos(self):
+        self.firstv.text = self.get_fav_videos(1)
+        self.secondv.text = self.get_fav_videos(2)
+        self.thirdv.text = self.get_fav_videos(3)
+        self.fourthv.text = self.get_fav_videos(4)
+        self.fifthv.text = self.get_fav_videos(5)
+
+    def execute_video_file(self, place):
+        database = Database()
+        self.selection_updated([database.get_fav_videos_list()[place - 1][0]])
         database.close_database()

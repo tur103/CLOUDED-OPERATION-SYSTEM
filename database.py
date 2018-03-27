@@ -13,8 +13,14 @@ class Database(object):
                               "values ('last', '', '', '', '', '')")
         self.database.commit()
 
+    def create_fav_videos_table(self):
+        self.database.execute("create table fav(name text, number int);")
+
     def drop_last_edited_table(self):
         self.database.execute("drop table if exists last")
+
+    def drop_fav_videos_table(self):
+        self.database.execute("drop table if exists fav")
 
     def update_last_edited_database(self, new_file):
         order_list = self.get_last_edited_table()
@@ -40,6 +46,31 @@ class Database(object):
                     file = file.split("\\")[-1]
                 order_list.append(file)
         return order_list
+
+    def update_fav_videos_database(self, new_file):
+        videos_list = self.get_videos_name()
+        if new_file in videos_list:
+            cursor = self.database.execute("select number from fav where name = '%s'" % new_file)
+            for row in cursor:
+                number = row[0] + 1
+            self.database.execute("update fav set number = %s where name = '%s'" % (number, new_file))
+        else:
+            self.database.execute("insert into fav (name, number) values ('%s', 1)" % new_file)
+        self.database.commit()
+
+    def get_videos_name(self):
+        cursor = self.database.execute("select name from fav")
+        names_list = []
+        for row in cursor:
+            names_list.append(row[0])
+        return names_list
+
+    def get_fav_videos_list(self):
+        cursor = self.database.execute("select name, number from fav")
+        fav_videos = []
+        for row in cursor:
+            fav_videos.append((row[0], row[1]))
+        return sorted(fav_videos, key=lambda x: x[1], reverse=True)[0: 5]
 
     def close_database(self):
         self.database.close()
