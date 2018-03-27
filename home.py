@@ -63,3 +63,4 @@ class HomeScreen(Screen):
     def execute_file(self, place):
         database = Database()
         self.selection_updated([database.get_last_edited_table()[place - 1]])
+        database.close_database()
