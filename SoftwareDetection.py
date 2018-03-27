@@ -28,12 +28,12 @@ class SoftwareDetection(Thread):
             database = Database()
             database.update_last_edited_database(self.file_name)
             database.close_database()
+        if self.format == NULL:
+            self.format = "txt"
         if SUB_DIR[self.format] == "MediaPlayer":
             database = Database()
             database.update_fav_videos_database(self.file_name)
             database.close_database()
-        if self.format == NULL:
-            self.format = "txt"
         self.execute_software()
 
     def execute_software(self):
