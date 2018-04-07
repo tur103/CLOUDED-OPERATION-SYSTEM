@@ -66,7 +66,7 @@ SOFTWARES_FOLDER = "softwares/"
 FILES_EXTENSIONS = [".txt", ".mp4", ".avi", ".mov", ".wav", ".jpg", ".png"]
 MEDIA_EXTS = [".mp4", ".avi", ".mov", ".wav"]
 PHOTO_EXTS = [".jpg", ".png"]
-PYTHON = "python"
+PYTHON = "E:\cyber\PortablePython2.7.6.1\App\python.exe"
 SUB_DIR = {"txt": "TextEditor"}
 SUB_DIR.update(dict.fromkeys(["mp4", "avi", "mov", "wav"], "MediaPlayer"))
 SUB_DIR.update(dict.fromkeys(["jpg", "png"], "PhotoViewer"))
