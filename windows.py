@@ -26,21 +26,41 @@ class WindowsScreen(Screen):
         return super(WindowsScreen, self).add_widget(*args)
 
     def open_explorer(self):
+        """
+
+        Opens the windows explorer so the user will choose a file from the disk.
+
+        """
         Tk().withdraw()
         WindowsScreen.chosen_background_image = askopenfilename(title="Pick an Image", filetypes=(("jpeg files", "*.jpg"), ("png files", "*.png")))
         if WindowsScreen.chosen_background_image:
             self.background.text = WindowsScreen.chosen_background_image.split("/")[-1]
 
     def change_background_image(self):
+        """
+
+        Changes the windows background image for the photo that the user chose.
+
+        """
         if WindowsScreen.chosen_background_image:
             ctypes.windll.user32.SystemParametersInfoW(20, 0, WindowsScreen.chosen_background_image, 0)
             WindowsScreen.chosen_background_image = ""
             self.background.text = ""
 
     def get_user_name(self):
+        """
+
+        Gets the windows user name of the user.
+
+        """
         self.username.text = getpass.getuser()
 
     def change_password(self):
+        """
+
+        Changes the windows password of the user for the given text.
+
+        """
         if self.password.text:
             if not self.isUserAdmin():
                 self.runAsAdmin()
@@ -51,6 +71,11 @@ class WindowsScreen(Screen):
             self.password.text = ""
 
     def remove_password(self):
+        """
+
+        Removes the windows password from the user's computer.
+
+        """
         self.password.text = ""
         if not self.isUserAdmin():
             self.runAsAdmin()
@@ -60,16 +85,46 @@ class WindowsScreen(Screen):
             self.set_password(username, password)
 
     def get_username(self):
+        """
+
+        Gets the windows user name of the user.
+
+        returns:
+            string: The windows user name.
+
+        """
         return getpass.getuser()
 
     def set_password(self, username, password):
+        """
+
+        Changes the windows password of the user for the given text.
+
+        args:
+            username (string): The user name of the user.
+            password (string): The new password of the user.
+
+        """
         ads_obj = adsi.ADsGetObject("WinNT://localhost/%s,user" % username)
         ads_obj.SetPassword(password)
 
     def isUserAdmin(self):
+        """
+
+        Checks if the file executed as admin.
+
+        returns:
+            bool: true or false.
+
+        """
         return ctypes.windll.shell32.IsUserAnAdmin()
 
     def runAsAdmin(self, cmdLine=None, wait=True):
+        """
+
+        Executes the file again as admin.
+
+        """
         python_exe = sys.executable
         cmdLine = [python_exe] + sys.argv
         cmd = '"%s"' % (cmdLine[0],)
@@ -87,6 +142,12 @@ class WindowsScreen(Screen):
         rc = win32process.GetExitCodeProcess(procHandle)
 
     def copy_to_clipboard(self):
+        """
+
+        Copying the given text from the user to the
+        clipboard.
+
+        """
         if self.copy.text:
             win32clipboard.OpenClipboard()
             win32clipboard.EmptyClipboard()
@@ -95,11 +156,22 @@ class WindowsScreen(Screen):
             self.copy.text = ""
 
     def paste_from_clipboard(self):
+        """
+
+        pasting the text from the clipboard to the
+        screen.
+
+        """
         win32clipboard.OpenClipboard()
         self.paste.text = win32clipboard.GetClipboardData()
         win32clipboard.CloseClipboard()
 
     def pick_file(self):
+        """
+
+        Opens the windows explorer so the user will choose a file from the disk.
+
+        """
         Tk().withdraw()
         WindowsScreen.chosen_hidden_file = askopenfilename(title="Pick a File")
         if WindowsScreen.chosen_hidden_file:
@@ -108,6 +180,11 @@ class WindowsScreen(Screen):
             WindowsScreen.chosen_hidden_folder = ""
 
     def pick_folder(self):
+        """
+
+        Opens the windows explorer so the user will choose a folder from the disk.
+
+        """
         Tk().withdraw()
         WindowsScreen.chosen_hidden_folder = askdirectory(title="Pick a Folder")
         if WindowsScreen.chosen_hidden_folder:
@@ -116,6 +193,12 @@ class WindowsScreen(Screen):
             WindowsScreen.chosen_hidden_file = ""
 
     def make_file_hidden(self):
+        """
+
+        Gets a file or a folder from the user and makes
+        them as hidden.
+
+        """
         if WindowsScreen.chosen_hidden_file:
             ctypes.windll.kernel32.SetFileAttributesW(WindowsScreen.chosen_hidden_file, 0x02)
             WindowsScreen.chosen_hidden_file = ""
@@ -126,18 +209,34 @@ class WindowsScreen(Screen):
             self.folder.text = "Pick a Folder"
 
     def original_file(self):
+        """
+
+        Opens the windows explorer so the user will choose a file from the disk.
+
+        """
         Tk().withdraw()
         WindowsScreen.chosen_original_file = askopenfilename(title="Pick Original File")
         if WindowsScreen.chosen_original_file:
             self.original.text = WindowsScreen.chosen_original_file.split("/")[-1]
 
     def destination_folder(self):
+        """
+
+        Opens the windows explorer so the user will choose a folder from the disk.
+
+        """
         Tk().withdraw()
         WindowsScreen.chosen_destination_folder = askdirectory(title="Pick Destination Folder")
         if WindowsScreen.chosen_destination_folder:
             self.destination.text = WindowsScreen.chosen_destination_folder.split("/")[-1]
 
     def create_shortcut(self):
+        """
+
+        Creating a shortcut file of a given file from the
+        user into a given folder.
+
+        """
         if WindowsScreen.chosen_original_file and WindowsScreen.chosen_destination_folder:
             shell = win32com.client.Dispatch("Wscript.shell")
             shortcut_file = os.path.join(WindowsScreen.chosen_destination_folder,

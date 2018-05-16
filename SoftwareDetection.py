@@ -48,6 +48,12 @@ class SoftwareDetection(Thread):
         self.media_destruction()
 
     def media_destruction(self):
+        """
+
+        The function deletes an media files that
+        remained in the media player folder.
+
+        """
         if SOFTWARE_DICT[self.format] == MEDIA_PLAYER_SOFTWARE:
             current_folder = os.getcwd()
             files_list = os.listdir(current_folder)
