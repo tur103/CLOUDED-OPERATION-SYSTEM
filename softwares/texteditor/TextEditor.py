@@ -32,6 +32,12 @@ class TextEditor(App):
             self.on_new("new")
 
     def get_file_data(self):
+        """
+
+        Getting the name of the file from it's path
+        and getting the data from the file.
+
+        """
         if self.file_name == NULL:
             self.file_name = ""
         if self.file_name:
@@ -58,6 +64,15 @@ class TextEditor(App):
         return window
 
     def add_text_input(self):
+        """
+
+        Adding the text input for entering and displaying text
+        in the text editor.
+
+        return:
+            TextCtrl: The text input controller.
+
+        """
         return TextCtrl(self.panel, pos=(0, 0), size=(1000, 680),
                         value=self.data, style=TE_MULTILINE | SUNKEN_BORDER | TE_RICH)
 
@@ -75,6 +90,12 @@ class TextEditor(App):
         heading.SetFont(self.font)
 
     def create_menu_bar(self):
+        """
+
+        Creating the graphic listed and iconed menu bar for the user
+        that includes actions to perform on the text.
+
+        """
         menu_bar = MenuBar()
         file_menu = Menu()
         new = MenuItem(file_menu, 1, '&New\tCtrl+N')
@@ -372,18 +393,35 @@ class TextEditor(App):
         self.toolbar.Realize()
 
     def on_font(self):
+        """
+
+        Changing the font of the text for the one
+        that the user chose.
+
+        """
         new_font = Font(self.text_font_dict["size"], self.text_font_dict["family"],
                         self.text_font_dict["style"], self.text_font_dict["weight"],
                         self.text_font_dict["underline"])
         self.text_input.SetStyle(-1, -1, wx.TextAttr(NullColour, NullColour, new_font))
 
     def on_point(self):
+        """
+
+        Changing the size of the text for the one
+        that the user chose.
+
+        """
         new_font = Font(self.text_font_dict["size"], self.text_font_dict["family"],
                         self.text_font_dict["style"], self.text_font_dict["weight"],
                         self.text_font_dict["underline"])
         self.text_input.SetStyle(-1, -1, wx.TextAttr(NullColour, NullColour, new_font))
 
     def on_bold_icon(self, event):
+        """
+
+        Checks or unchecks the bold icon.
+
+        """
         if self.bold.IsChecked():
             self.bold.Check(False)
         else:
@@ -391,6 +429,12 @@ class TextEditor(App):
         self.on_bold(None)
 
     def on_bold(self, event):
+        """
+
+        Changing the bold of the text for the one
+        that the user chose.
+
+        """
         self.text_font_dict["weight"] = BOLD if self.bold.IsChecked() else NORMAL
         new_font = Font(self.text_font_dict["size"], self.text_font_dict["family"],
                         self.text_font_dict["style"], self.text_font_dict["weight"],
@@ -398,6 +442,11 @@ class TextEditor(App):
         self.text_input.SetStyle(-1, -1, wx.TextAttr(NullColour, NullColour, new_font))
 
     def on_italic_icon(self, event):
+        """
+
+        Checks or unchecks the italic icon.
+
+        """
         if self.italic.IsChecked():
             self.italic.Check(False)
         else:
@@ -405,6 +454,12 @@ class TextEditor(App):
         self.on_italic(None)
 
     def on_italic(self, event):
+        """
+
+        Changing the italic style of the text for the one
+        that the user chose.
+
+        """
         self.text_font_dict["style"] = ITALIC if self.italic.IsChecked() else NORMAL
         new_font = Font(self.text_font_dict["size"], self.text_font_dict["family"],
                         self.text_font_dict["style"], self.text_font_dict["weight"],
@@ -412,6 +467,11 @@ class TextEditor(App):
         self.text_input.SetStyle(-1, -1, wx.TextAttr(NullColour, NullColour, new_font))
 
     def on_underline_icon(self, event):
+        """
+
+        Checks or unchecks the underline icon.
+
+        """
         if self.underline.IsChecked():
             self.underline.Check(False)
         else:
@@ -419,6 +479,12 @@ class TextEditor(App):
         self.on_underline(None)
 
     def on_underline(self, event):
+        """
+
+        Changing the underline style of the text for the one
+        that the user chose.
+
+        """
         self.text_font_dict["underline"] = True if self.underline.IsChecked() else False
         new_font = Font(self.text_font_dict["size"], self.text_font_dict["family"],
                         self.text_font_dict["style"], self.text_font_dict["weight"],
@@ -426,11 +492,23 @@ class TextEditor(App):
         self.text_input.SetStyle(-1, -1, wx.TextAttr(NullColour, NullColour, new_font))
 
     def on_foreground(self, color):
+        """
+
+        Changing the color of the text for the one
+        that the user chose.
+
+        """
         if self.text_input.HasSelection():
             begin, end = self.text_input.GetSelection()
             self.text_input.SetStyle(begin, end, wx.TextAttr(NamedColour(color)))
 
     def on_background(self, color):
+        """
+
+        Changing the background color of the text for the one
+        that the user chose.
+
+        """
         if self.text_input.HasSelection():
             begin, end = self.text_input.GetSelection()
             self.text_input.SetStyle(begin, end, wx.TextAttr(NullColour, NamedColour(color)))
@@ -674,15 +752,30 @@ class TextEditor(App):
         self.on_point()
 
     def on_quit(self, event):
+        """
+
+        Closing the text editor software.
+
+        """
         self.window.Close()
 
     def on_new(self, event):
+        """
+
+        Opening a new text file in the text editor software.
+
+        """
         self.message_box()
         if not self.file_name:
             sys.exit()
         self.on_highlight_text(None)
 
     def on_open(self, event):
+        """
+
+        Opening an existing text file in the text editor software.
+
+        """
         dialog = FileDialog(self.window, "File Browser", "", "",
                             "Text files (*.txt)|*.txt",
                             wx.FD_FILE_MUST_EXIST)
@@ -696,6 +789,11 @@ class TextEditor(App):
         self.on_highlight_text(None)
 
     def on_save_as(self, event):
+        """
+
+        Saving the current text file as new one.
+
+        """
         entered = True
         while entered:
             message_box = TextEntryDialog(self.window, SAVE_AS_MESSAGE, SAVE_AS_TITLE, defaultValue=NEW_FILE)
@@ -717,26 +815,51 @@ class TextEditor(App):
         self.on_highlight_text(None)
 
     def on_undo(self, event):
+        """
+
+        Performing an undo action on the text.
+
+        """
         self.text_input.Undo()
         self.on_highlight_text(None)
 
     def on_redo(self, event):
+        """
+
+        Performing a redo action on the text.
+
+        """
         self.text_input.Redo()
         self.on_highlight_text(None)
 
     def on_cut(self, event):
+        """
+
+        Performing a cut action on the selected text.
+
+        """
         text = self.text_input.FindFocus()
         if text:
             text.Cut()
             self.on_highlight_text(None)
 
     def on_copy(self, event):
+        """
+
+        Performing a copy action on the selected text.
+
+        """
         text = self.text_input.FindFocus()
         if text:
             text.Copy()
             self.on_highlight_text(None)
 
     def on_duplicate(self, event):
+        """
+
+        Performing a duplicate action on the selected text.
+
+        """
         if self.text_input.HasSelection():
             text = self.text_input.GetStringSelection()
             frm, to = self.text_input.GetSelection()
@@ -754,15 +877,31 @@ class TextEditor(App):
             self.text_input.SetValue(all_text)
 
     def on_paste(self, event):
+        """
+
+        Pasting the text from the clipboard to the file.
+
+        """
         self.text_input.Paste()
         self.on_highlight_text(None)
 
     def on_delete(self, event):
+        """
+
+        Performing a delete action on the selected text.
+
+        """
         frm, to = self.text_input.GetSelection()
         self.text_input.Remove(frm, to)
         self.on_highlight_text(None)
 
     def on_find(self, event):
+        """
+
+        Performing a find action on the selected text.
+        Finds the next text that matches to the given pattern.
+
+        """
         message_box = TextEntryDialog(self.window, FIND_MESSAGE, FIND_TITLE,
                                       defaultValue=self.text_input.GetStringSelection())
         button = message_box.ShowModal()
@@ -781,6 +920,13 @@ class TextEditor(App):
         self.on_highlight_text(None)
 
     def on_replace(self, event):
+        """
+
+        Performing a replace action on the selected text
+        with another given one.
+        Replaces the selected text with another given pattern.
+
+        """
         if self.text_input.HasSelection():
             message_box = TextEntryDialog(self.window, REPLACE_MESSAGE, REPLACE_TITLE,
                                           defaultValue=self.text_input.GetStringSelection())
@@ -793,6 +939,13 @@ class TextEditor(App):
         self.on_highlight_text(None)
 
     def on_replace_all(self, event):
+        """
+
+        Performing a replace action on the selected text and all it's matches
+        with another given one.
+        Replaces the selected text and all it's matches with another given pattern.
+
+        """
         if self.text_input.HasSelection():
             message_box = TextEntryDialog(self.window, REPLACE_ALL_MESSAGE, REPLACE_ALL_TITLE,
                                           defaultValue=self.text_input.GetStringSelection())
@@ -805,10 +958,21 @@ class TextEditor(App):
         self.on_highlight_text(None)
 
     def on_select_all(self, event):
+        """
+
+        Selecting all the text.
+
+        """
         self.text_input.SetSelection(-1, -1)
         self.on_highlight_text(None)
 
     def on_time_and_date(self, event):
+        """
+
+        Adding the date and time to the specified
+        location in the file.
+
+        """
         now = datetime.now()
         year = str(now.year)
         month = str(now.month)
@@ -822,6 +986,13 @@ class TextEditor(App):
         self.on_highlight_text(None)
 
     def message_box(self):
+        """
+
+        Displaying massage box.
+        The user entering the name of the new file he wants to
+        create in the box.
+
+        """
         entered = True
         while entered:
             message_box = TextEntryDialog(self.window, NEW_FILE_MESSAGE, NEW_FILE_TITLE, defaultValue=NEW_FILE)
@@ -842,6 +1013,13 @@ class TextEditor(App):
                 entered = False
 
     def on_text_enter(self, event):
+        """
+
+        Executes when there is a change in the data of the file.
+        when text added, deleted or modified in the file it's saved
+        automatically.
+
+        """
         data = event.GetString()
         file_handle = open(self.file_name, REGULAR_WRITING)
         self.data = data
@@ -862,6 +1040,11 @@ class TextEditor(App):
         self.on_highlight_text(None)
 
     def on_highlight_text(self, event):
+        """
+
+        Opening the actions that depends on selected text.
+
+        """
         if self.text_input.CanCut():
             self.toolbar.EnableTool(ID_CUT, True)
             self.cut.Enable(True)
@@ -891,6 +1074,14 @@ class TextEditor(App):
             self.select_all.Enable(True)
 
     def is_selected_all(self):
+        """
+
+        Function that checks if all the text is selected in the editor.
+
+        returns:
+            bool: true or false.
+
+        """
         all_text = self.text_input.GetValue()
         selected_text = self.text_input.GetStringSelection()
         return True if all_text == selected_text else False

@@ -7,6 +7,11 @@ class Database(object):
         self.database = sqlite3.connect(DATABASE_PATH)
 
     def create_last_edited_table(self):
+        """
+
+        creating the last edited text files database.
+
+        """
         self.database.execute("create table last(name text, first text, second text, "
                               "third text, forth text, fifth text);")
         self.database.execute("insert into last (name, first, second, third, forth, fifth) "
@@ -14,15 +19,38 @@ class Database(object):
         self.database.commit()
 
     def create_fav_videos_table(self):
+        """
+
+        creating the favorite video files database.
+
+        """
         self.database.execute("create table fav(name text, number int);")
 
     def drop_last_edited_table(self):
+        """
+
+        initiating the last edited text files database.
+
+        """
         self.database.execute("drop table if exists last")
 
     def drop_fav_videos_table(self):
+        """
+
+        initiating the favorite video files database.
+
+        """
         self.database.execute("drop table if exists fav")
 
     def update_last_edited_database(self, new_file):
+        """
+
+        adding the last opened text file to the database.
+
+        args:
+            new_file (string): The path for the file.
+
+        """
         order_list = self.get_last_edited_table()
         if order_list[0] != new_file:
             if new_file in order_list:
@@ -38,6 +66,17 @@ class Database(object):
             self.database.commit()
 
     def get_last_edited_table(self, name=False):
+        """
+
+        Getting the five last edited text files.
+
+        args:
+            name (string): location of specified text file.
+
+        return:
+            list: The list of the files.
+
+        """
         cursor = self.database.execute("select first, second, third, forth, fifth from last where name = 'last'")
         order_list = []
         for row in cursor:
@@ -48,6 +87,14 @@ class Database(object):
         return order_list
 
     def update_fav_videos_database(self, new_file):
+        """
+
+        adding the last opened video file to the database.
+
+        args:
+            new_file (string): The path for the file.
+
+        """
         videos_list = self.get_videos_name()
         if new_file in videos_list:
             cursor = self.database.execute("select number from fav where name = '%s'" % new_file)
@@ -59,6 +106,14 @@ class Database(object):
         self.database.commit()
 
     def get_videos_name(self):
+        """
+
+        Getting the names of the videos from the video file paths.
+
+        return:
+            list: The list of the videos names.
+
+        """
         cursor = self.database.execute("select name from fav")
         names_list = []
         for row in cursor:
@@ -66,6 +121,14 @@ class Database(object):
         return names_list
 
     def get_fav_videos_list(self):
+        """
+
+        Getting the five favorite video files.
+
+        return:
+            list: The list of the files.
+
+        """
         cursor = self.database.execute("select name, number from fav")
         fav_videos = []
         for row in cursor:
@@ -73,4 +136,8 @@ class Database(object):
         return sorted(fav_videos, key=lambda x: x[1], reverse=True)[0: 5]
 
     def close_database(self):
+        """
+        Closing the database.
+
+        """
         self.database.close()

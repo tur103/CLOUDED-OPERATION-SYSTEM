@@ -32,24 +32,52 @@ class MediaPlayer(ShowBase):
         self.sound.play()
 
     def get_video(self):
+        """
+
+        Getting the video to the media player folder from it's path
+        and generating it's name.
+
+        """
         video_name = self.media_file.split("\\")[-1]
         folder = os.path.dirname(os.path.abspath(__file__))
         copyfile(self.media_file, "\\".join([folder, video_name]))
         self.media_file = video_name
 
-    # Function to put title on the screen.
     def add_title(self, text):
+        """
+
+        Function to put title on the screen.
+
+        args:
+            text (string): The request title.
+
+        """
         return OnscreenText(text=text, style=1, pos=(-0.1, 0.09), scale=.07,
                             parent=self.a2dBottomRight, align=TextNode.ARight,
                             fg=(1, 1, 1, 1), shadow=(0, 0, 0, 1))
 
     # Function to put instructions on the screen.
     def add_instructions(self, pos, msg):
+        """
+
+        Function to put instructions on the screen.
+
+        args:
+            pos (float): The request position on the screen.
+            msg (string): The instruction to display.
+
+        """
         return OnscreenText(text=msg, style=1, fg=(0, 0, 0, 1), shadow=(1, 1, 1, 1),
                             parent=self.a2dTopLeft, align=TextNode.ALeft,
                             pos=(0.08, -pos - 0.04), scale=.06)
 
     def display_text(self):
+        """
+
+        Executing the displaying of the title and
+        instructions on the screen.
+
+        """
         self.add_title(TITLE)
         self.add_instructions(PLAY_PAUSE_PLACE, PLAY_PAUSE)
         self.add_instructions(STOP_PLACE, STOP)
@@ -61,31 +89,49 @@ class MediaPlayer(ShowBase):
         self.add_instructions(VOLUME_DOWN_PLACE, VOLUME_DOWN)
 
     def load_texture(self):
-        # Load the texture. We could use loader.loadTexture for this,
-        # but we want to make sure we get a MovieTexture, since it
-        # implements synchronizeTo.
+        """
+
+        Load the texture. We could use loader.loadTexture for this,
+        but we want to make sure we get a MovieTexture, since it
+        implements synchronizeTo.
+
+        """
         self.tex = MovieTexture(NAME)
         success = self.tex.read(self.media_file)
         assert success, FAILED
 
     def set_fullscreen(self):
-        # Set up a fullscreen card to set the video texture on.
+        """
+
+        Set up a fullscreen card to set the video texture on.
+        Tell the CardMaker to create texture coordinates that take into
+        account the padding region of the texture.
+        and place the card in the scene graph and apply the texture to it.
+
+        """
         cm = CardMaker(FULL_SCREEN)
         cm.setFrameFullscreenQuad()
-        # Tell the CardMaker to create texture coordinates that take into
-        # account the padding region of the texture.
         cm.setUvRange(self.tex)
-        # Now place the card in the scene graph and apply the texture to it.
         card = NodePath(cm.generate())
         card.reparentTo(self.render2d)
         card.setTexture(self.tex)
 
     def synchronize_sound(self):
+        """
+
+        Synchronize the video to the sound.
+
+        """
         self.sound = loader.loadSfx(self.media_file)
-        # Synchronize the video to the sound.
         self.tex.synchronizeTo(self.sound)
 
     def set_keys_acceptions(self):
+        """
+
+        Sets the keyboard keys and synchronizes
+        them to the actions.
+
+        """
         self.accept('m', self.slow_motion)
         self.accept('M', self.slow_motion)
         self.accept('s', self.stop)
@@ -100,6 +146,11 @@ class MediaPlayer(ShowBase):
         self.accept('arrow_down', self.volume_down)
 
     def get_forward(self):
+        """
+
+        Getting 3 seconds forward in the video.
+
+        """
         if self.sound.status() == AudioSound.PLAYING:
             t = self.sound.getTime()
             t += 3
@@ -108,6 +159,11 @@ class MediaPlayer(ShowBase):
             self.sound.play()
 
     def get_back(self):
+        """
+
+        Getting 3 seconds backward in the video.
+
+        """
         if self.sound.status() == AudioSound.PLAYING:
             t = self.sound.getTime()
             t -= 3
@@ -118,11 +174,21 @@ class MediaPlayer(ShowBase):
             self.sound.play()
 
     def volume_up(self):
+        """
+
+        Voluming up the sound in the video.
+
+        """
         volume = self.sound.getVolume()
         volume += 20
         self.sound.setVolume(volume)
 
     def volume_down(self):
+        """
+
+        Voluming down the sound in the video.
+
+        """
         volume = self.sound.getVolume()
         volume -= 2
         if volume < 1:
@@ -130,6 +196,11 @@ class MediaPlayer(ShowBase):
         self.sound.setVolume(volume)
 
     def stop(self):
+        """
+
+        Stops the video.
+
+        """
         self.sound.stop()
         self.sound.setPlayRate(1.0)
         self.sound.setTime(0)
@@ -137,6 +208,11 @@ class MediaPlayer(ShowBase):
         self.sound.stop()
 
     def fast_forward(self):
+        """
+
+        Fast forwarding the video.
+
+        """
         if self.sound.status() == AudioSound.PLAYING:
             t = self.sound.getTime()
             self.sound.stop()
@@ -148,6 +224,11 @@ class MediaPlayer(ShowBase):
             self.sound.play()
 
     def play_pause(self):
+        """
+
+        play or pause the video.
+
+        """
         if self.sound.status() == AudioSound.PLAYING:
             t = self.sound.getTime()
             self.sound.stop()
@@ -156,6 +237,11 @@ class MediaPlayer(ShowBase):
             self.sound.play()
 
     def slow_motion(self):
+        """
+
+        Slow motioning the video.
+
+        """
         if self.sound.status() == AudioSound.PLAYING:
             t = self.sound.getTime()
             self.sound.stop()

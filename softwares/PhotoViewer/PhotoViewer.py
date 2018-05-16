@@ -40,19 +40,42 @@ class PhotoViewer(object):
         self.display_image()
 
     def resize_image(self):
+        """
+
+        Resizing the image for the software size.
+
+        """
         image = Image.open(self.file_name)
         image = image.resize(IMAGE_SIZE, Image.ANTIALIAS)
         image.save(self.file_name)
 
     def get_image(self):
+        """
+
+        returning the image file as a cv2 image.
+
+        return:
+            cv2.imread: the cv2 image file.
+
+        """
         self.resize_image()
         return cv2.imread(self.file_name)
 
     def set_image_gray(self):
+        """
+
+        Sets the image as black/white.
+
+        """
         self.image = cv2.imread(self.file_name, 0)
         self.is_gray = True
 
     def set_image_colorful(self):
+        """
+
+        Sets the image as colorful.
+
+        """
         self.image = cv2.imread(self.file_name, 1)
         self.is_gray = False
         if self.is_face:
@@ -66,14 +89,33 @@ class PhotoViewer(object):
             self.find_smiles()
 
     def add_credits(self):
+        """
+
+        Prints the credits on the image.
+
+        """
         cv2.putText(self.image, CREDITS1, (40, 560), self.font, 0.6, (0, 0, 255), 2, cv2.LINE_AA)
         cv2.putText(self.image, CREDITS2, (40, 590), self.font, 0.6, (0, 0, 255), 2, cv2.LINE_AA)
 
     def get_all_photos(self):
+        """
+
+        Gets all the photos in the specified directory
+        to display slide show of them.
+
+        return:
+            list: List of all the images in the folder.
+
+        """
         photo_folder = os.path.join(os.path.dirname(self.file_name), "*")
         return [x.replace("\\", "/") for x in glob.glob(photo_folder) if x.endswith(tuple(PHOTO_EXTS))]
 
     def display_image(self):
+        """
+
+        Displaying the image on the screen.
+
+        """
         while True:
             delay = 0 if not self.slide_show else 4000
             self.add_credits()
@@ -136,6 +178,12 @@ class PhotoViewer(object):
                 self.replace_image()
 
     def replace_image(self):
+        """
+
+        When in slide show mode, replacing the image
+        to the next one in the folder.
+
+        """
         list_length = len(self.list_of_photos)
         index = self.list_of_photos.index(self.file_name) + 1
         index = 0 if index == list_length else index
@@ -143,9 +191,19 @@ class PhotoViewer(object):
         self.image = self.get_image()
 
     def next_image(self):
+        """
+
+        Getting to the next image in the folder.
+
+        """
         self.replace_image()
 
     def previous_image(self):
+        """
+
+        Getting to the previous image in the folder.
+
+        """
         list_length = len(self.list_of_photos)
         index = self.list_of_photos.index(self.file_name) - 1
         index = list_length - 1 if index < 0 else index
@@ -153,6 +211,11 @@ class PhotoViewer(object):
         self.image = self.get_image()
 
     def rotate_right(self):
+        """
+
+        Rotating the image 90 degrees to the right.
+
+        """
         self.rotation = 0 if self.rotation > 3 else self.rotation
         self.image = self.get_image()
         if self.is_gray:
@@ -179,6 +242,11 @@ class PhotoViewer(object):
             self.image = cv2.warpAffine(self.image, rotation, (cols, rows))
 
     def rotate_left(self):
+        """
+
+        Rotating the image 90 degrees to the left.
+
+        """
         self.rotation = 3 if self.rotation < 0 else self.rotation
         self.image = self.get_image()
         if self.is_gray:
@@ -205,6 +273,11 @@ class PhotoViewer(object):
             self.image = cv2.warpAffine(self.image, rotation, (cols, rows))
 
     def zoom_in(self):
+        """
+
+        Zooming in to the image.
+
+        """
         self.zoom = True
         zoom_point_of_view = np.float32(ZOOM_SCALING)
         regular_point_of_view = np.float32(REGULAR_SCALING)
@@ -212,20 +285,40 @@ class PhotoViewer(object):
         self.image = cv2.warpPerspective(self.image, zooming, IMAGE_SIZE)
 
     def zoom_out(self):
+        """
+
+        Zooming out to the image.
+
+        """
         self.zoom = False
         self.image = self.get_image()
         self.rotate_right()
 
     def blur_image(self):
+        """
+
+        Blurring the image.
+
+        """
         self.blur = True
         self.image = cv2.blur(self.image, BLUR_TYPE)
 
     def unblur_image(self):
+        """
+
+        Unblurring the image.
+
+        """
         self.blur = False
         self.image = self.get_image()
         self.rotate_right()
 
     def save_image(self):
+        """
+
+        Saving the image the image with it's changes.
+
+        """
         self.is_face = False
         self.is_eyes = False
         self.is_smile = False
@@ -241,6 +334,11 @@ class PhotoViewer(object):
         cv2.imwrite(self.file_name, self.image)
 
     def find_faces(self):
+        """
+
+        Finding and marking faces in the image.
+
+        """
         if self.is_face:
             self.image = self.get_image()
             self.is_face = False
@@ -256,6 +354,11 @@ class PhotoViewer(object):
             self.is_face = True
 
     def find_eyes(self):
+        """
+
+        Finding and marking eyes in the image.
+
+        """
         if self.is_eyes:
             self.image = self.get_image()
             self.is_eyes = False
@@ -275,6 +378,11 @@ class PhotoViewer(object):
             self.is_eyes = True
 
     def find_smiles(self):
+        """
+
+        Finding and marking smiles in the image.
+
+        """
         if self.is_smile:
             self.image = self.get_image()
             self.is_smile = False
