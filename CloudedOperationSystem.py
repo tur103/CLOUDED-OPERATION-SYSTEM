@@ -229,6 +229,6 @@ Button:
 kivy.require('1.9.0')
 Config.set('graphics', 'position', 'custom')
 Config.set('graphics', 'left', 85)
-Config.set('graphics', 'top', 150)
+Config.set('graphics', 'top', 100)
 Config.set('kivy', 'window_icon', 'pictures/COS.ico')
 CloudedOperationSystemApp().run()
