@@ -35,6 +35,12 @@ class CloudedOperationSystemApp(App):
         self.go_next_screen()
 
     def on_stop(self):
+        """
+
+        Executes when the window is closed to close
+        all the other functions of the program.
+
+        """
         self.close_clock()
         self.close_sync()
         self.close_notes()
@@ -42,6 +48,11 @@ class CloudedOperationSystemApp(App):
 
     @staticmethod
     def close_clock():
+        """
+
+        Closing the clock screen.
+
+        """
         client_socket = socket.socket()
         client_socket.connect((CLOUD_IP, CLOCK_PORT))
         client_socket.send(CLOSE_CLOCK_NOW)
@@ -49,6 +60,11 @@ class CloudedOperationSystemApp(App):
 
     @staticmethod
     def close_sync():
+        """
+
+        Closing the sync process.
+
+        """
         client_socket = socket.socket()
         client_socket.connect((CLOUD_IP, SYNC_PORT))
         client_socket.send(CLOSE_SYNC_NOW)
@@ -56,6 +72,11 @@ class CloudedOperationSystemApp(App):
 
     @staticmethod
     def close_notes():
+        """
+
+        Closing the notes screen.
+
+        """
         client_socket = socket.socket()
         client_socket.connect((CLOUD_IP, NOTES_PORT))
         client_socket.send(CLOSE_NOTES_NOW)
@@ -63,6 +84,11 @@ class CloudedOperationSystemApp(App):
 
     @staticmethod
     def close_sound():
+        """
+
+        Displaying the closing sound when the window is closed.
+
+        """
         playsound(CLOSE_SOUND)
 
     def on_pause(self):
@@ -72,9 +98,22 @@ class CloudedOperationSystemApp(App):
         pass
 
     def on_current_title(self, instance, value):
+        """
+
+        Displaying the title of the window as the name of the screen.
+
+        args:
+            value (string): The name of the window.
+
+        """
         self.root.ids.spnr.text = value
 
     def go_previous_screen(self):
+        """
+
+        Moving to the previous screen.
+
+        """
         self.index = (self.index - 1) % len(self.available_screens)
         screen = self.load_screen(self.index)
         sm = self.root.ids.sm
@@ -83,6 +122,11 @@ class CloudedOperationSystemApp(App):
         self.update_sourcecode()
 
     def go_next_screen(self):
+        """
+
+        Moving to the next screen.
+
+        """
         self.index = (self.index + 1) % len(self.available_screens)
         screen = self.load_screen(self.index)
         sm = self.root.ids.sm
@@ -91,11 +135,24 @@ class CloudedOperationSystemApp(App):
         self.update_sourcecode()
 
     def go_screen(self, idx):
+        """
+
+        Displaying the current screen on the window.
+
+        args:
+            idx (int): The index number of the current screen.
+
+        """
         self.index = idx
         self.root.ids.sm.switch_to(self.load_screen(idx), direction='left')
         self.update_sourcecode()
 
     def go_hierarchy_previous(self):
+        """
+
+        Moving to the previous selected screen.
+
+        """
         ahr = self.hierarchy
         if len(ahr) == 1:
             return
@@ -106,6 +163,15 @@ class CloudedOperationSystemApp(App):
             self.go_screen(idx)
 
     def load_screen(self, index):
+        """
+
+        Loading the graphic screen to the window
+        from the kivi file.
+
+        args:
+            index: The index number of the current screen.
+
+        """
         os.chdir(MAIN_FOLDER)
         if index in self.screens:
             return self.screens[index]

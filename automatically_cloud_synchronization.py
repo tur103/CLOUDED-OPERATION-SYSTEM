@@ -24,11 +24,23 @@ class AutomaticallyCloudSynchronization(threading.Thread):
         self.start()
 
     def run(self):
+        """
+
+        Function that executing the sync steps.
+
+        """
         thread.start_new_thread(self.stop_synchronization, ())
         self.execute_verification()
         self.waiting_for_change()
 
     def execute_verification(self):
+        """
+
+        Function that executing the verification and checks if
+        the cloud is updated with all the files from the client folder.
+        If not the cloud recieves the missing files.
+
+        """
         client_socket = self.open_connection_with_the_cloud()
         client_socket.send(SEPARATOR.join([MY_IP, VERIFICATION, NONE]))
         directory_name = os.path.join(os.path.dirname(os.path.abspath(__file__)), FOLDER_NAME)
@@ -54,6 +66,11 @@ class AutomaticallyCloudSynchronization(threading.Thread):
         client_socket.send(DONE_VERIFICATION)
 
     def stop_synchronization(self):
+        """
+
+        When the main screen shuts down the sync stops
+
+        """
         server_socket = socket.socket()
         server_socket.bind((CLOUD_HOST, SYNC_PORT))
         server_socket.listen(NUMBER_OF_CLIENTS)

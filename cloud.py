@@ -47,6 +47,17 @@ class Cloud(object):
             client_socket.close()
 
     def execute_verification(self, client_socket, client_folder):
+        """
+
+        Function that executing the verification and checks if
+        the cloud is updated with all the files from the client folder.
+        If not the cloud recieves the missing files.
+
+        args:
+            client_socket (socket): The socket indicator of the client.
+            client_folder (string): The folder that belongs to the client.
+
+        """
         files_list = os.listdir(client_folder)
         done = True
         while done:
@@ -82,6 +93,15 @@ class Cloud(object):
 
     @staticmethod
     def create_new_file(path, data):
+        """
+
+        Creating a new file if the cloud is missing one.
+
+        args:
+            path (string): The path for the file.
+            data (string): The data of the file.
+
+        """
         file_handler = open(path, WRITING)
         file_handler.write(data)
         file_handler.close()

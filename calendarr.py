@@ -55,6 +55,14 @@ class CalendarScreen(Screen):
         return credentials
 
     def get_time_zone(self):
+        """
+
+        Getting the time zone of the current location.
+
+        returns:
+            string: The current time zone.
+
+        """
         f = urllib2.urlopen('http://freegeoip.net/json/')
         json_string = f.read()
         f.close()
@@ -65,6 +73,12 @@ class CalendarScreen(Screen):
         return time_zone
 
     def new_event(self):
+        """
+
+        Creating new event in the google calendar of the user
+        according to the given details.
+
+        """
         credentials = self.get_credentials()
         if credentials:
             http = credentials.authorize(httplib2.Http())
@@ -102,6 +116,15 @@ class CalendarScreen(Screen):
             popup.open()
 
     def get_event_details(self):
+        """
+
+        Getting the event details from the user in order
+        to create a new event.
+
+        returns:
+            string: The event details.
+
+        """
         title = self.title.text
         location = self.location.text
         description = self.description.text
@@ -146,6 +169,11 @@ class CalendarScreen(Screen):
                recurrence, reminder_method, reminder_time
 
     def clear_interface(self):
+        """
+
+        Clears the interface after a new event was created.
+
+        """
         self.title.text = ""
         self.location.text = ""
         self.description.text = ""

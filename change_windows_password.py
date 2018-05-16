@@ -6,6 +6,7 @@ import getpass
 from win32com import adsi
 import sys
 
+
 def main():
     if not isUserAdmin():
         runAsAdmin()
@@ -19,13 +20,40 @@ def main():
 
 
 def get_username():
+    """
+
+    Getting the windows user name of the user.
+
+    returns:
+        string: the windows user name of the user.
+
+    """
     return getpass.getuser()
-	
+
+
 def set_password(username, password):
+    """
+
+    Sets a new windows password of the user.
+
+    args:
+        username (string): the windows user name.
+        password (string): the new password for  windows.
+
+    """
     ads_obj = adsi.ADsGetObject("WinNT://localhost/%s,user" % username)
     ads_obj.SetPassword(password)
 
+
 def isUserAdmin():
+    """
+
+    Checks if the file executed as admin.
+
+    returns:
+        bool: true or false.
+
+    """
     try:
         return ctypes.windll.shell32.IsUserAnAdmin()
     except:
@@ -33,6 +61,11 @@ def isUserAdmin():
 
 
 def runAsAdmin(cmdLine=None, wait=True):
+    """
+
+    Executes the file again as admin.
+
+    """
     python_exe = sys.executable
     cmdLine = [python_exe] + sys.argv
     cmd = '"%s"' % (cmdLine[0],)

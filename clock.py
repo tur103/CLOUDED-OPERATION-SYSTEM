@@ -83,6 +83,12 @@ class Ticks(Widget):
         self.bind(size=self.update_clock)
 
     def update_clock(self, *args):
+        """
+
+        Changes the angels of the hands on the clock in
+        order to show the current time.
+
+        """
         self.canvas.clear()
         with self.canvas:
             time = datetime.datetime.now()
@@ -103,6 +109,12 @@ class MyClockApp(App):
 
 
 def stop_clock():
+    """
+
+    Closes the clock screen when the main
+    window is shutted down.
+
+    """
     server_socket = socket.socket()
     server_socket.bind((CLOUD_HOST, CLOCK_PORT))
     server_socket.listen(NUMBER_OF_CLIENTS)
