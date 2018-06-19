@@ -1,8 +1,10 @@
 import os
-import ipgetter
+import socket
 
-
-MY_IP = ipgetter.myip()
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+s.connect(("8.8.8.8", 80))
+MY_IP = s.getsockname()[0]
+s.close()
 FOLDER_NAME = "system_folder"
 MAIN_FOLDER = os.path.dirname(os.path.realpath(__file__))
 CHANGE_PASSWORD_FILE = MAIN_FOLDER + "/change_windows_password.py "
@@ -20,7 +22,7 @@ COUNTRY = "IL"
 CITY = "Ramat Gan"
 
 CLOUD_HOST = "0.0.0.0"
-CLOUD_IP = "127.0.0.1"
+CLOUD_IP = "192.168.1.13"
 CLOUD_PORT = 8820
 NUMBER_OF_CLIENTS = 1
 CLOUD = "cloud"
