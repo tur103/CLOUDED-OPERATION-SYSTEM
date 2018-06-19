@@ -26,7 +26,7 @@ class TextEditor(App):
         self.Bind(EVT_TEXT, self.on_text_enter, source=self.text_input)
         self.Bind(EVT_LEFT_UP, self.on_highlight_text, source=self.text_input)
         self.font = Font(15, DEFAULT, NORMAL, BOLD)
-        self.add_title(CREDIT, (100, 700))
+        self.add_title(CREDIT, (100, 600))
         self.window.Show(True)
         if not self.file_name:
             self.on_new("new")
@@ -73,7 +73,7 @@ class TextEditor(App):
             TextCtrl: The text input controller.
 
         """
-        return TextCtrl(self.panel, pos=(0, 0), size=(1000, 680),
+        return TextCtrl(self.panel, pos=(0, 0), size=(1000, 580),
                         value=self.data, style=TE_MULTILINE | SUNKEN_BORDER | TE_RICH)
 
     def add_title(self, title, pos):
@@ -800,7 +800,7 @@ class TextEditor(App):
             button = message_box.ShowModal()
             if button == ID_OK:
                 file_name = message_box.GetValue() + TXT_EXT
-                folder = "\\".join(os.path.abspath(__file__).split("\\")[:-2] + [SYSTEM_FOLDER, file_name])
+                folder = "\\".join(os.path.abspath(__file__).split("\\")[:-3] + [SYSTEM_FOLDER, file_name])
                 try:
                     file_handle = open(folder, REGULAR_WRITING)
                     file_handle.write(self.data)

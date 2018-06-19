@@ -1,7 +1,7 @@
 import os
 REGULAR_WRITING = "w"
 TXT_TITLE = "TEXT EDITOR -> "
-TXT_SIZE = (1000, 800)
+TXT_SIZE = (1000, 700)
 FOLDER = os.path.abspath(__file__).split("\\")[:-1]
 TXT_ICON = "\\".join(FOLDER + ["data/txt.ico"])
 BACKGROUND_IMAGE = "\\".join(FOLDER + ['background.jpg'])
